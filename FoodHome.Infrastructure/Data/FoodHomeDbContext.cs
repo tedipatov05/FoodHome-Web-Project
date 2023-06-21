@@ -1,4 +1,5 @@
-﻿using FoodHome.Infrastructure.Data.Entities;
+﻿using FoodHome.Infrastructure.Configuration;
+using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -70,6 +71,16 @@ namespace FoodHome.Infrastructure.Data
 
             builder.Entity<RestaurantDish>()
                 .HasKey(rd => new { rd.RestaurantId, rd.DishId });
+
+            if (seedDb)
+            {
+                builder.ApplyConfiguration(new CategoryConfiguration());
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new RolesConfiguration());
+                builder.ApplyConfiguration(new UsersRolesConfiguration());
+                builder.ApplyConfiguration(new CustomerConfiguration());
+                builder.ApplyConfiguration(new RestaurantConfiguration());
+            }
 
 
             

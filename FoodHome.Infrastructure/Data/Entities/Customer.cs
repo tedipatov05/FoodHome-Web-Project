@@ -17,7 +17,6 @@ namespace FoodHome.Infrastructure.Data.Entities
         {
             this.Id = Guid.NewGuid().ToString();
             this.IsActive = true;
-
             this.Orders = new List<Order>();
         }
 

@@ -12,7 +12,7 @@ namespace FoodHome.Infrastructure.Data.Entities
     [Comment("Category of the dish")]
     public class Category
     {
-        [Comment("Primary key ")]
+        [Comment("Primary key")]
         [Key]
         public int Id { get; set; }
 
