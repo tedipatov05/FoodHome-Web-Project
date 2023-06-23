@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace FoodHome.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -14,13 +14,12 @@ namespace FoodHome.Controllers
             _logger = logger;
         }
 
-        [AllowAnonymous]
         public IActionResult Index()
         {
+
             return View();
             
         }
-
         public IActionResult Privacy()
         {
             return View();
