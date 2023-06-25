@@ -1,5 +1,6 @@
 ﻿using FoodHome.Infrastructure.Configuration;
 using FoodHome.Infrastructure.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,37 +15,31 @@ namespace FoodHome.Infrastructure.Data
     {
         private bool seedDb;
 
-        public FoodHomeDbContext(DbContextOptions<FoodHomeDbContext> options, bool seed = true)
+        public FoodHomeDbContext(DbContextOptions<FoodHomeDbContext> options)
             : base(options)
         {
-            if (this.Database.IsRelational())
-            {
-                this.Database.Migrate();
-            }
-            else
-            {
-                this.Database.EnsureCreated();
-            }
-
-            seedDb = seed;
+           
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; } = null!;
 
-        public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Dish> Dishes { get; set; } = null!;
 
-        public DbSet<Order> Orders { get; set; }    
+        public DbSet<Order> Orders { get; set; } = null!;
 
-        public DbSet<OrderDish> OrdersDishes { get; set; }
+        public DbSet<OrderDish> OrdersDishes { get; set; } = null!;
 
-        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; } = null!;
 
-        public DbSet<RestaurantDish> RestaurantDishes { get; set; }
+        public DbSet<RestaurantDish> RestaurantDishes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
+
             builder.Entity<User>()
                 .Property(u => u.UserName)
                 .HasMaxLength(20)
@@ -82,9 +77,6 @@ namespace FoodHome.Infrastructure.Data
                 builder.ApplyConfiguration(new RestaurantConfiguration());
             }
 
-
-            
-            base.OnModelCreating(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

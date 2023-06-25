@@ -17,7 +17,7 @@ namespace FoodHome.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -27,7 +27,7 @@ namespace FoodHome.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasComment("Primary key ");
+                        .HasComment("Primary key");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -39,7 +39,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasComment("Category of the dish");
                 });
@@ -63,7 +63,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
 
                     b.HasComment("Customer in the restaurant");
                 });
@@ -120,7 +120,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Dishes");
+                    b.ToTable("Dishes", (string)null);
 
                     b.HasComment("Dish for the restaurant");
                 });
@@ -171,7 +171,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
 
                     b.HasComment("Order");
                 });
@@ -194,7 +194,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.ToTable("OrdersDishes");
+                    b.ToTable("OrdersDishes", (string)null);
 
                     b.HasComment("Order Dish");
                 });
@@ -218,7 +218,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
 
                     b.HasComment("Restaurant");
                 });
@@ -237,7 +237,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.ToTable("RestaurantDishes");
+                    b.ToTable("RestaurantDishes", (string)null);
 
                     b.HasComment("Restaurant dish");
                 });
@@ -274,8 +274,8 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -325,8 +325,8 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 

@@ -9,7 +9,8 @@ namespace FoodHome.Infrastructure.Data.Entities.Enums
     public enum OrderStatusEnum
     {
         Waiting = 0, 
-        Confirmed = 1, 
+        Confirmed = 1,
+        Send = 2,
         
     }
 }

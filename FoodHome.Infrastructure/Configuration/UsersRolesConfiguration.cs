@@ -28,7 +28,7 @@ namespace FoodHome.Infrastructure.Configuration
                 new IdentityUserRole<string>()
                 {
                     RoleId = "a03f9f62-f106-4b1a-b1f9-eba622db3c92",
-                    UserId =  "d44500a1-526b-49d0-b373-05ac34baab0a"
+                    UserId =  "d44500a1-526b-49d0-b373-05ac34baab0a"  
                 },
                 new IdentityUserRole<string>()
                 {

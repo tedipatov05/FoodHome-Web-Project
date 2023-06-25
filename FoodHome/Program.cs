@@ -1,6 +1,7 @@
 
 using CloudinaryDotNet;
 using FoodHome.Infrastructure.Data;
+using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +23,7 @@ namespace FoodHome
 
             ConfigureCloudaryService(builder.Services, builder.Configuration);
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            builder.Services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireLowercase = false;

@@ -18,6 +18,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         {
             this.IsActive = true;
             this.Orders = new List<OrderDish>();
+            this.RestaurantDishes = new List<RestaurantDish>();
            
         }
         [Comment("Primary key")]

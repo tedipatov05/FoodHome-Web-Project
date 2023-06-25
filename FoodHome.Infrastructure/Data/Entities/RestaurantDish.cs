@@ -15,7 +15,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Restaurant Id")]
         [Required]
         [ForeignKey(nameof(Restaurant))]
-        public string RestaurantId { get; set; } = null!;
+        public string RestaurantId { get; set; }
 
         [Comment("Restaurant")]
         public Restaurant Restaurant { get; set; } = null!;

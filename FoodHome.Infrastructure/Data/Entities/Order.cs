@@ -28,20 +28,22 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Order status")]
         [Required]
         [EnumDataType(typeof(OrderStatusEnum))]
-        public string Status { get; set; }
+        public string Status { get; set; } = null!;
 
         [Comment("Restaurant Id")]
         [Required]
         [ForeignKey(nameof(Restaurant))]
-        public string RestaurantId { get; set; } = null!;
+        public string RestaurantId { get; set; }
 
         [Comment("Restaurant")]
         public Restaurant Restaurant { get; set; } = null!;
 
         [Comment("Time order made")]
+        [Required]
         public DateTime OrderTime { get; set; }
 
         [Comment("Time for delivery")]
+        [Required]
         public DateTime DeliveryTime { get; set; }
 
         [Comment("Address fot delivery")]
@@ -52,7 +54,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Customer Id")]
         [Required]
         [ForeignKey(nameof(Customer))]
-        public string CustomerId { get; set; } = null!;
+        public string CustomerId { get; set; }
 
         [Comment("Customer")]
         public Customer Customer { get; set; } = null!;

@@ -13,4 +13,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FoodHome.Infrastructure\FoodHome.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

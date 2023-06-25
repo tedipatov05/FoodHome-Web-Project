@@ -16,7 +16,6 @@ namespace FoodHome.Infrastructure.Data.Entities
     {
         public User()
         {
-            
             this.IsActive = true;  
         }
 
