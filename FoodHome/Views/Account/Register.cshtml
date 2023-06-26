@@ -1,0 +1,87 @@
+﻿@using FoodHome.Core.Models;
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="form-body">
+    <div class="row">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <h3>@ViewData["Title"]</h3>
+                    
+                    <form class="requires-validation" method="post" enctype="multipart/form-data">
+
+                        <div class="col-md-12">
+                            <input asp-for="Name" class="form-control" type="text" name="name" placeholder="Full Name" required>
+                            <span asp-validation-for="Name" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="Email" class="form-control" type="email" name="email" placeholder="E-mail Address" required>
+                            <span asp-validation-for="Email" class="invalid-feedback"></span>
+                        </div>
+
+                       
+                        <div class="col-md-12">
+                            <input asp-for="Password" class="form-control" type="password" name="password" placeholder="Password" required>
+                            <span asp-validation-for="Password" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="PasswordRepeat" class="form-control" type="password" name="password" placeholder="Password" required>
+                            <span asp-validation-for="PasswordRepeat" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="PhoneNumber" class="form-control" type="text" name="text" placeholder="Phone number" required>
+                            <span asp-validation-for="PhoneNumber" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="Country" class="form-control" type="text" name="country" placeholder="Country" required>
+                            <span asp-validation-for="Country" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="City" class="form-control" type="text" name="city" placeholder="City" required>
+                            <span asp-validation-for="City" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="Address" class="form-control" type="text" name="address" placeholder="Address" required>
+                            <span asp-validation-for="Address" class="invalid-feedback"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input asp-for="ProfilePicture" accept="image/gif, image/jpeg, image/png" class="text-white">
+                            <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <img alt="Uploaded Image" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                        </div>
+
+
+                        <div class="col-md-12 mt-3">
+                            
+                            <div class="form-button mt-3">
+                                <button id="submit" type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/create.js" asp-append-version="true"></script>
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+}

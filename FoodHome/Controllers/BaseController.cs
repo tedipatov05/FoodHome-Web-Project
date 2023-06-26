@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodHome.Controllers
 {
     [Authorize]
     public class BaseController : Controller
     {
-        public IActionResult Index()
+        protected string GetUserId()
         {
-            return View();
+            string id = string.Empty;
+
+            if (User != null)
+            {
+                id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+
+            return id;
         }
     }
 }

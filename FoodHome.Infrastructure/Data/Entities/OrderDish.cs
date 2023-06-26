@@ -15,7 +15,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Order Id")]
         [Required]
         [ForeignKey(nameof(Order))]
-        public string OrderId { get; set; }
+        public string OrderId { get; set; } = null!;
 
         [Comment("Order")]
         public Order Order { get; set; } = null!;

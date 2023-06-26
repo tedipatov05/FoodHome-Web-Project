@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Contracts\" />
     <Folder Include="Constants\" />
     <Folder Include="Services\" />

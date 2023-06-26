@@ -33,7 +33,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Restaurant Id")]
         [Required]
         [ForeignKey(nameof(Restaurant))]
-        public string RestaurantId { get; set; }
+        public string RestaurantId { get; set; } = null!;
 
         [Comment("Restaurant")]
         public Restaurant Restaurant { get; set; } = null!;
@@ -54,7 +54,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Customer Id")]
         [Required]
         [ForeignKey(nameof(Customer))]
-        public string CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
 
         [Comment("Customer")]
         public Customer Customer { get; set; } = null!;

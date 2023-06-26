@@ -1,4 +1,4 @@
-﻿h1, h2, hr, footer > div{
+﻿h1, h2, hr, footer > div {
     color: white;
 }
 
@@ -10,8 +10,8 @@
     color: white;
 }
 
-header{
-    background-color: #FFC107;
+header {
+    background-color: whitesmoke;
     color: white;
 }
 
@@ -27,3 +27,13 @@ section, section > div > p > a, section > form > div > p > a {
 .form-floating {
     color: grey;
 }
+
+nav {
+    color: orange;
+}
+
+.bg-cover {
+    background-size: cover !important;
+    background: url(../img/desk-bg.png);
+}
+

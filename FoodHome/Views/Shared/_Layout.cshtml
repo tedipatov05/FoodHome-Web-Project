@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Homies.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font/font-awesome.min.css" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index">FoodHome</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -35,7 +36,7 @@
         </nav>
     </header>
 
-    
+    @RenderBody()
     <div class="container">
         <main role="main" class="pb-3">
             @if (TempData["message"] != null)
@@ -46,10 +47,12 @@
                     </button>
                 </div>
             }
-            @RenderBody()
+            
 
         </main>
     </div>
+
+    
 
    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
