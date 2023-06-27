@@ -1,5 +1,6 @@
 
 using CloudinaryDotNet;
+using FoodHome.Extensions;
 using FoodHome.Infrastructure.Data;
 using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -20,8 +21,7 @@ namespace FoodHome
                 options.UseSqlServer(connectionString));
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-            ConfigureCloudaryService(builder.Services, builder.Configuration);
+           
 
             builder.Services.AddDefaultIdentity<User>(options =>
             {
@@ -40,6 +40,10 @@ namespace FoodHome
                 options.LoginPath = "/User/Login";
                 options.LogoutPath = "/User/Logout";
             });
+
+            builder.Services.AddAppServices();
+            ConfigureCloudaryService(builder.Services, builder.Configuration);
+
 
 
             builder.Services.AddControllersWithViews();

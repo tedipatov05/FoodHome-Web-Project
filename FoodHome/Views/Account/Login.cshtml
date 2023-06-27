@@ -5,7 +5,39 @@
     ViewData["Title"] = "Log in";
 }
 
-<div class="register-photo">
+<div class="form-body">
+    <div class="row">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <form class="requires-validation" id="registerForm" method="post">
+                        <h2 class="text-center"><strong>@ViewData["Title"]</strong> an account.</h2>
+                        <div asp-validation-summary="ModelOnly" class="text-white"></div>
+                        <div class="form-group">
+                            <input asp-for="Email" class="form-control" placeholder="Email">
+                            <span asp-validation-for="Email" class="text-white"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input asp-for="Password" class="form-control" placeholder="Password">
+                            <span asp-validation-for="Password" class="text-white"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit">Login</button>
+                        </div>
+                        <br>
+                        <a asp-controller="Account" asp-action="Register" class="already">You don't have an account? <b>Register here.</b></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<div class="register-photo">
     <div class="form-container">
         <div class="image-container">
             <div class="image-holder"></div>
@@ -29,8 +61,12 @@
             </form>
         </div></>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
 }

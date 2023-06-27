@@ -16,7 +16,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index">FoodHome</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -37,24 +37,8 @@
     </header>
 
     @RenderBody()
-    <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show">
-                    @TempData["message"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    </button>
-                </div>
-            }
-            
-
-        </main>
-    </div>
-
     
-
-   
+    <script src="https://kit.fontawesome.com/b9403dda92.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

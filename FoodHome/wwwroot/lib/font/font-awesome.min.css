@@ -822,6 +822,10 @@
     content: "\f09e"
 }
 
+.fa-pizza-slice:before {
+    content: "\f818"
+}
+
 .fa-hdd-o:before {
     content: "\f0a0"
 }

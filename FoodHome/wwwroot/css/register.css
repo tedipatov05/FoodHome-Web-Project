@@ -3,14 +3,14 @@
 *, body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    -webkit-font-smoothing: antialiased;
+    /*-webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
+    -moz-osx-font-smoothing: grayscale;*/
 }
 
 html, body {
     height: 100%;
-    background-color: #152733;
+    /*background-color: coral;*/
     overflow: hidden;
 }
 
@@ -22,10 +22,15 @@ html, body {
     align-items: center;
     text-align: center;
     min-height: 100vh;
+    background: url(../img/restaurant-bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    
 }
 
     .form-holder .form-content {
-        position: relative;
+        position: absolute;
         text-align: center;
         display: -webkit-box;
         display: -moz-box;
@@ -36,12 +41,13 @@ html, body {
         justify-content: center;
         -webkit-align-items: center;
         align-items: center;
-        padding: 60px;
+        padding: 5px;
+        
     }
 
 .form-content .form-items {
     border: 3px solid #fff;
-    padding: 40px;
+    padding: 20px 20px 5px 20px;
     display: inline-block;
     width: 100%;
     min-width: 540px;
@@ -51,11 +57,12 @@ html, body {
     text-align: left;
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
+    top: 10px;
 }
 
 .form-content h3 {
     color: #fff;
-    text-align: left;
+    text-align: center;
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -141,7 +148,7 @@ html, body {
 }
 
 .invalid-feedback {
-    color: #ff606e;
+    color: red;
 }
 
 .valid-feedback {

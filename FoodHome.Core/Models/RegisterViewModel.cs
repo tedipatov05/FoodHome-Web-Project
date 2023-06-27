@@ -29,10 +29,10 @@ namespace FoodHome.Core.Models
         [Required]
         [Compare(nameof(Password))]
         [DataType(DataType.Password)]
+        [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength)]
         public string PasswordRepeat { get; set; } = null!;
 
         [Required]
-        [Phone]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]

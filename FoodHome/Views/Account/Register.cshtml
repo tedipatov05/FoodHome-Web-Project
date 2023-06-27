@@ -4,54 +4,116 @@
 @{
     ViewData["Title"] = "Register";
 }
+<div class="form-body">
+    <div class="row">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <form class="requires-validation" id="registerForm" method="post" enctype="multipart/form-data">
+                        <h2 class="text-center"><strong>@ViewData["Title"]</strong> an account.</h2>
+                        <div asp-validation-summary="ModelOnly" class="text-white"></div>
+                        <div class="form-group">
+                            <input asp-for="Email" class="form-control" placeholder="Email">
+                            <span asp-validation-for="Email" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Name" class="form-control" placeholder="Name">
+                            <span asp-validation-for="Name" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Password" class="form-control" placeholder="Password">
+                            <span asp-validation-for="Password" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="PasswordRepeat" class="form-control" placeholder="Password (repeat)">
+                            <span asp-validation-for="PasswordRepeat" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number">
+                            <span asp-validation-for="PhoneNumber" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Address" class="form-control" placeholder="Address">
+                            <span asp-validation-for="Address" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="City" class="form-control" placeholder="City">
+                            <span asp-validation-for="City" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Country" class="form-control" placeholder="Country">
+                            <span asp-validation-for="Country" class="text-white"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="ProfilePicture" accept="image/gif, image/jpeg, image/png" class="text-white">
+                            <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <img alt="Uploaded Image" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit">Register</button>
+                        </div>
+                        <br>
+                        <a asp-controller="Account" asp-action="Login" class="already">You already have an account? <b>Login here.</b></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+@*
 <div class="form-body">
     <div class="row">
         <div class="form-holder">
             <div class="form-content">
                 <div class="form-items">
                     <h3>@ViewData["Title"]</h3>
-                    
-                    <form class="requires-validation" method="post" enctype="multipart/form-data">
 
-                        <div class="col-md-12">
-                            <input asp-for="Name" class="form-control" type="text" name="name" placeholder="Full Name" required>
+                    <form class="requires-validation" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-12 form-group">
+                            <input asp-for="Name" class="form-control" type="text" name="name" placeholder="Full Name" >
                             <span asp-validation-for="Name" class="invalid-feedback"></span>
                         </div>
 
-                        <div class="col-md-12">
-                            <input asp-for="Email" class="form-control" type="email" name="email" placeholder="E-mail Address" required>
+                        <div class="col-md-12 form-group">
+                            <input asp-for="Email" class="form-control" type="email" name="email" placeholder="E-mail Address" >
                             <span asp-validation-for="Email" class="invalid-feedback"></span>
                         </div>
 
-                       
-                        <div class="col-md-12">
-                            <input asp-for="Password" class="form-control" type="password" name="password" placeholder="Password" required>
+
+                        <div class="col-md-12 form-group">
+                            <input asp-for="Password" class="form-control" type="password" name="password" placeholder="Password" >
                             <span asp-validation-for="Password" class="invalid-feedback"></span>
                         </div>
 
-                        <div class="col-md-12">
-                            <input asp-for="PasswordRepeat" class="form-control" type="password" name="password" placeholder="Password" required>
+                        <div class="col-md-12 form-group">
+                            <input asp-for="PasswordRepeat" class="form-control" type="password" name="password" placeholder="Password Confirm" >
                             <span asp-validation-for="PasswordRepeat" class="invalid-feedback"></span>
                         </div>
 
-                        <div class="col-md-12">
-                            <input asp-for="PhoneNumber" class="form-control" type="text" name="text" placeholder="Phone number" required>
+                        <div class="col-md-12 form-group">
+                            <input asp-for="PhoneNumber" class="form-control" type="text" name="text" placeholder="Phone number" >
                             <span asp-validation-for="PhoneNumber" class="invalid-feedback"></span>
                         </div>
 
-                        <div class="col-md-12">
-                            <input asp-for="Country" class="form-control" type="text" name="country" placeholder="Country" required>
+                        <div class="col-md-12 form-group">
+                            <input asp-for="Country" class="form-control" type="text" name="country" placeholder="Country" >
                             <span asp-validation-for="Country" class="invalid-feedback"></span>
                         </div>
 
-                        <div class="col-md-12">
-                            <input asp-for="City" class="form-control" type="text" name="city" placeholder="City" required>
+                        <div class="col-md-12 form-group">
+
+                            <input asp-for="City" class="form-control" type="text" name="city" placeholder="City" >
                             <span asp-validation-for="City" class="invalid-feedback"></span>
+
                         </div>
 
-                        <div class="col-md-12">
-                            <input asp-for="Address" class="form-control" type="text" name="address" placeholder="Address" required>
+                        <div class="col-md-12 form-group">
+                            <input asp-for="Address" class="form-control" type="text" name="address" placeholder="Address" >
                             <span asp-validation-for="Address" class="invalid-feedback"></span>
                         </div>
 
@@ -60,13 +122,13 @@
                             <span asp-validation-for="ProfilePicture" class="text-danger"></span>
                         </div>
 
-                        <div class="col-md-12">
-                            <img alt="Uploaded Image" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                       @* <div class="col-md-12">
+                            <img alt="Uploaded Image" accept="image/gif, image/jpeg, image/png">
                         </div>
+*@
 
+@*                    <div class="col-md-12 mt-3">
 
-                        <div class="col-md-12 mt-3">
-                            
                             <div class="form-button mt-3">
                                 <button id="submit" type="submit" class="btn btn-primary">Register</button>
                             </div>
@@ -76,8 +138,7 @@
             </div>
         </div>
     </div>
-</div>
-
+</div>*@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script type="module" src="~/js/create.js" asp-append-version="true"></script>

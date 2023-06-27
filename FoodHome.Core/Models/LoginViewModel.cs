@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using static FoodHome.Infrastructure.Constants.ModelValidationConstants.UserConstants;
 
 namespace FoodHome.Core.Models
 {
     public class LoginViewModel
     {
-        public string Email { get; set; }
+        [Required]
+        [EmailAddress]
+        [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
+        public string Email { get; set; } = null!;
 
-        public string Password { get; set; }    
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength)]
+        public string Password { get; set; } = null!;
     }
 }

@@ -27,7 +27,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("User Id")]
         [Required]
         [ForeignKey(nameof(User))]
-        public string UserId { get; set; } 
+        public string UserId { get; set; } = null!;
 
         [Comment("User")]
         public User User { get; set; } = null!;

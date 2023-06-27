@@ -30,10 +30,73 @@ section, section > div > p > a, section > form > div > p > a {
 
 nav {
     color: orange;
+    margin: 0px 0px 0px 0px;
 }
 
 .bg-cover {
     background-size: cover !important;
     background: url(../img/desk-bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
+
+.counter-section i {
+    display: block;
+    margin: 0 0 10px
+}
+
+.counter-section span.counter {
+    font-size: 40px;
+    color: #000;
+    line-height: 60px;
+    display: block;
+    font-family: "Oswald",sans-serif;
+    letter-spacing: 2px
+}
+
+.counter-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase
+}
+
+.counter-icon {
+    top: 25px;
+    position: relative
+}
+
+.counter-style2 .counter-title {
+    letter-spacing: 0.55px;
+    float: left;
+}
+
+.counter-style2 span.counter {
+    letter-spacing: 0.55px;
+    float: left;
+    margin-right: 10px;
+}
+
+.counter-style2 i {
+    float: right;
+    line-height: 26px;
+    margin: 0 10px 0 0
+}
+
+.counter-subheadline span {
+    float: right;
+}
+
+.medium-icon {
+    font-size: 40px !important;
+    margin-bottom: 15px !important;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+.py-5 {
+    padding-top: 3cm !important;
+    padding-bottom: 3cm !important;
+}

@@ -39,9 +39,56 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasComment("Category of the dish");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Предястия"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Ястия с месо"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Пици"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Салати"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Бургери"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Сандвичи"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Десерти"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Безалкохолни напитки"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Алкохолни напитки"
+                        });
                 });
 
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Customer", b =>
@@ -63,9 +110,17 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
 
                     b.HasComment("Customer in the restaurant");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1f7e2314-f3a4-4ca1-b5e3-3a1bb8b6525a",
+                            IsActive = true,
+                            UserId = "d44500a1-526b-49d0-b373-05ac34baab0a"
+                        });
                 });
 
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Dish", b =>
@@ -120,7 +175,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Dishes", (string)null);
+                    b.ToTable("Dishes");
 
                     b.HasComment("Dish for the restaurant");
                 });
@@ -171,7 +226,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
 
                     b.HasComment("Order");
                 });
@@ -194,7 +249,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.ToTable("OrdersDishes", (string)null);
+                    b.ToTable("OrdersDishes");
 
                     b.HasComment("Order Dish");
                 });
@@ -218,9 +273,17 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
 
                     b.HasComment("Restaurant");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5e364b5e-8bc2-4e8d-a3f8-72f5776fbe9d",
+                            IsActive = true,
+                            UserId = "1d1f8115-ebb2-45e0-a375-cf713385ae9c"
+                        });
                 });
 
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.RestaurantDish", b =>
@@ -237,7 +300,7 @@ namespace FoodHome.Infrastructure.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.ToTable("RestaurantDishes", (string)null);
+                    b.ToTable("RestaurantDishes");
 
                     b.HasComment("Restaurant dish");
                 });
@@ -341,6 +404,77 @@ namespace FoodHome.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasComment("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d44500a1-526b-49d0-b373-05ac34baab0a",
+                            AccessFailedCount = 0,
+                            Address = "ул. Ал. Стамболийски 30 ет.3 ап.11",
+                            City = "Казанлък",
+                            ConcurrencyStamp = "b644c5b0-1dd9-4f5a-8b5d-ce27bdaebe03",
+                            Country = "България",
+                            Email = "ivonpatova@abv.bg",
+                            EmailConfirmed = false,
+                            IsActive = true,
+                            LockoutEnabled = false,
+                            Name = "Ивон Патова",
+                            NormalizedEmail = "IVONPATOVA@ABV.BG",
+                            NormalizedUserName = "IVON",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKait6Bm2Tl9/eFteO/WyxxfxxK/hASoYZewhTX8JV6h5tUHpmF0ykpl2ON+Z5HqKQ==",
+                            PhoneNumber = "0887399847",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg",
+                            SecurityStamp = "2717ecb1-f3cf-47fe-8caa-48f6934ea6bd",
+                            TwoFactorEnabled = false,
+                            UserName = "ivon"
+                        },
+                        new
+                        {
+                            Id = "0d9e1416-60a8-4655-af48-614ff829b230",
+                            AccessFailedCount = 0,
+                            Address = "ул. Ал. Батенберг 15 ет.5 ап.20",
+                            City = "Казанлък",
+                            ConcurrencyStamp = "e54fd6a1-f162-4a32-bb92-7ff23b3677a7",
+                            Country = "България",
+                            Email = "tedipatov19@abv.bg",
+                            EmailConfirmed = false,
+                            IsActive = true,
+                            LockoutEnabled = false,
+                            Name = "Теодор Патов",
+                            NormalizedEmail = "TEDIPATOV19@ABV.BG",
+                            NormalizedUserName = "TEODOR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBwW7kd872mV9Apb38dHCrvin0MIVV9M4JGMkdJUUV8IpzyYvb8iMyh646IOeRQqZQ==",
+                            PhoneNumber = "0898392743",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg",
+                            SecurityStamp = "8c76fbfc-a3c5-401e-9e25-f4313f16800c",
+                            TwoFactorEnabled = false,
+                            UserName = "teodor"
+                        },
+                        new
+                        {
+                            Id = "1d1f8115-ebb2-45e0-a375-cf713385ae9c",
+                            AccessFailedCount = 0,
+                            Address = "ул. Цар Освободител 21",
+                            City = "Казанлък",
+                            ConcurrencyStamp = "de389dd6-3cfe-4d25-bdc2-57763846e89a",
+                            Country = "България",
+                            Email = "vikifoods@abv.bg",
+                            EmailConfirmed = false,
+                            IsActive = true,
+                            LockoutEnabled = false,
+                            Name = "Viki Foods",
+                            NormalizedEmail = "VIKIFOODS@ABV.BG",
+                            NormalizedUserName = "VIKIFOODS",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN34d6aLZ01A7+/V7lS1GIQ702PLm+AgeFGJot+QadR3Y3F04LC5KnhIVvdjdt6tyg==",
+                            PhoneNumber = "0885732771",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png",
+                            SecurityStamp = "757bfffb-21eb-46c8-9504-3e219c2b189e",
+                            TwoFactorEnabled = false,
+                            UserName = "VikiFoods"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -368,6 +502,29 @@ namespace FoodHome.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a297aac9-aa64-4313-8c50-1d3cf7f379ba",
+                            ConcurrencyStamp = "891dfc3e-82c9-477c-b8e7-2c001411c603",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "a03f9f62-f106-4b1a-b1f9-eba622db3c92",
+                            ConcurrencyStamp = "92b6f4d6-0742-4f1d-9098-0bfda86e548b",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = "c34ebc61-94a5-40c5-a310-798532235d8e",
+                            ConcurrencyStamp = "3f0527d8-9f72-4119-bee7-e90b61e9062f",
+                            Name = "Restaurant",
+                            NormalizedName = "RESTAURANT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -457,6 +614,23 @@ namespace FoodHome.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "0d9e1416-60a8-4655-af48-614ff829b230",
+                            RoleId = "a297aac9-aa64-4313-8c50-1d3cf7f379ba"
+                        },
+                        new
+                        {
+                            UserId = "d44500a1-526b-49d0-b373-05ac34baab0a",
+                            RoleId = "a03f9f62-f106-4b1a-b1f9-eba622db3c92"
+                        },
+                        new
+                        {
+                            UserId = "1d1f8115-ebb2-45e0-a375-cf713385ae9c",
+                            RoleId = "c34ebc61-94a5-40c5-a310-798532235d8e"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

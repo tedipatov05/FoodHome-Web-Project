@@ -16,7 +16,7 @@ namespace FoodHome.Infrastructure.Constants
             public const int AddressMaxLength = 100;
             public const int AddressMinLength = 5;
 
-            public const int PasswordMinLength = 6;
+            public const int PasswordMinLength = 3;
             public const int PasswordMaxLength = 16;
 
             public const int CityMaxLength = 169;
