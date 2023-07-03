@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using static FoodHome.Infrastructure.Constants.ModelValidationConstants.UserConstants;
 
-namespace FoodHome.Core.Models
+namespace FoodHome.Core.Models.Account
 {
     public class RegisterViewModel
     {
@@ -47,6 +47,7 @@ namespace FoodHome.Core.Models
         [StringLength(AddressMaxLength, MinimumLength = AddressMinLength)]
         public string Address { get; set; } = null!;
 
+        
         public IFormFile? ProfilePicture { get; set; }
 
     }

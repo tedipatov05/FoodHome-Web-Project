@@ -55,5 +55,11 @@ namespace FoodHome.Infrastructure.Constants
             public const int OrdersDeliveryAddressMinLength = 5;
         }
 
+        public static class RestaurantConstants
+        {
+            public const int DescriptionMinLength = 10;
+            public const int DescriptionMaxLength = 500;
+        }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿using FoodHome.Core.Contracts;
-using FoodHome.Core.Models;
+using FoodHome.Core.Models.Account;
 using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

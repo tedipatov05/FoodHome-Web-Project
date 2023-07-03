@@ -11,7 +11,7 @@ namespace FoodHome.Extensions
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<IRestaurantService, RestaurantService>();
             services.AddScoped<IImageService, ImageService>();
             
 

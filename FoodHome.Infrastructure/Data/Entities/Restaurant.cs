@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using static FoodHome.Infrastructure.Constants.ModelValidationConstants.RestaurantConstants;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace FoodHome.Infrastructure.Data.Entities
 {
@@ -35,6 +38,11 @@ namespace FoodHome.Infrastructure.Data.Entities
 
         [Comment("Is active restaurant")]
         public bool IsActive { get; set; }
+
+        [Comment("Description of the restaurant")]
+        [MaxLength(DescriptionMaxLength)]
+        
+        public string? Description { get; set; }
 
         public ICollection<Order> Orders { get; set; }
 

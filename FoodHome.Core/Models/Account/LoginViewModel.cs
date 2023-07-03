@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using static FoodHome.Infrastructure.Constants.ModelValidationConstants.UserConstants;
 
-namespace FoodHome.Core.Models
+namespace FoodHome.Core.Models.Account
 {
     public class LoginViewModel
     {

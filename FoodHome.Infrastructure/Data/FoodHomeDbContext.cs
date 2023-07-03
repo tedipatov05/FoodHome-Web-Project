@@ -61,6 +61,11 @@ namespace FoodHome.Infrastructure.Data
                 .WithOne(o => o.Restaurant)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<Restaurant>()
+                .Property(r => r.Description)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(500);
+
             builder.Entity<OrderDish>()
                 .HasKey(od => new { od.OrderId, od.DishId });
 
