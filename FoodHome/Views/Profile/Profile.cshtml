@@ -1,0 +1,81 @@
+﻿@using FoodHome.Core.Models.Account;
+@model ProfileViewModel
+
+
+
+<div class="row py-5 px-4">
+    <div class="col-md-5 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    <div class="profile mr-3">
+                        <img src="@Model.ProfilePictureUrl" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+
+                    </div>
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">@Model.Name</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>@Model.City</p>
+                        <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">@Model.OrdersCount</h5>
+                        <small class="text-muted"> <i class="fas fa-truck mr-1"></i>Orders</small>
+                    </li>
+                    @* <li class="list-inline-item">
+                    <h5 class="font-weight-bold mb-0 d-block">745</h5>
+                    <small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                    <h5 class="font-weight-bold mb-0 d-block">340</h5>
+                    <small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                    </li>*@
+                </ul>
+            </div>
+            @if (Model.IsRestaurant)
+            {
+                <div class="px-4 py-3">
+                    <h5 class="mb-0">About</h5>
+                    <div class="p-4 rounded shadow-sm bg-light">
+                        <p class="font-italic mb-0">@Model.Description</p>
+                    </div>
+                </div>
+
+            }
+
+            <div class="px-4 py-3">
+                <h5 class="mb-0">Contact</h5>
+                <div class="p-4 rounded shadow-sm bg-light">
+                    <p class="font-italic mb-0">Address: @Model.Address</p>
+                    <p class="font-italic mb-0">Email: @Model.Email</p>
+                    <p class="font-italic mb-0">Phone: @Model.PhoneNumber</p>
+                </div>
+            </div>
+            <div class="px-4 py-3">
+                <h2>Click to Display location in map</h2>
+                <button type="button" onclick="getlocation();">
+                    Current Position
+                </button><br><br>
+                <div id="demo2"
+                     style="width: 450px; height: 250px;">
+                </div>
+               
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    }
+
+@section Scripts{
+    <script src="~/js/geolocation.js" asp-append-version="true"></script>
+    <script src="https://maps.google.com/maps/api/js"></script>
+
+    }

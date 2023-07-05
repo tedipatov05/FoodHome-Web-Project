@@ -1,0 +1,23 @@
+﻿@using FoodHome.Core.Models.Restaurant;
+@model RestaurantDetailsViewModel;
+
+
+
+<div class="container">
+
+    <div class="card">
+        <div class="row g-1">
+            <div class="col-md-2">
+                <img src="@Model.PictureUrl" class="card-img-top img-fluid rounded-start" alt="...">
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.Description</p>
+                <p class="card-text"><small class="text-body-secondary"></small></p>
+            </div>
+        </div>
+
+    </div>
+</div>
+

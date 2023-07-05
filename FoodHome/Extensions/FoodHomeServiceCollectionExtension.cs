@@ -13,8 +13,8 @@ namespace FoodHome.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRestaurantService, RestaurantService>();
             services.AddScoped<IImageService, ImageService>();
-            
-
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IProfileService, ProfileService>();
 
             return services;
         }

@@ -94,7 +94,9 @@ nav {
 
 .container {
     margin-top: 100px;
-    margin: 100px 10px 20px 10px
+    margin: 100px 10px 20px 10px;
+    display: block;
+    justify-content: center;
 }
 
 .py-5 {
@@ -106,4 +108,15 @@ nav {
     border-radius: 3px;
     box-shadow: rgb(105, 105, 105) 3px 3px;
     margin-right: 20px;
+    
 }
+.row{
+    justify-content: center;
+}
+.card-img-top{
+    
+}
+a {
+    text-decoration: none;
+}
+
