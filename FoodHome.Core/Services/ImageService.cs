@@ -31,6 +31,7 @@ namespace FoodHome.Core.Services
 
         public async Task<string> UploadImage(IFormFile imageFile, string nameFolder, User user)
         {
+            
             using var stream = imageFile.OpenReadStream();
 
             var uploadParams = new ImageUploadParams()

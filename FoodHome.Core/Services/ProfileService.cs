@@ -15,14 +15,40 @@ namespace FoodHome.Core.Services
         private readonly IRepository repo;
         private readonly IOrderService orderService;
         private readonly IRestaurantService restaurantService;
+        private readonly IImageService imageService;
        
 
-        public ProfileService(IRepository _repo, IOrderService _orderService, IRestaurantService _restaurantService)
+        public ProfileService(IRepository _repo, IOrderService _orderService, IRestaurantService _restaurantService, IImageService _imageService)
         {
             this.repo = _repo;
             this.orderService = _orderService;
             this.restaurantService = _restaurantService;
+            this.imageService = _imageService;
            
+        }
+
+        
+
+        public async Task Edit(string userId, EditProfileModel model)
+        {
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            if(user == null)
+            {
+                throw new NullReferenceException("This user doea not exists");
+            }
+
+            user.Name = model.Name;
+            user.Address = model.Address;
+            user.Email = model.Email;
+            user.City = model.City;
+            user.Country = model.Country;
+            user.PhoneNumber = model.PhoneNumber;
+
+            if(model.ProfilePicture != null)
+                user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task<ProfileViewModel> MyProfile(string userId, bool IsRestaurant)

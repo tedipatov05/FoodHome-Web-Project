@@ -6,7 +6,7 @@ function getlocation() {
 function showLoc(pos) {
     latt = pos.coords.latitude;
     long = pos.coords.longitude;
-    var lattlong = new google.maps.LatLong()
+    var lattlong = new google.maps.LatLng(latt, long);
     var OPTions = {
         center: lattlong,
         zoom: 10,
@@ -16,7 +16,7 @@ function showLoc(pos) {
             
         },
     };
-    document.getElementById("demo2").style.visibility = true;
+    
     var mapg = new google.maps.Map(
         document.getElementById("demo2"),
         OPTions

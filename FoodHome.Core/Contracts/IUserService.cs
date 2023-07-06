@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoodHome.Core.Models.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace FoodHome.Core.Contracts
         Task<bool> ExistsByEmail(string email);
 
         Task<bool> ExistsByPhone(string phone);
+
+        Task<UserModel> GetUserByIdAsync(string userId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FoodHome.Core.Contracts;
+using FoodHome.Core.Models.User;
 using FoodHome.Infrastructure.Data.Common;
 using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,31 @@ namespace FoodHome.Core.Services
                 .FirstOrDefaultAsync(u => u.PhoneNumber == phone);
 
             return user != null;
+        }
+
+        public async Task<UserModel> GetUserByIdAsync(string userId)
+        {
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            if (user == null || !user.IsActive)
+            {
+                throw new NullReferenceException("This user does not exists");
+            }
+
+            var userModel = new UserModel()
+            {
+                Id = userId,
+                Name = user.Name,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Country = user.Country, 
+                City = user.City,
+                Address = user.Address, 
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                
+            };
+
+            return userModel;
         }
     }
 }
