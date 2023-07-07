@@ -16,18 +16,19 @@ namespace FoodHome.Core.Services
         private readonly IOrderService orderService;
         private readonly IRestaurantService restaurantService;
         private readonly IImageService imageService;
+        private readonly IDishService dishService;
        
 
-        public ProfileService(IRepository _repo, IOrderService _orderService, IRestaurantService _restaurantService, IImageService _imageService)
+        public ProfileService(IRepository _repo, IOrderService _orderService, IRestaurantService _restaurantService, IImageService _imageService, IDishService _dishService)
         {
             this.repo = _repo;
             this.orderService = _orderService;
             this.restaurantService = _restaurantService;
             this.imageService = _imageService;
-           
+            this.dishService = _dishService;
         }
 
-        
+
 
         public async Task Edit(string userId, EditProfileModel model)
         {
@@ -80,6 +81,7 @@ namespace FoodHome.Core.Services
 
                 profile.OrdersCount = orders.Count();
                 profile.Description = restaurant.Description;
+                profile.MenuPhotos = await dishService.AllDishesImagesByRestaurantId(restaurantId);
 
             }
 

@@ -24,9 +24,26 @@ namespace FoodHome.Core.Services
             this.cloudinary = cloudinary;
             repo = _repo;
         }
-        public Task<string> UploadImage(IFormFile imageFile, string nameFolder, int dishId)
+        public async Task<string> UploadImage(IFormFile imageFile, string nameFolder, Dish dish)
         {
-            throw new NotImplementedException();
+            using var stream = imageFile.OpenReadStream();
+
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(dish.Id.ToString(), stream),
+                Folder = nameFolder
+            };
+
+            var uploadResult = await cloudinary.UploadAsync(uploadParams);
+
+            if(uploadResult.Error != null)
+            {
+                throw new InvalidOperationException(uploadResult.Error.Message);
+            }
+
+            dish.DishUrlImage = uploadResult.Url.ToString();
+
+            return dish.DishUrlImage;
         }
 
         public async Task<string> UploadImage(IFormFile imageFile, string nameFolder, User user)

@@ -10,6 +10,10 @@ namespace FoodHome.Core.Models.Account
 {
     public class ProfileViewModel
     {
+        public ProfileViewModel()
+        {
+            this.MenuPhotos = new List<string>();
+        }
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -31,6 +35,8 @@ namespace FoodHome.Core.Models.Account
         public bool IsRestaurant { get; set; }
 
         public string Role { get; set; }
+
+        public List<string> MenuPhotos { get; set; }
 
         public int OrdersCount { get; set; }
 

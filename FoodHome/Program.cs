@@ -3,6 +3,7 @@ using CloudinaryDotNet;
 using FoodHome.Extensions;
 using FoodHome.Infrastructure.Data;
 using FoodHome.Infrastructure.Data.Entities;
+using FoodHome.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,8 +46,17 @@ namespace FoodHome
             ConfigureCloudaryService(builder.Services, builder.Configuration);
 
 
+            builder.Services
+                .AddControllersWithViews()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
 
-            builder.Services.AddControllersWithViews();
+           
+
+
+            builder.Services.AddResponseCaching();
 
             var app = builder.Build();
 

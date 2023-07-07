@@ -1,6 +1,6 @@
 function getlocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showLoc, errHand);
+        navigator.geolocation.watchPosition(showLoc, errHand);
     }
 }
 function showLoc(pos) {

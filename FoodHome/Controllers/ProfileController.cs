@@ -2,6 +2,8 @@
 using FoodHome.Core.Models.Account;
 using Microsoft.AspNetCore.Mvc;
 
+using static FoodHome.Common.NotificationConstants;
+
 namespace FoodHome.Controllers
 {
     public class ProfileController : BaseController
@@ -31,6 +33,8 @@ namespace FoodHome.Controllers
             }
             catch (Exception ex)
             {
+                TempData[ErrorMessage] = ex.Message;
+
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -58,7 +62,7 @@ namespace FoodHome.Controllers
             }
             catch(Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData[ErrorMessage] = ex.Message;
 
                 return RedirectToAction("Index", "Home");
             }
@@ -80,7 +84,7 @@ namespace FoodHome.Controllers
             }
             catch (Exception e)
             {
-                TempData["ErrorMessage"] = e.Message;
+                TempData[ErrorMessage] = e.Message;
 
                 return RedirectToAction("Index", "Home");
 

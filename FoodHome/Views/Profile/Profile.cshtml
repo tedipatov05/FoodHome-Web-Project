@@ -15,7 +15,7 @@
                     </div>
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0">@Model.Name</h4>
-                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>@Model.City</p>
+                        <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i> @Model.City</p>
                         <a asp-action="Edit" asp-controller="Profile" asp-route-id="@Model.Id" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
                     </div>
                 </div>
@@ -26,14 +26,6 @@
                         <h5 class="font-weight-bold mb-0 d-block">@Model.OrdersCount</h5>
                         <small class="text-muted"> <i class="fas fa-truck mr-1"></i>Orders</small>
                     </li>
-                    @* <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">745</h5>
-                    <small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
-                    </li>
-                    <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">340</h5>
-                    <small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
-                    </li>*@
                 </ul>
             </div>
             @if (Model.IsRestaurant)
@@ -45,24 +37,57 @@
                     </div>
                 </div>
 
+                @if(Model.MenuPhotos.Any())
+                {
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for(int i=0;i <= Model.MenuPhotos.Count; i++)
+                            {
+                                <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
+                            }
+                        </ol>
+                        <div class="carousel-inner">
+                            @foreach(string photo in Model.MenuPhotos)
+                            {
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="@photo" alt="First slide">
+                                </div>
+                            }
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                }
+
+
+
+            }
+            else{
+                <div class="px-4 py-3">
+                    <h5 class="mb-0">Contact</h5>
+                    <div class="p-4 rounded shadow-sm bg-light">
+                        <p class="font-italic mb-0">Address: @Model.Address</p>
+                        <p class="font-italic mb-0">Email: @Model.Email</p>
+                        <p class="font-italic mb-0">Phone: @Model.PhoneNumber</p>
+                    </div>
+                </div>
+
+                <div class="px-4 py-3">
+                    <button class="btn btn-toolbar btn-outline-dark" type="button" onclick="getlocation()">
+                        Current Position
+                    </button><br><br>
+                    <div id="demo2" style="width: 450px; height: 250px;">
+                    </div>
+                </div>
             }
 
-            <div class="px-4 py-3">
-                <h5 class="mb-0">Contact</h5>
-                <div class="p-4 rounded shadow-sm bg-light">
-                    <p class="font-italic mb-0">Address: @Model.Address</p>
-                    <p class="font-italic mb-0">Email: @Model.Email</p>
-                    <p class="font-italic mb-0">Phone: @Model.PhoneNumber</p>
-                </div>
-            </div>
-            <div class="px-4 py-3">
-                <button class="btn btn-toolbar btn-outline-dark" type="button" onclick="getlocation()">
-                    Current Position
-                </button><br><br>
-                <div id="demo2" style="width: 450px; height: 250px;">
-
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>

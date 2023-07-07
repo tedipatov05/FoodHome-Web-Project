@@ -23,17 +23,5 @@ namespace FoodHome.Controllers
             return View();
             
         }
-
-        public async Task<IActionResult> All()
-        {
-            var restaurants = await restaurantService.GetRestaurantsAsync();
-            return View(restaurants);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

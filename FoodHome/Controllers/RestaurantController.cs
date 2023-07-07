@@ -12,11 +12,17 @@ namespace FoodHome.Controllers
             this.restaurantService = _restaurantService;
         }
 
+        public async Task<IActionResult> All()
+        {
+            var restaurants = await restaurantService.GetRestaurantsAsync();
+            return View(restaurants);
+        }
         public async Task<IActionResult> Details(string id)
         {
             var restaurant = await restaurantService.GetRestaurantById(id);
 
             return View(restaurant);
         }
+
     }
 }

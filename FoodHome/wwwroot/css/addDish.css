@@ -1,0 +1,8 @@
+﻿
+.row {
+
+    background-size: cover !important;
+    background-image: url(../img/food-bg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}

@@ -11,7 +11,7 @@ namespace FoodHome.Core.Contracts
 {
     public interface IImageService
     {
-        Task<string> UploadImage(IFormFile imageFile, string nameFolder, int dishId);
+        Task<string> UploadImage(IFormFile imageFile, string nameFolder, Dish dish);
 
         Task<string> UploadImage(IFormFile imageFile, string nameFolder, User user);
     }

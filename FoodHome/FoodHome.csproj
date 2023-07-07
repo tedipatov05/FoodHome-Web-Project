@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FoodHome.Common\FoodHome.Common.csproj" />
     <ProjectReference Include="..\FoodHome.Core\FoodHome.Core.csproj" />
     <ProjectReference Include="..\FoodHome.Infrastructure\FoodHome.Infrastructure.csproj" />
   </ItemGroup>
