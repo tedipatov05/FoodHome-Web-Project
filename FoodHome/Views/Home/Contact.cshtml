@@ -1,0 +1,49 @@
+﻿@using FoodHome.Core.Models.User;
+@model UserModel;
+
+<div class="row py-5 px-4">
+    <div class="col-md-5 mx-auto">
+
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head" style=" transform: translateY(1cm)">
+                    <div class="profile mr-3">
+                        <img src="@Model.ProfilePictureUrl" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+
+                    </div>
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">@Model.Name</h4>
+                        <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i> @Model.City</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-4 py-3">
+                <h5 class="mb-0">Contact</h5>
+                <div class="p-4 rounded shadow-sm bg-light">
+                    <p class="font-italic mb-0">Address: @Model.Address</p>
+                    <p class="font-italic mb-0">Email: @Model.Email</p>
+                    <p class="font-italic mb-0">Phone: @Model.PhoneNumber</p>
+                </div>
+            </div>
+
+            <div class="px-4 py-3">
+                <div id="demo2" style="height: 350px; margin-right: 10px">
+                    
+                            <iframe width="100%" height="100%" id="gmap_canvas" src="https://maps.google.com/maps?q={@Model.City}&t=&z=10&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}

@@ -14,5 +14,7 @@ namespace FoodHome.Core.Contracts
         Task<bool> ExistsByPhone(string phone);
 
         Task<UserModel> GetUserByIdAsync(string userId);
+
+        Task<UserModel> GetAdmin();
     }
 }

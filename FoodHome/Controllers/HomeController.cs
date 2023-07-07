@@ -9,12 +9,12 @@ namespace FoodHome.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IRestaurantService restaurantService;
+        private readonly IUserService userService;
 
-        public HomeController(ILogger<HomeController> logger, IRestaurantService _restaurrantService)
+        public HomeController(ILogger<HomeController> logger, IUserService _userService)
         {
             _logger = logger;
-            restaurantService = _restaurrantService;
+            this.userService = _userService;
         }
 
         public IActionResult Index()
@@ -22,6 +22,12 @@ namespace FoodHome.Controllers
 
             return View();
             
+        }
+
+        public async Task<IActionResult> Contact()
+        {
+            var admin = await userService.GetAdmin();
+            return View(admin);
         }
     }
 }

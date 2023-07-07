@@ -24,7 +24,7 @@ namespace FoodHome.Core.Models.User
 
         public string Address { get; set; }
 
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
         public bool IsActive { get; set; }
     }

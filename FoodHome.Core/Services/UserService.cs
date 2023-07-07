@@ -1,5 +1,6 @@
 ﻿using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.User;
+using FoodHome.Infrastructure.Constants;
 using FoodHome.Infrastructure.Data.Common;
 using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,28 @@ namespace FoodHome.Core.Services
                 .FirstOrDefaultAsync(u => u.PhoneNumber == phone);
 
             return user != null;
+        }
+
+        public async Task<UserModel> GetAdmin()
+        {
+            var admin = await repo.All<User>()
+                .Where(u => u.Id == AdministratorConstants.Id)
+                .Select(u => new UserModel()
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber, 
+                    Country = u.Country,
+                    City = u.City, 
+                    Address = u.Address, 
+                    ProfilePictureUrl = u.ProfilePictureUrl,
+                    IsActive = u.IsActive
+                })
+                .FirstOrDefaultAsync();
+
+            return admin;
+            
         }
 
         public async Task<UserModel> GetUserByIdAsync(string userId)

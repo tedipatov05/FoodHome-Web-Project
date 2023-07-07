@@ -5,6 +5,7 @@ using FoodHome.Infrastructure.Data;
 using FoodHome.Infrastructure.Data.Entities;
 using FoodHome.ModelBinders;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodHome
@@ -31,6 +32,9 @@ namespace FoodHome
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Lockout.MaxFailedAccessAttempts = 5;
             }
             )
                 .AddRoles<IdentityRole>()
@@ -38,8 +42,13 @@ namespace FoodHome
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
+
+
                 options.LoginPath = "/User/Login";
                 options.LogoutPath = "/User/Logout";
+
+                options.Cookie.SameSite = SameSiteMode.Strict;
+
             });
 
             builder.Services.AddAppServices();
@@ -47,13 +56,16 @@ namespace FoodHome
 
 
             builder.Services
-                .AddControllersWithViews()
+                .AddControllersWithViews(options =>
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                })
                 .AddMvcOptions(options =>
                 {
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                 });
 
-           
+          
 
 
             builder.Services.AddResponseCaching();

@@ -1,7 +1,7 @@
 ﻿using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Account;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Session;
 using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
@@ -76,6 +76,7 @@ namespace FoodHome.Controllers
                 return View(model);
             }
 
+            
             try
             {
                 await profileService.Edit(id, model);

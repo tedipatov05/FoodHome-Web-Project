@@ -9,57 +9,9 @@
 
 <div class="row">
     <h2 class="text-center text-black">@ViewData["Title"]</h2>
-    <hr />
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6" style="margin-left: 0px">
-        <form asp-action="Add" method="post" enctype="multipart/form-data"> 
-            <div class="mb-3">
-                <label asp-for="@Model.Name" class="form-label-add-edit text-black">Name</label>
-                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.Name" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Description" class="form-label-add-edit text-black">Description</label>
-                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Ingredients" class="form-label-add-edit text-black">Ingredients</label>
-                <input asp-for="@Model.Ingredients" class="form-control" />
-                <span asp-validation-for="@Model.Ingredients" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Price" class="form-label-add-edit text-black">Price</label>
-                <input asp-for="@Model.Price" class="form-control" aria-required="true"/>
-                <span asp-validation-for="@Model.Price" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Quantity" class="form-label-add-edit text-black">Quantity</label>
-                <input asp-for="@Model.Quantity" class="form-control"/>
-                <span asp-validation-for="@Model.Quantity" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.CategoryId" class="form-label-add-edit text-black">Category</label>
-                <select asp-for="@Model.CategoryId" class="form-control" aria-required="true">
-                    @foreach (var category in Model.Categories)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label for="dishPicture" class="text-black">Upload Dish Picture</label>
-                <input asp-for="DishUrlImage" accept="image/gif, image/jpeg, image/png" class="text-black" id="dishPicture">
-                <span asp-validation-for="DishUrlImage" class="text-black"></span>
-            </div>
-            <div class="mb-3">
-                <img alt="Uploaded Image" placeholder="Upload Dish Picture" accept="image/gif, image/jpeg, image/png" style="display:none;">
-            </div>
-            <div class="mb-3">
-                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add Dish" />
-            </div>
-        </form>
-    </div>
+
+    <partial name="_DishFormPartial" />
+    
 </div>
 
 @section Styles{
