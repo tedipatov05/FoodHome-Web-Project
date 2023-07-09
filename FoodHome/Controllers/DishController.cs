@@ -56,9 +56,27 @@ namespace FoodHome.Controllers
 
             await dishService.AddDish(restaurantId, model);
 
-            TempData[SuccessMessage] = $"Successfully added dish {model.Name}";
+            this.TempData[SuccessMessage] = $"Successfully added dish {model.Name}";
 
             return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> Menu(string id)
+        {
+            bool isRestaurant = await restaurantService.ExistsById(id);
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "Incorect restaurant";
+
+                return RedirectToAction("All", "Rstaurant");
+            }
+            var restaurantId = await restaurantService.GetRestaurantId(id);
+
+            var dishes = await dishService.GetDishesByRestaurantId(restaurantId);
+
+            return View("All", dishes);
+
+
         }
     }
 }

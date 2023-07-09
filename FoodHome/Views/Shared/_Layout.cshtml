@@ -1,4 +1,5 @@
 ﻿@using FoodHome.Common;
+@using FoodHome.Extensions;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,15 +13,16 @@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Homies.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font/font-awesome.min.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo&display=swap">   
 
     @await RenderSectionAsync("Styles", false)
 </head>
 <body>
     <header>
         <partial name="_NotificationsPartial" />
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index">FoodHome</a>
@@ -47,6 +49,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Dish" asp-action="Add">Add Dish</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dish" asp-action="Menu" asp-route-id="@User.GetId()">Menu</a>
+                                </li>
+                                
                             }
                             else if (User.IsInRole(RoleConstants.Customer))
                             {
@@ -69,7 +75,6 @@
     @RenderBody()
     
     <script src="https://kit.fontawesome.com/b9403dda92.js" crossorigin="anonymous"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
    

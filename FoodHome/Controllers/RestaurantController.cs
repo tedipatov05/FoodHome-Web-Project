@@ -1,15 +1,21 @@
 ﻿using FoodHome.Core.Contracts;
+using FoodHome.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+
+using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
 {
     public class RestaurantController : BaseController
     {
         private readonly IRestaurantService restaurantService;
+        private readonly IDishService dishService;
 
-        public RestaurantController(IRestaurantService _restaurantService)
+        public RestaurantController(IRestaurantService _restaurantService, IDishService _dishService)
         {
             this.restaurantService = _restaurantService;
+            this.dishService = _dishService;
+
         }
 
         public async Task<IActionResult> All()
@@ -23,6 +29,8 @@ namespace FoodHome.Controllers
 
             return View(restaurant);
         }
+
+       
 
     }
 }

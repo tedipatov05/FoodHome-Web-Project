@@ -1,0 +1,57 @@
+﻿@using FoodHome.Core.Models.Dish;
+@model List<DishViewModel>;
+
+
+
+<section class="main-content" >
+
+    <div class="container" >
+        <h1 class="text-center text-uppercase text-black">Menu</h1>
+        <div class="row">
+            @foreach (var dish in Model)
+            {
+                <div class="col-sm-6 col-md-6 col-lg-6" >
+                    <div class="food-card food-card--vertical">
+                        <div class="food-card_img">
+                            <img src="@dish.DishImageUrl" alt="">
+                        </div>
+                        <div class="food-card_content">
+                            <div class="food-card_title-section">
+                                <p class="food-card_title">@dish.Name</p>
+                                <p class="food-card-subtitle">@dish.Description</p>
+
+                            </div>
+                            <div class="food-card_bottom-section">
+                                <div class="space-between">
+                                    <div class="pull-right">
+                                        <span class="badge badge-success">@dish.Ingredients</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="space-between">
+                                    <div class="food-card_price">
+                                        <span>@dish.Price лв.</span>
+                                    </div>
+                                    <div class="food-card_order-count">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-outline-secondary minus-btn" type="button" id="button-addon1"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                            <input type="text" class="form-control input-manulator" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" value="0">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</section>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/dish.css" asp-append-version="true" />
+}

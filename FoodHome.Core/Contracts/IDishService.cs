@@ -12,5 +12,7 @@ namespace FoodHome.Core.Contracts
         Task<List<string>> AllDishesImagesByRestaurantId(string restaurantId);
 
         Task AddDish(string restaurantId, DishAddModel model);
+
+        Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId);
     }
 }

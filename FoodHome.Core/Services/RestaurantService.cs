@@ -19,9 +19,9 @@ namespace FoodHome.Core.Services
             repo = _repo;
         }
 
-        public async Task<bool> ExistsById(string userId)
+        public async Task<bool> ExistsById(string id)
         {
-            var restaurant = await repo.All<Restaurant>(r => r.UserId == userId && r.IsActive == true)
+            var restaurant = await repo.All<Restaurant>(r => (r.UserId == id || r.Id==id) && r.IsActive == true)
                 .FirstOrDefaultAsync();
 
             return restaurant != null;

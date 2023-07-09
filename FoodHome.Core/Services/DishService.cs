@@ -66,5 +66,23 @@ namespace FoodHome.Core.Services
             return dishes!;
                 
         }
+
+        public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)
+        {
+            var dihes = await repo.All<RestaurantDish>()
+                .Where(rd => rd.RestaurantId == restaurantId)
+                .Select(rd => new DishViewModel()
+                {
+                    Id = rd.Dish.Id,
+                    Name = rd.Dish.Name,
+                    Description = rd.Dish.Description,
+                    Ingredients = rd.Dish.Ingredients,
+                    Price = rd.Dish.Price,
+                    DishImageUrl = rd.Dish.DishUrlImage
+                })
+                .ToListAsync();
+
+            return dihes!;
+        }
     }
 }
