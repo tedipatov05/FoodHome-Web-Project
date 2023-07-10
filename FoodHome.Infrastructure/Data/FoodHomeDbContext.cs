@@ -33,11 +33,10 @@ namespace FoodHome.Infrastructure.Data
 
         public DbSet<Restaurant> Restaurants { get; set; } = null!;
 
-        public DbSet<RestaurantDish> RestaurantDishes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+            
 
 
             builder.Entity<User>()
@@ -62,6 +61,11 @@ namespace FoodHome.Infrastructure.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Restaurant>()
+                .HasMany(r => r.Menu)
+                .WithOne(d => d.Restaurant)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Restaurant>()
                 .Property(r => r.Description)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(500);
@@ -69,10 +73,17 @@ namespace FoodHome.Infrastructure.Data
             builder.Entity<OrderDish>()
                 .HasKey(od => new { od.OrderId, od.DishId });
 
-            builder.Entity<RestaurantDish>()
-                .HasKey(rd => new { rd.RestaurantId, rd.DishId });
+            builder.Entity<Dish>()
+                .HasOne(d => d.Restaurant)
+                .WithMany(d => d.Menu)
+                .HasForeignKey(d => d.RestaurantId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            
+            base.OnModelCreating(builder);
+
+
+
+
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new RolesConfiguration());

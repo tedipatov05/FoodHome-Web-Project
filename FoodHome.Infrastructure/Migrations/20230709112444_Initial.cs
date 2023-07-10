@@ -34,9 +34,9 @@ namespace FoodHome.Infrastructure.Migrations
                     Country = table.Column<string>(type: "nvarchar(56)", maxLength: 56, nullable: false, comment: "User country"),
                     ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "User profile picture url"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, comment: "Is active User"),
-                    UserName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -201,7 +201,8 @@ namespace FoodHome.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Primary Key"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "User Id"),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, comment: "Is active restaurant")
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, comment: "Is active restaurant"),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true, comment: "Description of the restaurant")
                 },
                 constraints: table =>
                 {
@@ -227,6 +228,7 @@ namespace FoodHome.Infrastructure.Migrations
                     Ingredients = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false, comment: "Ingredients of the dish"),
                     DishUrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Image Url for the dish"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false, comment: "Price of the dish"),
+                    RestaurantId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "RestaurantId"),
                     Quantity = table.Column<int>(type: "int", nullable: false, comment: "Price of the dish"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, comment: "Is actice dish")
                 },
@@ -239,6 +241,11 @@ namespace FoodHome.Infrastructure.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Dishes_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id");
                 },
                 comment: "Dish for the restaurant");
 
@@ -273,31 +280,6 @@ namespace FoodHome.Infrastructure.Migrations
                 comment: "Order");
 
             migrationBuilder.CreateTable(
-                name: "RestaurantDishes",
-                columns: table => new
-                {
-                    RestaurantId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Restaurant Id"),
-                    DishId = table.Column<int>(type: "int", nullable: false, comment: "Dish Id")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RestaurantDishes", x => new { x.RestaurantId, x.DishId });
-                    table.ForeignKey(
-                        name: "FK_RestaurantDishes_Dishes_DishId",
-                        column: x => x.DishId,
-                        principalTable: "Dishes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RestaurantDishes_Restaurants_RestaurantId",
-                        column: x => x.RestaurantId,
-                        principalTable: "Restaurants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Restaurant dish");
-
-            migrationBuilder.CreateTable(
                 name: "OrdersDishes",
                 columns: table => new
                 {
@@ -328,9 +310,9 @@ namespace FoodHome.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a03f9f62-f106-4b1a-b1f9-eba622db3c92", "92b6f4d6-0742-4f1d-9098-0bfda86e548b", "Customer", "CUSTOMER" },
-                    { "a297aac9-aa64-4313-8c50-1d3cf7f379ba", "891dfc3e-82c9-477c-b8e7-2c001411c603", "Administrator", "ADMINISTRATOR" },
-                    { "c34ebc61-94a5-40c5-a310-798532235d8e", "3f0527d8-9f72-4119-bee7-e90b61e9062f", "Restaurant", "RESTAURANT" }
+                    { "a03f9f62-f106-4b1a-b1f9-eba622db3c92", "c2a859f9-3352-449d-8f10-bc1061ea22f5", "Customer", "CUSTOMER" },
+                    { "a297aac9-aa64-4313-8c50-1d3cf7f379ba", "2e6d08c4-220b-451f-a83e-89d689e213ef", "Administrator", "ADMINISTRATOR" },
+                    { "c34ebc61-94a5-40c5-a310-798532235d8e", "e261af62-6924-47b0-a6c3-f1e694462082", "Restaurant", "RESTAURANT" }
                 });
 
             migrationBuilder.InsertData(
@@ -338,9 +320,9 @@ namespace FoodHome.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "IsActive", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0d9e1416-60a8-4655-af48-614ff829b230", 0, "ул. Ал. Батенберг 15 ет.5 ап.20", "Казанлък", "e54fd6a1-f162-4a32-bb92-7ff23b3677a7", "България", "tedipatov19@abv.bg", false, true, false, null, "Теодор Патов", "TEDIPATOV19@ABV.BG", "TEODOR", "AQAAAAEAACcQAAAAEBwW7kd872mV9Apb38dHCrvin0MIVV9M4JGMkdJUUV8IpzyYvb8iMyh646IOeRQqZQ==", "0898392743", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg", "8c76fbfc-a3c5-401e-9e25-f4313f16800c", false, "teodor" },
-                    { "1d1f8115-ebb2-45e0-a375-cf713385ae9c", 0, "ул. Цар Освободител 21", "Казанлък", "de389dd6-3cfe-4d25-bdc2-57763846e89a", "България", "vikifoods@abv.bg", false, true, false, null, "Viki Foods", "VIKIFOODS@ABV.BG", "VIKIFOODS", "AQAAAAEAACcQAAAAEN34d6aLZ01A7+/V7lS1GIQ702PLm+AgeFGJot+QadR3Y3F04LC5KnhIVvdjdt6tyg==", "0885732771", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png", "757bfffb-21eb-46c8-9504-3e219c2b189e", false, "VikiFoods" },
-                    { "d44500a1-526b-49d0-b373-05ac34baab0a", 0, "ул. Ал. Стамболийски 30 ет.3 ап.11", "Казанлък", "b644c5b0-1dd9-4f5a-8b5d-ce27bdaebe03", "България", "ivonpatova@abv.bg", false, true, false, null, "Ивон Патова", "IVONPATOVA@ABV.BG", "IVON", "AQAAAAEAACcQAAAAEKait6Bm2Tl9/eFteO/WyxxfxxK/hASoYZewhTX8JV6h5tUHpmF0ykpl2ON+Z5HqKQ==", "0887399847", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg", "2717ecb1-f3cf-47fe-8caa-48f6934ea6bd", false, "ivon" }
+                    { "0d9e1416-60a8-4655-af48-614ff829b230", 0, "ул. Ал. Батенберг 15 ет.5 ап.20", "Казанлък", "85c01392-e6a0-41ff-983e-f7c42ef06c4a", "България", "tedipatov19@abv.bg", false, true, false, null, "Теодор Патов", "TEDIPATOV19@ABV.BG", "TEODOR", "AQAAAAEAACcQAAAAEIxL4NwpX/W60vNk4n2Jg4DJhjQ8zITxz3vv1v4BVAgl2G7heZW877wSRg8aCBs7cw==", "0898392743", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg", "dcbc2049-1ce4-49e9-bc9a-5d456b5f943c", false, "teodor" },
+                    { "1d1f8115-ebb2-45e0-a375-cf713385ae9c", 0, "ул. Цар Освободител 21", "Казанлък", "34b308e3-e0d4-4d00-9ead-7e96198e0ad0", "България", "vikifoods@abv.bg", false, true, false, null, "Viki Foods", "VIKIFOODS@ABV.BG", "VIKIFOODS", "AQAAAAEAACcQAAAAEKoCwANN7kcbu2qekNzl8lmgRGg33Fhwsl8X8MzDuX0sy9E/RA2QNYOIP57vVaPnHQ==", "0885732771", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png", "649851a9-968f-4448-9327-2c257d755859", false, "VikiFoods" },
+                    { "d44500a1-526b-49d0-b373-05ac34baab0a", 0, "ул. Ал. Стамболийски 30 ет.3 ап.11", "Казанлък", "59a5dac4-4e24-4473-a6b6-1847722b9a37", "България", "ivonpatova@abv.bg", false, true, false, null, "Ивон Патова", "IVONPATOVA@ABV.BG", "IVON", "AQAAAAEAACcQAAAAEF/qOtGOdORkAPmodsNO2NAcc99oikH61yI+n5S8tvHfCb8RphVNOelZPXrrdNqnVA==", "0887399847", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg", "7232218c-0b09-41ea-b9b9-437c0bb5b7ee", false, "ivon" }
                 });
 
             migrationBuilder.InsertData(
@@ -376,8 +358,8 @@ namespace FoodHome.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Restaurants",
-                columns: new[] { "Id", "IsActive", "UserId" },
-                values: new object[] { "5e364b5e-8bc2-4e8d-a3f8-72f5776fbe9d", true, "1d1f8115-ebb2-45e0-a375-cf713385ae9c" });
+                columns: new[] { "Id", "Description", "IsActive", "UserId" },
+                values: new object[] { "5e364b5e-8bc2-4e8d-a3f8-72f5776fbe9d", "Добре дошли в нашия ресторант, където гурме изживяването се превръща в истинска симфония на вкусове. Нашето заведение предлага уютна и изискана обстановка, в която можете да се насладите на неповторимата комбинация от кулинарни изкушения и изискани напитки.", true, "1d1f8115-ebb2-45e0-a375-cf713385ae9c" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -429,6 +411,11 @@ namespace FoodHome.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Dishes_RestaurantId",
+                table: "Dishes",
+                column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
@@ -441,11 +428,6 @@ namespace FoodHome.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_OrdersDishes_DishId",
                 table: "OrdersDishes",
-                column: "DishId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RestaurantDishes_DishId",
-                table: "RestaurantDishes",
                 column: "DishId");
 
             migrationBuilder.CreateIndex(
@@ -475,25 +457,22 @@ namespace FoodHome.Infrastructure.Migrations
                 name: "OrdersDishes");
 
             migrationBuilder.DropTable(
-                name: "RestaurantDishes");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Dishes");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Dishes");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

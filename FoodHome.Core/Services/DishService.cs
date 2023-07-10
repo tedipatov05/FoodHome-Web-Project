@@ -35,7 +35,8 @@ namespace FoodHome.Core.Services
                 Description = model.Description, 
                 Ingredients = model.Ingredients,
                 CategoryId = model.CategoryId,
-                Quantity = model.Quantity
+                Quantity = model.Quantity, 
+                RestaurantId = restaurantId
             };
 
             if (model.DishUrlImage != null)
@@ -44,13 +45,8 @@ namespace FoodHome.Core.Services
 
             }
 
-            RestaurantDish restaurantDish = new RestaurantDish()
-            {
-                Dish = dish,
-                RestaurantId = restaurantId
-            };
-
-            await repo.AddAsync(restaurantDish);
+           
+            await repo.AddAsync(dish);
             await repo.SaveChangesAsync();
 
 
@@ -58,27 +54,47 @@ namespace FoodHome.Core.Services
 
         public async Task<List<string>> AllDishesImagesByRestaurantId(string restaurantId)
         {
-            var dishes = await repo.All<RestaurantDish>()
+            var dishes = await repo.All<Dish>()
                 .Where(rd => rd.RestaurantId == restaurantId)
-                .Select(rd => rd.Dish.DishUrlImage)
+                .Select(rd => rd.DishUrlImage)
                 .ToListAsync();
 
             return dishes!;
                 
         }
 
+        public async Task<DishAddModel> GetDishById(int id, string restaurantId)
+        {
+            var dish = await repo.All<Dish>()
+                .Where(rd => rd.RestaurantId == restaurantId && rd.Id == id && rd.Quantity > 0)
+                .Select(rd => new DishAddModel()
+                {
+                    Name = rd.Name,
+                    Description = rd.Description,
+                    Ingredients = rd.Ingredients,
+                    Price = rd.Price,
+                    DishUrlImage = null,
+                    Quantity = rd.Quantity,
+                    CategoryId = rd.CategoryId
+
+                })
+                .FirstOrDefaultAsync();
+
+            return dish;
+        }
+
         public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)
         {
-            var dihes = await repo.All<RestaurantDish>()
-                .Where(rd => rd.RestaurantId == restaurantId)
+            var dihes = await repo.All<Dish>()
+                .Where(rd => rd.RestaurantId == restaurantId && rd.Quantity > 0)
                 .Select(rd => new DishViewModel()
                 {
-                    Id = rd.Dish.Id,
-                    Name = rd.Dish.Name,
-                    Description = rd.Dish.Description,
-                    Ingredients = rd.Dish.Ingredients,
-                    Price = rd.Dish.Price,
-                    DishImageUrl = rd.Dish.DishUrlImage
+                    Id = rd.Id,
+                    Name = rd.Name,
+                    Description = rd.Description,
+                    Ingredients = rd.Ingredients,
+                    Price = rd.Price,
+                    DishImageUrl = rd.DishUrlImage
                 })
                 .ToListAsync();
 

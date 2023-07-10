@@ -21,7 +21,7 @@ namespace FoodHome.Infrastructure.Data.Entities
             this.Id = Guid.NewGuid().ToString();
             this.IsActive = true;
             this.Orders = new List<Order>();
-            this.Menu = new HashSet<RestaurantDish>();
+            this.Menu = new List<Dish>();
         }
 
         [Comment("Primary Key")]
@@ -46,7 +46,7 @@ namespace FoodHome.Infrastructure.Data.Entities
 
         public ICollection<Order> Orders { get; set; }
 
-        public ICollection<RestaurantDish> Menu { get; set; }
+        public ICollection<Dish> Menu { get; set; }
 
     }
 }

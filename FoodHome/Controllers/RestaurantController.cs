@@ -1,11 +1,14 @@
-﻿using FoodHome.Core.Contracts;
+﻿using FoodHome.Common;
+using FoodHome.Core.Contracts;
 using FoodHome.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
 {
+    [Authorize(Roles = RoleConstants.Customer)]
     public class RestaurantController : BaseController
     {
         private readonly IRestaurantService restaurantService;

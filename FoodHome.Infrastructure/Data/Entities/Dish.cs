@@ -18,7 +18,6 @@ namespace FoodHome.Infrastructure.Data.Entities
         {
             this.IsActive = true;
             this.Orders = new List<OrderDish>();
-            this.RestaurantDishes = new List<RestaurantDish>();
            
         }
         [Comment("Primary key")]
@@ -55,6 +54,13 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Precision(18, 2)]
         public decimal Price { get; set; }
 
+        [Comment("RestaurantId")]
+        [ForeignKey(nameof(Restaurant))]
+        public string RestaurantId { get; set; } = null!;
+
+        [Comment("Restaurant")]
+        public Restaurant Restaurant { get; set; } = null!;
+
         [Comment("Price of the dish")]
         public int Quantity { get; set; }
 
@@ -63,7 +69,7 @@ namespace FoodHome.Infrastructure.Data.Entities
 
         public ICollection<OrderDish> Orders { get; set;}
 
-        public ICollection<RestaurantDish> RestaurantDishes { get; set; }
+       
 
     }
 }

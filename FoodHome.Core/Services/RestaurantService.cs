@@ -47,10 +47,10 @@ namespace FoodHome.Core.Services
             return restaurant!;
         }
 
-        public async Task<string> GetRestaurantId(string userId)
+        public async Task<string> GetRestaurantId(string id)
         {
             var restaurant = await repo.AllReadonly<Restaurant>()
-                .Where(r => r.UserId == userId && r.User.IsActive == true)
+                .Where(r => (r.UserId == id || r.Id == id) && r.User.IsActive == true)
                 .Select(r => r.Id)
                 .FirstOrDefaultAsync();
 

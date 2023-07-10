@@ -14,5 +14,7 @@ namespace FoodHome.Core.Contracts
         Task AddDish(string restaurantId, DishAddModel model);
 
         Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId);
+
+        Task<DishAddModel> GetDishById(int id, string restaurantId);
     }
 }

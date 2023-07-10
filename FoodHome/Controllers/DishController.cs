@@ -60,22 +60,33 @@ namespace FoodHome.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Menu(string id)
         {
-            bool isRestaurant = await restaurantService.ExistsById(id);
-
-            if (!isRestaurant)
+            try
             {
-                TempData[ErrorMessage] = "Incorect restaurant";
+                bool isRestaurant = await restaurantService.ExistsById(id);
 
-                return RedirectToAction("All", "Rstaurant");
+                if (!isRestaurant)
+                {
+                    TempData[ErrorMessage] = "Incorect restaurant";
+
+                    return RedirectToAction("All", "Rstaurant");
+                }
+
+                var restaurantId = await restaurantService.GetRestaurantId(id);
+
+                var dishes = await dishService.GetDishesByRestaurantId(restaurantId);
+
+                return View("All", dishes);
+
             }
-            var restaurantId = await restaurantService.GetRestaurantId(id);
+            catch (Exception ex)
+            {
+                TempData[ErrorMessage] = ex.Message;
 
-            var dishes = await dishService.GetDishesByRestaurantId(restaurantId);
-
-            return View("All", dishes);
-
+                return RedirectToAction("All", "Restaurant");
+            }
 
         }
     }
