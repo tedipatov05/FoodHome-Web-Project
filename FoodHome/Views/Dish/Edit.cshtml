@@ -1,0 +1,23 @@
+﻿@using FoodHome.Core.Models.Dish;
+@model DishAddModel
+
+@{
+    ViewData["Title"] = "Edit Dish";
+}
+
+
+
+<div class="row">
+    <h2 class="text-center text-black">@ViewData["Title"]</h2>
+
+    <partial name="_DishFormPartial" />
+
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/addDish.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

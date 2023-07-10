@@ -32,7 +32,7 @@ a {
     }
 
     .food-card .food-card_img {
-        display: inline-block;
+        display: block;
         position: center;
     }
 

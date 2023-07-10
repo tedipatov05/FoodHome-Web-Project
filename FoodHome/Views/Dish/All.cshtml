@@ -10,41 +10,45 @@
         <div class="row">
             @foreach (var dish in Model)
             {
-                <div class="col-sm-6 col-md-6 col-lg-6" >
-                    <div class="food-card food-card--vertical">
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="food-card">
                         <div class="food-card_img">
                             <img src="@dish.DishImageUrl" alt="">
+                            
                         </div>
                         <div class="food-card_content">
                             <div class="food-card_title-section">
-                                <p class="food-card_title">@dish.Name</p>
-                                <p class="card-text text-dark">@dish.Description</p>
-
-                            </div>
-                            <div class="food-card_bottom-section text-dark">
+                                <a href="#!" class="food-card_title text-black">@dish.Name</a>
                                 <div class="space-between">
-                                    <div class="pull-right">
-                                        <span class="badge badge-success">@dish.Ingredients</span>
+                                    <div class="text-center">
+                                        <p class="badge badge-success text-black">@dish.Description</p>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="food-card_bottom-section">
+                                
                                 <hr>
-                                <div class="space-between text-dark">
+                                <div class="space-between">
                                     <div class="food-card_price">
-                                        <span>@dish.Price лв.</span>
+                                        <span>@dish.Price</span>
                                     </div>
-                                    <div class="food-card_order-count">
+                                    @*<div class="food-card_order-count">
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <button class="btn btn-outline-secondary minus-btn" type="button" id="button-addon1"><i class="fa fa-minus"></i></button>
                                             </div>
                                             <input type="text" class="form-control input-manulator" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" value="0">
-
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary add-btn" type="button" id="button-addon1"><i class="fa fa-plus"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>
+                        <a asp-action="Edit" asp-controller="Dish" asp-route-dishId="@dish.Id" class="btn btn-warning text-black" data-toggle="button" aria-pressed="false" autocomplete="off">Edit</a>
                     </div>
+
                 </div>
             }
         </div>

@@ -16,5 +16,7 @@ namespace FoodHome.Core.Contracts
         Task<string> GetRestaurantId(string userId);
 
         Task<bool> ExistsById(string userId);
+
+        
     }
 }

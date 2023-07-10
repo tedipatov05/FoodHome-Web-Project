@@ -1,7 +1,9 @@
-﻿using FoodHome.Common;
+﻿using System.Diagnostics;
+using FoodHome.Common;
 using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Dish;
 using FoodHome.Core.Services;
+using FoodHome.Extensions;
 using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +21,8 @@ namespace FoodHome.Controllers
 
         public DishController(IDishService _dishService, ICategoryService _categoryService, IRestaurantService _restaurantService)
         {
-            dishService = _dishService;
-            categoryService = _categoryService;
+            this.dishService = _dishService;
+            this.categoryService = _categoryService;
             this.restaurantService = _restaurantService;
 
         }
@@ -60,6 +62,7 @@ namespace FoodHome.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
         [AllowAnonymous]
         public async Task<IActionResult> Menu(string id)
         {
@@ -69,9 +72,9 @@ namespace FoodHome.Controllers
 
                 if (!isRestaurant)
                 {
-                    TempData[ErrorMessage] = "Incorect restaurant";
+                    TempData[ErrorMessage] = "Incorrect restaurant";
 
-                    return RedirectToAction("All", "Rstaurant");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 var restaurantId = await restaurantService.GetRestaurantId(id);
@@ -88,6 +91,64 @@ namespace FoodHome.Controllers
                 return RedirectToAction("All", "Restaurant");
             }
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int dishId)
+        {
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+            bool isDishExists = await dishService.ExistsById(dishId);
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("Menu",new {id = restaurantId});
+            }
+
+           
+
+            bool isRestaurant = await restaurantService.ExistsById(restaurantId);
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be restaurant!";
+
+                return RedirectToAction("Contact", "Home");
+            }
+
+           
+          
+
+            bool isOwner = await dishService.IsRestaurantOwnerToDish(dishId, restaurantId);
+
+            if (!isOwner)
+            {
+                TempData[ErrorMessage] = "The dish must be in your menu to be edited";
+
+                return RedirectToAction("Menu", "Dish", new{ id=restaurantId});
+            }
+
+            try
+            {
+                var dish = await dishService.GetDishById(dishId, restaurantId);
+                dish.Categories = await categoryService.AllCategories();
+                return View(dish);
+            }
+            catch (Exception ex)
+            {
+
+                return this.GeneralError();
+            }
+
+            
+
+
+        }
+        private IActionResult GeneralError()
+        {
+            this.TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

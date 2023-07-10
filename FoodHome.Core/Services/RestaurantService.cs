@@ -27,6 +27,8 @@ namespace FoodHome.Core.Services
             return restaurant != null;
         }
 
+       
+
         public async Task<RestaurantDetailsViewModel> GetRestaurantById(string id)
         {
             var restaurant = await repo.All<Restaurant>()

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,6 +82,26 @@ namespace FoodHome.Core.Services
                 .FirstOrDefaultAsync();
 
             return dish;
+        }
+
+        public async Task<bool> ExistsById(int dishId)
+        {
+            var dish = await repo.All<Dish>(d => d.Id == dishId)
+                .FirstOrDefaultAsync();  
+
+            return dish != null;
+
+
+                
+        }
+
+        public async Task<bool> IsRestaurantOwnerToDish(int dishId, string restaurantId)
+        {
+            var dish = await repo.All<Dish>()
+                .Where(d => d.IsActive)
+                .FirstAsync(d => d.Id == dishId);
+
+            return dish.RestaurantId == restaurantId;
         }
 
         public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)

@@ -37,38 +37,30 @@
                     </div>
                 </div>
 
-                @if(Model.MenuPhotos.Any())
+                @if (Model.MenuPhotos.Any() && Model.IsRestaurant)
                 {
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            @for(int i=0;i <= Model.MenuPhotos.Count; i++)
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Menu</p>
+
+                        </div>
+                        <div class="row g-2">
+                            @foreach (var image in Model.MenuPhotos)
                             {
-                                <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
-                            }
-                        </ol>
-                        <div class="carousel-inner">
-                            @foreach(string photo in Model.MenuPhotos)
-                            {
-                                <div class="carousel-item active">
-                                    <img class="d-block w-100" src="@photo" alt="First slide">
+                                <div class="col">
+                                    <img src="@image" alt="image" class="w-100 rounded-3 h-100">
                                 </div>
                             }
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
                     </div>
                 }
 
 
 
             }
-            else{
+            else
+            {
                 <div class="px-4 py-3">
                     <h5 class="mb-0">Contact</h5>
                     <div class="p-4 rounded shadow-sm bg-light">
@@ -87,10 +79,14 @@
                 </div>
             }
 
-            
+
         </div>
     </div>
 </div>
+
+
+
+
 
 @section Styles{
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
