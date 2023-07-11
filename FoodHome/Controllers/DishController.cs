@@ -31,7 +31,7 @@ namespace FoodHome.Controllers
         public async Task<IActionResult> Add()
         {
             
-            var model = new DishAddModel()
+            var model = new DishFormModel()
             {
                 Categories = await categoryService.AllCategories()
             };
@@ -40,7 +40,7 @@ namespace FoodHome.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(DishAddModel model)
+        public async Task<IActionResult> Add(DishFormModel model)
         {
             bool isRestaurant = await restaurantService.ExistsById(GetUserId());
             if (!isRestaurant)
@@ -141,6 +141,59 @@ namespace FoodHome.Controllers
 
             
 
+
+        }
+
+        public async Task<IActionResult> Edit(int dishId, DishFormModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                model.Categories = await categoryService.AllCategories();
+
+                return View(model);
+            }
+
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+            bool isDishExists = await dishService.ExistsById(dishId);
+
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("Menu", new { id = restaurantId });
+            }
+
+            bool isRestaurant = await restaurantService.ExistsById(restaurantId);
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be restaurant!";
+
+                return RedirectToAction("Contact", "Home");
+            }
+
+            bool isOwner = await dishService.IsRestaurantOwnerToDish(dishId, restaurantId);
+
+            if (!isOwner)
+            {
+                TempData[ErrorMessage] = "The dish must be in your menu to be edited";
+
+                return RedirectToAction("Menu", "Dish", new { id = restaurantId });
+            }
+
+            try
+            {
+                await dishService.EditDish(dishId, model);
+            }
+            catch (Exception ex)
+            {
+                return this.GeneralError();
+            }
+
+            TempData[SuccessMessage] = "Successfully edited dish";
+
+            return RedirectToAction("Menu", "Dish", new { id = restaurantId });
 
         }
         private IActionResult GeneralError()

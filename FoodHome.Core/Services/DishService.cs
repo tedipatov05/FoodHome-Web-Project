@@ -26,7 +26,7 @@ namespace FoodHome.Core.Services
             this.imageService = _imageService;
         }
 
-        public async Task AddDish(string restaurantId, DishAddModel model)
+        public async Task AddDish(string restaurantId, DishFormModel model)
         {
             
             Dish dish = new Dish
@@ -64,11 +64,11 @@ namespace FoodHome.Core.Services
                 
         }
 
-        public async Task<DishAddModel> GetDishById(int id, string restaurantId)
+        public async Task<DishFormModel> GetDishById(int id, string restaurantId)
         {
             var dish = await repo.All<Dish>()
                 .Where(rd => rd.RestaurantId == restaurantId && rd.Id == id && rd.Quantity > 0)
-                .Select(rd => new DishAddModel()
+                .Select(rd => new DishFormModel()
                 {
                     Name = rd.Name,
                     Description = rd.Description,
@@ -102,6 +102,25 @@ namespace FoodHome.Core.Services
                 .FirstAsync(d => d.Id == dishId);
 
             return dish.RestaurantId == restaurantId;
+        }
+
+        public async Task EditDish(int dishId, DishFormModel model)
+        {
+            var dish = await repo.All<Dish>()
+                .Where(d => d.IsActive)
+                .FirstOrDefaultAsync(d => d.Id == dishId);
+
+            dish.Name = model.Name;
+            dish.Description = model.Description;
+            dish.CategoryId = model.CategoryId;
+            dish.Ingredients = model.Ingredients;
+            dish.Quantity = model.Quantity;
+            dish.Price = model.Price;
+
+            if(model.DishUrlImage != null)
+                dish.DishUrlImage = await imageService.UploadImage(model.DishUrlImage, "images", dish);
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)

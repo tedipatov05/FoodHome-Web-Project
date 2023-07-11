@@ -18,35 +18,25 @@
                         </div>
                         <div class="food-card_content">
                             <div class="food-card_title-section">
-                                <a href="#!" class="food-card_title text-black">@dish.Name</a>
+                                <h2 class="food-card_title text-black">@dish.Name</h2>
                                 <div class="space-between">
-                                    <div class="text-center">
-                                        <p class="badge badge-success text-black">@dish.Description</p>
-                                    </div>
+                                    <p class="badge badge-success">@dish.Description</p>
                                 </div>
+                                
                             </div>
                             <div class="food-card_bottom-section">
-                                
-                                <hr>
+                                <div class="space-between">
+                                    <p class="badge badge-success">Ingredients: @dish.Ingredients</p>
+                                </div>
                                 <div class="space-between">
                                     <div class="food-card_price">
-                                        <span>@dish.Price</span>
+                                        <span>@dish.Price лв.</span>
                                     </div>
-                                    @*<div class="food-card_order-count">
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-secondary minus-btn" type="button" id="button-addon1"><i class="fa fa-minus"></i></button>
-                                            </div>
-                                            <input type="text" class="form-control input-manulator" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" value="0">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary add-btn" type="button" id="button-addon1"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>*@
+                                    <a asp-action="Edit" asp-controller="Dish" asp-route-dishId="@dish.Id" class="btn btn-warning text-black" data-toggle="button" aria-pressed="false" autocomplete="off">Edit</a>
                                 </div>
                             </div>
                         </div>
-                        <a asp-action="Edit" asp-controller="Dish" asp-route-dishId="@dish.Id" class="btn btn-warning text-black" data-toggle="button" aria-pressed="false" autocomplete="off">Edit</a>
+                        
                     </div>
 
                 </div>

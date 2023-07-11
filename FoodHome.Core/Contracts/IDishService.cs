@@ -11,15 +11,17 @@ namespace FoodHome.Core.Contracts
     {
         Task<List<string>> AllDishesImagesByRestaurantId(string restaurantId);
 
-        Task AddDish(string restaurantId, DishAddModel model);
+        Task AddDish(string restaurantId, DishFormModel model);
 
         Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId);
 
-        Task<DishAddModel> GetDishById(int id, string restaurantId);
+        Task<DishFormModel> GetDishById(int id, string restaurantId);
 
         Task<bool> ExistsById(int dishId);
 
         public Task<bool> IsRestaurantOwnerToDish(int dishId, string restaurantId);
+
+        public Task EditDish(int dishId, DishFormModel model);
 
     }
 }

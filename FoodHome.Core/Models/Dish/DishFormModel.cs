@@ -14,9 +14,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace FoodHome.Core.Models.Dish
 {
-    public class DishAddModel
+    public class DishFormModel
     {
-        public DishAddModel()
+        public DishFormModel()
         {
             this.Categories = new List<DishCategoryModel>();
         }

@@ -1,10 +1,10 @@
 ﻿@using FoodHome.Core.Models.Dish;
 
-@model DishAddModel;
+@model DishFormModel;
 
 
 <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6" style="margin-left: 0px">
-    <form asp-action="Add" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label asp-for="@Model.Name" class="form-label-add-edit text-black">Name</label>
             <input asp-for="@Model.Name" class="form-control" aria-required="true" />
