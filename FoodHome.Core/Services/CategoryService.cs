@@ -32,5 +32,12 @@ namespace FoodHome.Core.Services
 
             return categories;
         }
+
+        public async Task<IEnumerable<string>> AllCategoryNames()
+        {
+            return await repo.All<Category>()
+                .Select(c => c.Name)
+                .ToListAsync();
+        }
     }
 }

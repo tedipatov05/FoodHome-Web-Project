@@ -42,14 +42,14 @@ namespace FoodHome.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(DishFormModel model)
         {
-            bool isRestaurant = await restaurantService.ExistsById(GetUserId());
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
             if (!isRestaurant)
             {
                 TempData[ErrorMessage] = "You should be a restaurant to add a dish";
 
                 return RedirectToAction("Contact", "Home");
             }
-            string restaurantId = await restaurantService.GetRestaurantId(GetUserId());
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
 
             if (!ModelState.IsValid)
             {
@@ -60,28 +60,35 @@ namespace FoodHome.Controllers
 
             this.TempData[SuccessMessage] = $"Successfully added dish {model.Name}";
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Menu", new {id = restaurantId});
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Menu(string id)
+        [HttpGet]
+        public async Task<IActionResult> Menu(string id, [FromQuery]DishesQueryModel model)
         {
+            bool isRestaurant = await restaurantService.ExistsById(id);
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "Incorrect restaurant";
+
+                return RedirectToAction("Index", "Home");
+            }
+
             try
             {
-                bool isRestaurant = await restaurantService.ExistsById(id);
-
-                if (!isRestaurant)
-                {
-                    TempData[ErrorMessage] = "Incorrect restaurant";
-
-                    return RedirectToAction("Index", "Home");
-                }
-
+               
                 var restaurantId = await restaurantService.GetRestaurantId(id);
 
-                var dishes = await dishService.GetDishesByRestaurantId(restaurantId);
+                AllDishesFilteredAndPages serviceModel = await dishService.DishesFiltered(model, restaurantId);
 
-                return View("All", dishes);
+                model.Dishes = serviceModel.Dishes;
+                model.TotalDishes = serviceModel.TotalDishes;
+                model.Categories = await categoryService.AllCategoryNames();
+
+
+                return View("All", model);
 
             }
             catch (Exception ex)
@@ -129,7 +136,7 @@ namespace FoodHome.Controllers
 
             try
             {
-                var dish = await dishService.GetDishById(dishId, restaurantId);
+                var dish = await dishService.GetDishById(dishId);
                 dish.Categories = await categoryService.AllCategories();
                 return View(dish);
             }
@@ -196,6 +203,104 @@ namespace FoodHome.Controllers
             return RedirectToAction("Menu", "Dish", new { id = restaurantId });
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+            bool isDishExists = await dishService.ExistsById(id);
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("Menu", new { id = restaurantId });
+            }
+
+
+
+            bool isRestaurant = await restaurantService.ExistsById(restaurantId);
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be restaurant!";
+
+                return RedirectToAction("Contact", "Home");
+            }
+
+
+
+
+            bool isOwner = await dishService.IsRestaurantOwnerToDish(id, restaurantId);
+
+            if (!isOwner)
+            {
+                TempData[ErrorMessage] = "The dish must be in your menu to be deleted";
+
+                return RedirectToAction("Menu", "Dish", new { id = restaurantId });
+            }
+
+            try
+            {
+                PreDeleteDishViewModel model = await dishService.DishForDeleteById(id);
+
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                return this.GeneralError();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, PreDeleteDishViewModel model)
+        {
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+            bool isDishExists = await dishService.ExistsById(id);
+
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("Menu", new { id = restaurantId });
+            }
+
+
+
+            bool isRestaurant = await restaurantService.ExistsById(restaurantId);
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be restaurant!";
+
+                return RedirectToAction("Contact", "Home");
+            }
+
+
+
+
+            bool isOwner = await dishService.IsRestaurantOwnerToDish(id, restaurantId);
+
+            if (!isOwner)
+            {
+                TempData[ErrorMessage] = "The dish must be in your menu to be deleted";
+
+                return RedirectToAction("Menu", "Dish", new { id = restaurantId });
+            }
+
+            try
+            {
+                await dishService.Delete(id);
+
+                TempData[WarningMessage] = "This dish was successfully deleted";
+
+                return this.RedirectToAction("Menu", new { id = restaurantId });
+            }
+            catch (Exception ex)
+            {
+                return this.GeneralError();
+            }
+        }
+
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =

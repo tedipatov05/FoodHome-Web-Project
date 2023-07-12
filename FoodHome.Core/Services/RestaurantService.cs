@@ -32,7 +32,7 @@ namespace FoodHome.Core.Services
         public async Task<RestaurantDetailsViewModel> GetRestaurantById(string id)
         {
             var restaurant = await repo.All<Restaurant>()
-                .Where(r => r.Id == id)
+                .Where(r => r.Id == id && r.IsActive == true)
                 .Select(r => new RestaurantDetailsViewModel()
                 {
                     Id = r.Id,
@@ -67,6 +67,7 @@ namespace FoodHome.Core.Services
         public async Task<List<RestaurantViewModel>> GetRestaurantsAsync()
         {
             var restaurants = await repo.All<Restaurant>()
+                .Where(r => r.IsActive == true)
                 .Select(r => new RestaurantViewModel()
                 {
                     Id = r.Id,

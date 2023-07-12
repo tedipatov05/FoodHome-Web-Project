@@ -1,0 +1,24 @@
+﻿@using FoodHome.Core.Models.Dish;
+@using FoodHome.Extensions
+@using FoodHome.Common
+
+@model DishViewModel
+
+
+
+<div class="col-md-4">
+    <div class="card dish-card">
+        <img src="@Model.DishImageUrl" alt="@Model.Name">
+        <div class="card-body">
+            <h5 class="card-title text-black">@Model.Name</h5>
+            <p class="card-text text-black">@Model.Description</p>
+            <p class="card-ingredients text-black">Ingredients: @Model.Ingredients</p>
+            <p class="card-price text-black"> @Model.Price лв.</p>
+            @if (User.IsInRole(RoleConstants.Restaurant) && User.GetId() == Model.RestaurantUserId) 
+            {
+                <a asp-action="Edit" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-warning edit-btn">Edit</a>
+                <a asp-action="Delete" asp-controller="Dish" asp-route-id="@Model.Id" class="btn btn-danger edit-btn">Delete</a>
+            }
+        </div>
+    </div>
+</div>

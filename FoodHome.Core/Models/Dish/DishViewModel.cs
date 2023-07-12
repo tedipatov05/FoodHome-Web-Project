@@ -22,6 +22,8 @@ namespace FoodHome.Core.Models.Dish
 
         public string DishImageUrl { get; set; }
 
+        public string RestaurantUserId { get; set; }
+
     
     }
 }

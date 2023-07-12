@@ -10,5 +10,8 @@ namespace FoodHome.Core.Contracts
     public interface ICategoryService
     {
         Task<IEnumerable<DishCategoryModel>> AllCategories();
+
+
+        Task<IEnumerable<string>> AllCategoryNames();
     }
 }

@@ -1,0 +1,31 @@
+﻿@using FoodHome.Core.Models.Dish;
+@model PreDeleteDishViewModel;
+
+@{
+    ViewData["Title"] = "Delete Dish";
+}
+
+
+<h2 class="text-center">@ViewData["title"]</h2>
+<hr />
+
+<form method="post" asp-action="Delete" asp-route-dishId="@Model.Id">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Dish Image">
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="control-label"></label>
+                <input asp-for="@Model.Name" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Ingredients" class="control-label"></label>
+                <input asp-for="@Model.Ingredients" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+</form>

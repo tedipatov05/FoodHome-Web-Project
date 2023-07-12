@@ -10,19 +10,19 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using FoodHome.Core.Models.Dish.Enums;
 
 namespace FoodHome.Core.Services
 {
     public class DishService : IDishService
     {
         private readonly IRepository repo;
-        private readonly IRestaurantService restaurantService;
         private readonly IImageService imageService;
 
-        public DishService(IRepository _repo, IRestaurantService _restaurantService, IImageService _imageService)
+        public DishService(IRepository _repo, IImageService _imageService)
         {
             this.repo = _repo;
-            this.restaurantService = _restaurantService;
+            
             this.imageService = _imageService;
         }
 
@@ -56,7 +56,7 @@ namespace FoodHome.Core.Services
         public async Task<List<string>> AllDishesImagesByRestaurantId(string restaurantId)
         {
             var dishes = await repo.All<Dish>()
-                .Where(rd => rd.RestaurantId == restaurantId)
+                .Where(rd => rd.RestaurantId == restaurantId && rd.IsActive == true)
                 .Select(rd => rd.DishUrlImage)
                 .ToListAsync();
 
@@ -64,10 +64,10 @@ namespace FoodHome.Core.Services
                 
         }
 
-        public async Task<DishFormModel> GetDishById(int id, string restaurantId)
+        public async Task<DishFormModel> GetDishById(int id)
         {
             var dish = await repo.All<Dish>()
-                .Where(rd => rd.RestaurantId == restaurantId && rd.Id == id && rd.Quantity > 0)
+                .Where(rd =>  rd.Id == id && rd.Quantity > 0 && rd.IsActive == true)
                 .Select(rd => new DishFormModel()
                 {
                     Name = rd.Name,
@@ -86,7 +86,7 @@ namespace FoodHome.Core.Services
 
         public async Task<bool> ExistsById(int dishId)
         {
-            var dish = await repo.All<Dish>(d => d.Id == dishId)
+            var dish = await repo.All<Dish>(d => d.Id == dishId && d.IsActive == true)
                 .FirstOrDefaultAsync();  
 
             return dish != null;
@@ -123,10 +123,96 @@ namespace FoodHome.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task Delete(int dishId)
+        {
+            var dish = await repo.All<Dish>()
+                .Where(d => d.IsActive && d.Id == dishId)
+                .FirstOrDefaultAsync();
+
+            dish!.IsActive = false;
+
+            await repo.SaveChangesAsync();
+
+        }
+
+        public async Task<PreDeleteDishViewModel> DishForDeleteById(int dishId)
+        {
+            var dish = await repo.All<Dish>()
+                .Where(d => d.Id == dishId && d.IsActive==true)
+                .Select(d => new PreDeleteDishViewModel()
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Ingredients = d.Ingredients,
+                    ImageUrl = d.DishUrlImage
+                })
+                .FirstOrDefaultAsync();
+
+            return dish!;
+
+
+        }
+
+        public async Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id)
+        {
+            IQueryable<Dish> dishesQuery = repo.All<Dish>();
+
+            if (!string.IsNullOrEmpty(model.Category))
+            {
+                dishesQuery = dishesQuery
+                    .Where(d => d.Category.Name == model.Category);
+            }
+
+            if (!string.IsNullOrEmpty(model.SearchString))
+            {
+                string wildCard = $"%{model.SearchString.ToLower()}%";
+
+                dishesQuery = dishesQuery
+                    .Where(d => EF.Functions.Like(d.Name, wildCard) ||
+                                EF.Functions.Like(d.Ingredients, wildCard) ||
+                                EF.Functions.Like(d.Description, wildCard));
+                
+            }
+
+            dishesQuery = model.DishSorting switch
+            {
+                DishSorting.Name => dishesQuery.OrderBy(d => d.Name),
+                DishSorting.PriceAscending => dishesQuery.OrderBy(d => d.Price),
+                DishSorting.PriceDescending => dishesQuery.OrderByDescending(d => d.Price),
+                DishSorting.IngredientsAscending => dishesQuery.OrderBy(d => d.Ingredients),
+                DishSorting.IngredientsDescending => dishesQuery.OrderByDescending(d => d.Ingredients)
+
+
+            };
+
+            IEnumerable<DishViewModel> dishModel = await dishesQuery
+                .Where(d => d.IsActive)
+                .Skip((model.CurrentPage - 1) * model.DishesPerPage)
+                .Take(model.DishesPerPage)
+                .Where(d => d.RestaurantId == id)
+                .Select(d => new DishViewModel()
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Ingredients = d.Ingredients,
+                    Description = d.Description,
+                    Price = d.Price,
+                    DishImageUrl = d.DishUrlImage,
+                    RestaurantUserId = d.Restaurant.UserId
+                })
+                .ToListAsync();
+            int totalDishes = dishesQuery.Count();
+
+            return new AllDishesFilteredAndPages()
+            {
+                Dishes = dishModel,
+                TotalDishes = totalDishes
+            };
+        }
         public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)
         {
             var dihes = await repo.All<Dish>()
-                .Where(rd => rd.RestaurantId == restaurantId && rd.Quantity > 0)
+                .Where(rd => rd.RestaurantId == restaurantId && rd.Quantity > 0 && rd.IsActive == true)
                 .Select(rd => new DishViewModel()
                 {
                     Id = rd.Id,
@@ -134,7 +220,8 @@ namespace FoodHome.Core.Services
                     Description = rd.Description,
                     Ingredients = rd.Ingredients,
                     Price = rd.Price,
-                    DishImageUrl = rd.DishUrlImage
+                    DishImageUrl = rd.DishUrlImage, 
+                    RestaurantUserId = rd.Restaurant.UserId
                 })
                 .ToListAsync();
 

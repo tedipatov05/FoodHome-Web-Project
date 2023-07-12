@@ -64,7 +64,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Comment("Price of the dish")]
         public int Quantity { get; set; }
 
-        [Comment("Is actice dish")]
+        [Comment("Is active dish")]
         public bool IsActive { get; set; }
 
         public ICollection<OrderDish> Orders { get; set;}

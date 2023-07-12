@@ -15,13 +15,19 @@ namespace FoodHome.Core.Contracts
 
         Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId);
 
-        Task<DishFormModel> GetDishById(int id, string restaurantId);
+        Task<DishFormModel> GetDishById(int id);
 
         Task<bool> ExistsById(int dishId);
 
-        public Task<bool> IsRestaurantOwnerToDish(int dishId, string restaurantId);
+        Task<bool> IsRestaurantOwnerToDish(int dishId, string restaurantId);
 
-        public Task EditDish(int dishId, DishFormModel model);
+        Task EditDish(int dishId, DishFormModel model);
+
+        Task Delete(int dishId);
+
+        Task<PreDeleteDishViewModel> DishForDeleteById(int dishId);
+
+        Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id);
 
     }
 }
