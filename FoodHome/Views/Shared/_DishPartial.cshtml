@@ -19,6 +19,10 @@
                 <a asp-action="Edit" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-warning edit-btn">Edit</a>
                 <a asp-action="Delete" asp-controller="Dish" asp-route-id="@Model.Id" class="btn btn-danger edit-btn">Delete</a>
             }
+            else if (User.IsInRole(RoleConstants.Customer) && (User.Identity.IsAuthenticated))
+            {
+                <a asp-action="Order" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-warning edit-btn">Order</a>
+            }
         </div>
     </div>
 </div>

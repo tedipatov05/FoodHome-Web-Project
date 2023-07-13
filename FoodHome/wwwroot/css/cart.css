@@ -68,7 +68,7 @@ h1 {
 }
 
 label {
-    color: #aaa;
+    color: black;
 }
 
 .shopping-cart {
@@ -119,7 +119,7 @@ label {
         border: 0;
         padding: 4px 8px;
         background-color: #c66;
-        color: #fff;
+        color: black;
         font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
         font-size: 12px;
         border-radius: 3px;

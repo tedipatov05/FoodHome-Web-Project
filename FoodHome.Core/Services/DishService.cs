@@ -209,6 +209,26 @@ namespace FoodHome.Core.Services
                 TotalDishes = totalDishes
             };
         }
+
+        public async Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds)
+        {
+            var dishes = await repo.All<Dish>()
+                .Where(d => dishesIds.Contains(d.Id) && d.IsActive)
+                .Select(d => new OrderDishView()
+                {
+                    Name = d.Name,
+                    Ingredients = d.Ingredients,
+                    ImageUrl = d.DishUrlImage,
+                    Quantity = d.Quantity,
+                    Price = d.Price
+
+                })
+                .ToListAsync();
+
+            return dishes;
+
+        }
+
         public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)
         {
             var dihes = await repo.All<Dish>()

@@ -29,5 +29,7 @@ namespace FoodHome.Core.Contracts
 
         Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id);
 
+        Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds);
+
     }
 }

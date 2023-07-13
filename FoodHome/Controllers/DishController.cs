@@ -301,14 +301,45 @@ namespace FoodHome.Controllers
             }
         }
 
-        public async Task<IActionResult> Order()
+        [AllowAnonymous]
+        public async Task<IActionResult> Order(int dishId)
         {
-            return Ok();
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (isRestaurant)
+            {
+                string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+                TempData[ErrorMessage] = "You should be a client to order a dish";
+
+                return RedirectToAction("Menu", new {id = restaurantId});
+            }
+
+
+            HttpContext.Session.SetObjectAsJson<DishIdView>("DishToOrder", new List<DishIdView>(){ new DishIdView(){Id = dishId}});
+             
+            return RedirectToAction("Cart");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Cart()
         {
-            return Ok();
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (isRestaurant)
+            {
+                string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+                TempData[ErrorMessage] = "You should be a client to order a dish";
+
+                return RedirectToAction("Menu", new { id = restaurantId });
+            }
+
+            var ids = HttpContext.Session.GetObjectFromJson<DishIdView>("DishToOrder")
+                .Select(d => d.Id).ToList();
+
+            var dishes = await dishService.GetDishesByIds(ids);
+
+            
+
+            return View(dishes);
+            
         }
 
         private IActionResult GeneralError()
