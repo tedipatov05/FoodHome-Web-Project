@@ -65,6 +65,11 @@ namespace FoodHome
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                 });
 
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+            });
           
 
 
@@ -84,11 +89,13 @@ namespace FoodHome
                 app.UseHsts();
             }
 
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

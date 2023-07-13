@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodHome.Core.Services
 {
@@ -26,6 +28,16 @@ namespace FoodHome.Core.Services
 
             await repo.AddAsync(customer);
             await repo.SaveChangesAsync();
+
+            
+        }
+
+        public async Task<string> GetCustomerId(string userId)
+        {
+            return await repo.All<Customer>()
+                .Where(c => (c.Id == userId || c.UserId == userId) && c.IsActive)
+                .Select(c => c.Id)
+                .FirstOrDefaultAsync();
         }
     }
 }

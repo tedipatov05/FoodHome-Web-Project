@@ -31,7 +31,7 @@ namespace FoodHome.Core.Models.Dish
 
         public int CurrentPage { get; set; }
 
-        [Display(Name = "Show Dishes On Page")]
+        [Display(Name = "Dishes Per Page")]
         public int DishesPerPage { get; set; }
 
         public int TotalDishes { get; set; }

@@ -22,7 +22,6 @@ namespace FoodHome.Core.Services
         public DishService(IRepository _repo, IImageService _imageService)
         {
             this.repo = _repo;
-            
             this.imageService = _imageService;
         }
 
@@ -155,7 +154,8 @@ namespace FoodHome.Core.Services
 
         public async Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id)
         {
-            IQueryable<Dish> dishesQuery = repo.All<Dish>();
+            IQueryable<Dish> dishesQuery = repo.All<Dish>()
+                .Where(d => d.IsActive == true);
 
             if (!string.IsNullOrEmpty(model.Category))
             {

@@ -17,7 +17,7 @@ namespace FoodHome.Infrastructure.Configuration
             {
                 Id = "5e364b5e-8bc2-4e8d-a3f8-72f5776fbe9d", 
                 UserId = "1d1f8115-ebb2-45e0-a375-cf713385ae9c", 
-                Description = "Добре дошли в нашия ресторант, където гурме изживяването се превръща в истинска симфония на вкусове. Нашето заведение предлага уютна и изискана обстановка, в която можете да се насладите на неповторимата комбинация от кулинарни изкушения и изискани напитки."
+                Description = "Welcome to our restaurant, where the gourmet experience becomes a real symphony of flavors. Our establishment offers a cozy and sophisticated environment where you can enjoy the unique combination of culinary delights and refined drinks."
             });
         }
     }

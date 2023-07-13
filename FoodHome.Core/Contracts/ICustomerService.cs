@@ -10,5 +10,7 @@ namespace FoodHome.Core.Contracts
     {
         Task Create(string userId);
         
+        Task<string> GetCustomerId(string userId);
+        
     }
 }

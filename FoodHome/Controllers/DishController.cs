@@ -7,7 +7,7 @@ using FoodHome.Extensions;
 using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Build.ObjectModelRemoting;
 using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
@@ -299,6 +299,16 @@ namespace FoodHome.Controllers
             {
                 return this.GeneralError();
             }
+        }
+
+        public async Task<IActionResult> Order()
+        {
+            return Ok();
+        }
+
+        public async Task<IActionResult> Cart()
+        {
+            return Ok();
         }
 
         private IActionResult GeneralError()

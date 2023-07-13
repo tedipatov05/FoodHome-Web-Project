@@ -13,7 +13,7 @@
             <h5 class="card-title text-black">@Model.Name</h5>
             <p class="card-text text-black">@Model.Description</p>
             <p class="card-ingredients text-black">Ingredients: @Model.Ingredients</p>
-            <p class="card-price text-black"> @Model.Price лв.</p>
+            <p class="card-price text-black"> @Model.Price lv.</p>
             @if (User.IsInRole(RoleConstants.Restaurant) && User.GetId() == Model.RestaurantUserId) 
             {
                 <a asp-action="Edit" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-warning edit-btn">Edit</a>
