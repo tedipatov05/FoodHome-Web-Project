@@ -8,7 +8,7 @@ namespace FoodHome.Core.Models.Dish
 {
     public class OrderDishView
     {
-
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public string Ingredients { get; set; }

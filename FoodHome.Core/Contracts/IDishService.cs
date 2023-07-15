@@ -31,5 +31,9 @@ namespace FoodHome.Core.Contracts
 
         Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds);
 
+        Task<OrderDishView> GetDishForOrderById(int id);
+
+
+
     }
 }

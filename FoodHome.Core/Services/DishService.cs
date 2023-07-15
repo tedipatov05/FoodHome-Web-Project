@@ -11,6 +11,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using FoodHome.Core.Models.Dish.Enums;
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Http;
 
 namespace FoodHome.Core.Services
 {
@@ -18,11 +20,12 @@ namespace FoodHome.Core.Services
     {
         private readonly IRepository repo;
         private readonly IImageService imageService;
-
+        
         public DishService(IRepository _repo, IImageService _imageService)
         {
             this.repo = _repo;
             this.imageService = _imageService;
+           
         }
 
         public async Task AddDish(string restaurantId, DishFormModel model)
@@ -229,6 +232,24 @@ namespace FoodHome.Core.Services
 
         }
 
+        public async Task<OrderDishView> GetDishForOrderById(int id)
+        {
+            var dish = await repo.All<Dish>()
+                .Where(d => d.Id == id && d.IsActive)
+                .Select(d => new OrderDishView()
+                {
+                    Id = d.Id,
+                    ImageUrl = d.DishUrlImage,
+                    Name = d.Name,
+                    Ingredients = d.Ingredients,
+                    Price = d.Price,
+                    Quantity = 1,
+                })
+                .FirstOrDefaultAsync();
+
+            return dish;
+        }
+
         public async Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId)
         {
             var dihes = await repo.All<Dish>()
@@ -247,5 +268,7 @@ namespace FoodHome.Core.Services
 
             return dihes!;
         }
+
+       
     }
 }

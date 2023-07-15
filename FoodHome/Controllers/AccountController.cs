@@ -22,6 +22,7 @@ namespace FoodHome.Controllers
             this.imageService = _imageService;
             this.customerService = _customerService;
         }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -122,5 +123,16 @@ namespace FoodHome.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
     }
 }

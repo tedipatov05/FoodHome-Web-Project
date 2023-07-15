@@ -3,11 +3,14 @@
 @model List<OrderDishView>
 
 
-<h1>Shopping Cart</h1>
+<h1 class="text-center text-dark" style="margin-bottom: 50px">Shopping Cart</h1>
 
 <div class="shopping-cart">
     
         
+   
+    @if (Model != null)
+    {
         <div class="column-labels">
             <label class="product-image">Image</label>
             <label class="product-details">Product</label>
@@ -38,8 +41,6 @@
                 <div class="product-line-price"></div>
             </div>
         }
-       
-        
         <div class="totals">
             <div class="totals-item">
                 <label>Subtotal</label>
@@ -61,6 +62,16 @@
 
         <button class="checkout">Checkout</button>
         <a asp-controller="Restaurant" asp-action="All">Continue Shopping</a>
+
+    }
+    else
+    {
+        <h2 class="text-center text-black"> You haven't order anything yet!</h2>
+        <a asp-controller="Restaurant" asp-action="All">Continue Shopping</a>
+    }
+        
+        
+       
    
 </div>
 

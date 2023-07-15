@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Claims;
 using FoodHome.Common;
 using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Dish;
@@ -8,6 +9,7 @@ using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.ObjectModelRemoting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
@@ -18,12 +20,15 @@ namespace FoodHome.Controllers
         private readonly IDishService dishService;
         private readonly ICategoryService categoryService;
         private readonly IRestaurantService restaurantService;
+        private readonly ICustomerService customerService;
 
-        public DishController(IDishService _dishService, ICategoryService _categoryService, IRestaurantService _restaurantService)
+        public DishController(IDishService _dishService, ICategoryService _categoryService, IRestaurantService _restaurantService, 
+            ICustomerService _customerService)
         {
             this.dishService = _dishService;
             this.categoryService = _categoryService;
             this.restaurantService = _restaurantService;
+            this.customerService = _customerService;
 
         }
 
@@ -35,6 +40,8 @@ namespace FoodHome.Controllers
             {
                 Categories = await categoryService.AllCategories()
             };
+
+            
             
             return View(model);
         }
@@ -264,8 +271,6 @@ namespace FoodHome.Controllers
                 return RedirectToAction("Menu", new { id = restaurantId });
             }
 
-
-
             bool isRestaurant = await restaurantService.ExistsById(restaurantId);
 
             if (!isRestaurant)
@@ -274,10 +279,7 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("Contact", "Home");
             }
-
-
-
-
+            
             bool isOwner = await dishService.IsRestaurantOwnerToDish(id, restaurantId);
 
             if (!isOwner)
@@ -310,14 +312,43 @@ namespace FoodHome.Controllers
                 string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
                 TempData[ErrorMessage] = "You should be a client to order a dish";
 
-                return RedirectToAction("Menu", new {id = restaurantId});
+                return RedirectToAction("Menu", new { id = restaurantId });
+
             }
 
 
-            HttpContext.Session.SetObjectAsJson<DishIdView>("DishToOrder", new List<DishIdView>(){ new DishIdView(){Id = dishId}});
-             
+
+            if (HttpContext.Session.GetObjectFromJson<List<OrderDishView>>("cart") == null)
+            {
+                var dish = await dishService.GetDishForOrderById(dishId);
+                List<OrderDishView> cart = new List<OrderDishView>();
+                cart.Add(dish);
+                HttpContext.Session.SetObjectAsJson("cart", cart);
+               
+            }
+            else
+            {
+                List<OrderDishView> cart = HttpContext.Session.GetObjectFromJson<List<OrderDishView>>("cart");
+                var orderDish = cart.Where(d => d.Id == dishId).FirstOrDefault();
+                if (orderDish != null)
+                {
+                    cart[cart.IndexOf(orderDish)].Quantity++;
+                }
+                else
+                {
+                    var dish = await dishService.GetDishForOrderById(dishId);
+                    cart.Add(dish);
+                }
+
+                HttpContext.Session.SetObjectAsJson("cart", cart);
+            }
+
+
+
             return RedirectToAction("Cart");
         }
+
+        
 
         [AllowAnonymous]
         public async Task<IActionResult> Cart()
@@ -331,17 +362,11 @@ namespace FoodHome.Controllers
                 return RedirectToAction("Menu", new { id = restaurantId });
             }
 
-            var ids = HttpContext.Session.GetObjectFromJson<DishIdView>("DishToOrder")
-                .Select(d => d.Id).ToList();
-
-            var dishes = await dishService.GetDishesByIds(ids);
-
+            var dishes = HttpContext.Session.GetObjectFromJson<List<OrderDishView>>("cart");
             
-
             return View(dishes);
-            
-        }
 
+        }
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -349,5 +374,9 @@ namespace FoodHome.Controllers
 
             return this.RedirectToAction("Index", "Home");
         }
+
+        
+
+
     }
 }
