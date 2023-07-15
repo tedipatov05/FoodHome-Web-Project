@@ -31,7 +31,7 @@
                 </div>
                 <div class="product-price">@dish.Price</div>
                 <div class="product-quantity">
-                    <input asp-for="@dish.Quantity" value="1" min="1">
+                    <input asp-for="@dish.Quantity" value="@dish.Quantity" min="1">
                 </div>
                 <div class="product-removal">
                     <button class="remove-product">
@@ -61,13 +61,13 @@
         </div>
 
         <button class="checkout">Checkout</button>
-        <a asp-controller="Restaurant" asp-action="All">Continue Shopping</a>
+        <a asp-controller="Restaurant" asp-action="All" class="btn btn-warning text-black">Continue Shopping</a>
 
     }
     else
     {
         <h2 class="text-center text-black"> You haven't order anything yet!</h2>
-        <a asp-controller="Restaurant" asp-action="All">Continue Shopping</a>
+        <a asp-controller="Restaurant" asp-action="All" class="btn btn-warning text-black">Continue Shopping</a>
     }
         
         

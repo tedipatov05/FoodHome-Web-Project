@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Security.Claims;
 using FoodHome.Common;
+using FoodHome.Common.Extensions;
 using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Dish;
 using FoodHome.Core.Services;
 using FoodHome.Extensions;
-using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.ObjectModelRemoting;
@@ -304,7 +304,7 @@ namespace FoodHome.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Order(int dishId)
+        public async Task<IActionResult> AddToCart(int dishId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
             if (isRestaurant)
@@ -316,34 +316,10 @@ namespace FoodHome.Controllers
 
             }
 
+            string username = User.GetUsername();
 
-
-            if (HttpContext.Session.GetObjectFromJson<List<OrderDishView>>("cart") == null)
-            {
-                var dish = await dishService.GetDishForOrderById(dishId);
-                List<OrderDishView> cart = new List<OrderDishView>();
-                cart.Add(dish);
-                HttpContext.Session.SetObjectAsJson("cart", cart);
-               
-            }
-            else
-            {
-                List<OrderDishView> cart = HttpContext.Session.GetObjectFromJson<List<OrderDishView>>("cart");
-                var orderDish = cart.Where(d => d.Id == dishId).FirstOrDefault();
-                if (orderDish != null)
-                {
-                    cart[cart.IndexOf(orderDish)].Quantity++;
-                }
-                else
-                {
-                    var dish = await dishService.GetDishForOrderById(dishId);
-                    cart.Add(dish);
-                }
-
-                HttpContext.Session.SetObjectAsJson("cart", cart);
-            }
-
-
+            await dishService.AddDishToCart(username, dishId);
+            
 
             return RedirectToAction("Cart");
         }
@@ -362,9 +338,33 @@ namespace FoodHome.Controllers
                 return RedirectToAction("Menu", new { id = restaurantId });
             }
 
-            var dishes = HttpContext.Session.GetObjectFromJson<List<OrderDishView>>("cart");
+            string username = User.GetUsername();
+
+
+            var dishes = dishService.GetCartDishes(username);
             
             return View(dishes);
+
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Remove(int dishId)
+        {
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (isRestaurant)
+            {
+                string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+                TempData[ErrorMessage] = "You should be a client to order a dish";
+
+                return RedirectToAction("Menu", new { id = restaurantId });
+            }
+
+            List<OrderDishView> dishes =
+                HttpContext.Session.GetObjectFromJson<List<OrderDishView>>($"cart{User.GetUsername()}");
+
+            var dishToRemove = dishes.FirstOrDefault(d => d.Id == dishId);
+
+            return Ok();
 
         }
         private IActionResult GeneralError()

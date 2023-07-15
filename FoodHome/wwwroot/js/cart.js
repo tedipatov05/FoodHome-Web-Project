@@ -6,6 +6,10 @@ $(document).ready(function () {
     var shippingRate = 5.00;
     var fadeTime = 300;
 
+    $('.shopping-cart').ready(function () {
+        updateQuantity($('.product-quantity input'));
+        recalculateCart();
+    })
 
     /* Assign actions */
     $('.product-quantity input').change(function () {
@@ -70,6 +74,7 @@ $(document).ready(function () {
     function removeItem(removeButton) {
         /* Remove row from DOM and recalc cart total */
         var productRow = $(removeButton).parent().parent();
+
         productRow.slideUp(fadeTime, function () {
             productRow.remove();
             recalculateCart();

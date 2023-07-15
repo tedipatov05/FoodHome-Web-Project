@@ -5,7 +5,6 @@
 @model DishViewModel
 
 
-
 <div class="col-md-4">
     <div class="card dish-card">
         <img src="@Model.DishImageUrl" alt="@Model.Name">
@@ -21,7 +20,7 @@
             }
             else if (User.IsInRole(RoleConstants.Customer) && (User.Identity.IsAuthenticated))
             {
-                <a asp-action="Order" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-warning edit-btn">Order</a>
+                <a asp-action="AddToCart" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-warning edit-btn">Order</a>
             }
         </div>
     </div>

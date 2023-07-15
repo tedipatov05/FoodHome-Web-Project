@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
-namespace FoodHome.Extensions
+namespace FoodHome.Common.Extensions
 {
     public static class SessionExtensions
     {

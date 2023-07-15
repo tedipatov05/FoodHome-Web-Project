@@ -33,7 +33,9 @@ namespace FoodHome.Core.Contracts
 
         Task<OrderDishView> GetDishForOrderById(int id);
 
+        Task AddDishToCart(string username, int dishId);
 
+        List<OrderDishView> GetCartDishes(string username);
 
     }
 }
