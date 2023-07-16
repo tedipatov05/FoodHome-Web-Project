@@ -1,17 +1,21 @@
 ﻿@using FoodHome.Infrastructure.Data.Entities;
 @using Microsoft.AspNetCore.Identity
+@using FoodHome.Common
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-action="Cart" asp-controller="Dish">
-            <i class="fa fa-shopping-cart fa-lg"></i>
-        </a>
-    </li>
+    if (User.IsInRole(RoleConstants.Customer))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-action="Cart" asp-controller="Dish">
+                <i class="fa fa-shopping-cart fa-lg"></i>
+            </a>
+        </li>
+    }
+   
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-action="MyProfile" asp-controller="Profile" >Hello @User.Identity?.Name!</a>
     </li>

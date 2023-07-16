@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
-
-    /* Set rates + misc */
+    
+   
     var taxRate = 0.05;
     var shippingRate = 5.00;
     var fadeTime = 300;
@@ -11,7 +11,7 @@ $(document).ready(function () {
         recalculateCart();
     })
 
-    /* Assign actions */
+   
     $('.product-quantity input').change(function () {
         updateQuantity(this);
     });
@@ -21,21 +21,20 @@ $(document).ready(function () {
     });
 
 
-    /* Recalculate cart */
+ 
     function recalculateCart() {
         var subtotal = 0;
-
-        /* Sum up row totals */
+       
         $('.product').each(function () {
             subtotal += parseFloat($(this).children('.product-line-price').text());
         });
 
-        /* Calculate totals */
+       
         var tax = subtotal * taxRate;
         var shipping = (subtotal > 0 ? shippingRate : 0);
         var total = subtotal + tax + shipping;
 
-        /* Update totals display */
+        
         $('.totals-value').fadeOut(fadeTime, function () {
             $('#cart-subtotal').html(subtotal.toFixed(2));
             $('#cart-tax').html(tax.toFixed(2));
@@ -50,16 +49,37 @@ $(document).ready(function () {
         });
     }
 
+    function removeObjectFromSession(dishId) {
+        fetch(`/Dish/RemoveFromCart/${dishId}`, {
+            method: 'GET',
+             
+        })
+            .then(response => {
+                if (response.ok) {
+                    
+                    console.log('Object removed from session.');
+                } else {
+                    
+                    console.error('Error removing object from session.');
+                }
+            })
+            .catch(error => {
+                console.error('Error removing object from session:', error);
+            });
+    }
+    
+       
 
-    /* Update quantity */
+
+    
     function updateQuantity(quantityInput) {
-        /* Calculate line price */
+        
         var productRow = $(quantityInput).parent().parent();
         var price = parseFloat(productRow.children('.product-price').text());
         var quantity = $(quantityInput).val();
         var linePrice = price * quantity;
 
-        /* Update line price display and recalc cart totals */
+        
         productRow.children('.product-line-price').each(function () {
             $(this).fadeOut(fadeTime, function () {
                 $(this).text(linePrice.toFixed(2));
@@ -70,10 +90,16 @@ $(document).ready(function () {
     }
 
 
-    /* Remove item from cart */
+    
     function removeItem(removeButton) {
-        /* Remove row from DOM and recalc cart total */
+        
         var productRow = $(removeButton).parent().parent();
+        var id = $("#dishId").val();
+
+
+        removeObjectFromSession(id);
+
+
 
         productRow.slideUp(fadeTime, function () {
             productRow.remove();

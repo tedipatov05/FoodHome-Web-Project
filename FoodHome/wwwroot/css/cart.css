@@ -103,7 +103,7 @@ label {
 
     .product .product-details .product-title {
         margin-right: 20px;
-        font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
+        
     }
 
     .product .product-details .product-description {
@@ -154,8 +154,14 @@ label {
     font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
 }
 
-a{
+#continue {
     text-decoration: none;
+    margin-top: 20px;
+    padding: 6px 20px;
+    font-size: 25px;
+    border-radius: 3px;
+    float: left;
+    border: 0;
 }
 
 .checkout {

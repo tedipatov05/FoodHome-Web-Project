@@ -91,6 +91,8 @@ namespace FoodHome
 
             app.UseSession();
 
+            app.UseCors();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -98,6 +100,8 @@ namespace FoodHome
             
             app.UseAuthentication();
             app.UseAuthorization();
+
+            
 
             app.UseEndpoints(endpoints =>
             {

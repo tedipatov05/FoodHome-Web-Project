@@ -6,6 +6,7 @@ using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Dish;
 using FoodHome.Core.Services;
 using FoodHome.Extensions;
+using FoodHome.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.ObjectModelRemoting;
@@ -307,6 +308,7 @@ namespace FoodHome.Controllers
         public async Task<IActionResult> AddToCart(int dishId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            
             if (isRestaurant)
             {
                 string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
@@ -314,6 +316,14 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("Menu", new { id = restaurantId });
 
+            }
+            bool isDishExists = await dishService.ExistsById(dishId);
+            
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("All", "Restaurant");
             }
 
             string username = User.GetUsername();
@@ -329,6 +339,7 @@ namespace FoodHome.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Cart()
         {
+            
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
             if (isRestaurant)
             {
@@ -337,7 +348,7 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("Menu", new { id = restaurantId });
             }
-
+            
             string username = User.GetUsername();
 
 
@@ -348,9 +359,10 @@ namespace FoodHome.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Remove(int dishId)
+        public async Task<IActionResult> RemoveFromCart(int dishId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            
             if (isRestaurant)
             {
                 string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
@@ -359,14 +371,37 @@ namespace FoodHome.Controllers
                 return RedirectToAction("Menu", new { id = restaurantId });
             }
 
+            bool isDishExists = await dishService.ExistsById(dishId);
+
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("All", "Restaurant");
+            }
+
             List<OrderDishView> dishes =
                 HttpContext.Session.GetObjectFromJson<List<OrderDishView>>($"cart{User.GetUsername()}");
 
             var dishToRemove = dishes.FirstOrDefault(d => d.Id == dishId);
 
-            return Ok();
+            if (dishes.Remove(dishToRemove))
+            {
+                HttpContext.Session.SetObjectAsJson($"cart{User.GetUsername()}", dishes);
+            }
+            else
+            {
+                TempData[ErrorMessage] = "This dish is not is your cart";
+                HttpContext.Session.SetObjectAsJson($"cart{User.GetUsername()}", dishes);
+
+                return RedirectToAction("Cart");
+            }
+            TempData[SuccessMessage] = "Successfully removed dish from cart";
+
+            return RedirectToAction("Cart");
 
         }
+
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =

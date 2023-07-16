@@ -37,6 +37,7 @@
                     <button class="remove-product">
                         Remove
                     </button>
+                    <input type="hidden" id="dishId" value="@dish.Id"/>
                 </div>
                 <div class="product-line-price"></div>
             </div>
@@ -61,13 +62,13 @@
         </div>
 
         <button class="checkout">Checkout</button>
-        <a asp-controller="Restaurant" asp-action="All" class="btn btn-warning text-black">Continue Shopping</a>
+        <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black cont">Continue Shopping</a>
 
     }
     else
     {
         <h2 class="text-center text-black"> You haven't order anything yet!</h2>
-        <a asp-controller="Restaurant" asp-action="All" class="btn btn-warning text-black">Continue Shopping</a>
+        <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black">Continue Shopping</a>
     }
         
         
