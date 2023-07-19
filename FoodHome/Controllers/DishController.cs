@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.ObjectModelRemoting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
@@ -129,10 +130,7 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("Contact", "Home");
             }
-
-           
-          
-
+            
             bool isOwner = await dishService.IsRestaurantOwnerToDish(dishId, restaurantId);
 
             if (!isOwner)
@@ -141,6 +139,8 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("Menu", "Dish", new{ id=restaurantId});
             }
+
+            
 
             try
             {
@@ -159,6 +159,7 @@ namespace FoodHome.Controllers
 
         }
 
+        [HttpPost]
         public async Task<IActionResult> Edit(int dishId, DishFormModel model)
         {
 

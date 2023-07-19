@@ -22,15 +22,15 @@ namespace FoodHome.Core.Models.Dish
         }
 
         [Required]
-        [MaxLength(DishNameMaxLength)]
+        [StringLength(DishNameMaxLength, MinimumLength = DishNameMinLength)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [MaxLength(DishDescriptionMaxLength)]
+        [StringLength(DishDescriptionMaxLength, MinimumLength = DishDescriptionMinLength)]
         public string Description { get; set; } = null!;
 
         [Required]
-        [MaxLength(DishDescriptionMaxLength)]
+        [StringLength(DishIngredientsMaxLength, MinimumLength = DishIngredientsMinLength)]
         public string Ingredients { get; set; } = null!;
 
         public IFormFile? DishUrlImage { get; set; }

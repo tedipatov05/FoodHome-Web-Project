@@ -250,6 +250,7 @@ namespace FoodHome.Core.Services
                     Ingredients = d.Ingredients,
                     Price = d.Price,
                     Quantity = 1,
+                    RestaurantId = d.RestaurantId
                 })
                 .FirstOrDefaultAsync();
 

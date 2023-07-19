@@ -1,0 +1,24 @@
+﻿@using FoodHome.Core.Models.Dish;
+@model OrderDishView;
+
+
+<div class="product">
+    <div class="product-image">
+        <img src="@Model.ImageUrl">
+    </div>
+    <div class="product-details">
+        <div class="product-title">@Model.Name</div>
+        <p class="product-description">@Model.Ingredients</p>
+    </div>
+    <div class="product-price">@Model.Price</div>
+    <div class="product-quantity">
+        <input asp-for="@Model.Quantity" value="@Model.Quantity" min="1">
+    </div>
+    <div class="product-removal">
+        <button class="remove-product">
+            Remove
+        </button>
+        <input type="hidden" id="dishId" value="@Model.Id"/>
+    </div>
+    <div class="product-line-price"></div>
+</div>

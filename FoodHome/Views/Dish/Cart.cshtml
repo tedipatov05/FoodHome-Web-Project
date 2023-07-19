@@ -1,13 +1,16 @@
 ﻿@using FoodHome.Core.Models.Dish;
 @using FoodHome.Infrastructure.Data.Entities
-@model List<OrderDishView>
+@model List<OrderDishView>;
+
+@{
+    string restaurantId = Model.Select(d => d.RestaurantId).ToList()[0];
+}
 
 
 <h1 class="text-center text-dark" style="margin-bottom: 50px">Shopping Cart</h1>
 
 <div class="shopping-cart">
     
-        
    
     @if (Model != null)
     {
@@ -21,26 +24,7 @@
         </div>
         @foreach (var dish in Model)
         {
-            <div class="product">
-                <div class="product-image">
-                    <img src="@dish.ImageUrl">
-                </div>
-                <div class="product-details">
-                    <div class="product-title">@dish.Name</div>
-                    <p class="product-description">@dish.Ingredients</p>
-                </div>
-                <div class="product-price">@dish.Price</div>
-                <div class="product-quantity">
-                    <input asp-for="@dish.Quantity" value="@dish.Quantity" min="1">
-                </div>
-                <div class="product-removal">
-                    <button class="remove-product">
-                        Remove
-                    </button>
-                    <input type="hidden" id="dishId" value="@dish.Id"/>
-                </div>
-                <div class="product-line-price"></div>
-            </div>
+            <partial name="_CartDishPartial" model="@dish"/>
         }
         <div class="totals">
             <div class="totals-item">
@@ -61,18 +45,16 @@
             </div>
         </div>
 
-        <button class="checkout">Checkout</button>
+        <a asp-action="Order" asp-controller="Order" asp-route-restaurantId="@restaurantId" class="checkout">Checkout</a>
         <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black cont">Continue Shopping</a>
 
     }
     else
     {
-        <h2 class="text-center text-black"> You haven't order anything yet!</h2>
+        <h2 class="text-center text-black"> Your cart is empty!</h2>
         <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black">Continue Shopping</a>
     }
         
-        
-       
    
 </div>
 
