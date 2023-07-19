@@ -72,5 +72,23 @@ namespace FoodHome.Core.Services
 
             await repo.SaveChangesAsync();
         }
+
+        public async Task<List<OrderViewModel>> GetOrdersByCustomerId(string clientId)
+        {
+            var orders = await repo.All<Order>()
+                .Where(o => o.CustomerId == clientId)
+                .Select(o => new OrderViewModel()
+                {
+                    RestaurantName = o.Restaurant.User.Name,
+                    DeliveryAddress = o.DeliveryAddress,
+                    DeliveryTime = o.DeliveryTime.ToString(),
+                    OrderTime = o.OrderTime.ToString(),
+                    DishesNames = o.Dishes.Select(d => d.Dish.Name).ToList(),
+                    Price = o.Price,
+                })
+                .ToListAsync();
+
+            return orders;
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace FoodHome.Core.Contracts
         Task<List<string>> GetOrdersIdByUserId(string userId);
 
         Task CreateOrder(OrderFormModel model, string userId);
+
+        Task<List<OrderViewModel>> GetOrdersByCustomerId(string customerId);
     }
 }
