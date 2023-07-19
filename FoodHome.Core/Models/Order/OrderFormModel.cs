@@ -21,6 +21,7 @@ namespace FoodHome.Core.Models.Order
         [StringLength(OrderDeliveryAddressMaxLength, MinimumLength = OrdersDeliveryAddressMinLength)]
         public string Address { get; set; } = null!;
 
+
         [StringLength(CityMaxLength, MinimumLength = CityMinLength)]
         public string City { get; set; }
 

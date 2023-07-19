@@ -4,6 +4,7 @@ using FoodHome.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodHome.Infrastructure.Migrations
 {
     [DbContext(typeof(FoodHomeDbContext))]
-    partial class FoodHomeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719121525_AllowNullToDescription")]
+    partial class AllowNullToDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

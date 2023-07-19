@@ -13,5 +13,7 @@ namespace FoodHome.Core.Contracts
 
 
         Task<IEnumerable<string>> AllCategoryNames();
+
+        Task<int> GetDishCategory(int dishId);
     }
 }

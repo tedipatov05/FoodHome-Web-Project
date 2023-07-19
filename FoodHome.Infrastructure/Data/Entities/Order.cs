@@ -43,8 +43,7 @@ namespace FoodHome.Infrastructure.Data.Entities
         public DateTime OrderTime { get; set; }
 
         [Comment("Time for delivery")]
-        [Required]
-        public DateTime DeliveryTime { get; set; }
+        public DateTime? DeliveryTime { get; set; }
 
         [Comment("Address fot delivery")]
         [Required]

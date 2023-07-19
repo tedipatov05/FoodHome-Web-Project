@@ -38,9 +38,8 @@ namespace FoodHome.Infrastructure.Data.Entities
         public Category Category { get; set; } = null!;
 
         [Comment("Description of the dish")]
-        [Required]
         [MaxLength(DishDescriptionMaxLength)]
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; } 
 
         [Comment("Ingredients of the dish")]
         [Required]

@@ -39,5 +39,14 @@ namespace FoodHome.Core.Services
                 .Select(c => c.Name)
                 .ToListAsync();
         }
+
+        public async Task<int> GetDishCategory(int dishId)
+        {
+            var dish = await repo.All<Dish>()
+                .Include(d => d.Category)
+                .FirstOrDefaultAsync(d => d.Id == dishId);
+
+            return dish.Category.Id;
+        }
     }
 }

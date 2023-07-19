@@ -4,6 +4,7 @@ using FoodHome.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodHome.Infrastructure.Migrations
 {
     [DbContext(typeof(FoodHomeDbContext))]
-    partial class FoodHomeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719120833_DescriptionAllowNull")]
+    partial class DescriptionAllowNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,6 +139,7 @@ namespace FoodHome.Infrastructure.Migrations
                         .HasComment("Category Id for the dish");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasComment("Description of the dish");
@@ -203,7 +206,7 @@ namespace FoodHome.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasComment("Address fot delivery");
 
-                    b.Property<DateTime?>("DeliveryTime")
+                    b.Property<DateTime>("DeliveryTime")
                         .HasColumnType("datetime2")
                         .HasComment("Time for delivery");
 
@@ -405,7 +408,7 @@ namespace FoodHome.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "ул. Ал. Стамболийски 30 ет.3 ап.11",
                             City = "Казанлък",
-                            ConcurrencyStamp = "e492a908-0685-4788-ac71-1066a7ef31ef",
+                            ConcurrencyStamp = "d59a3970-fb5e-47ec-ae1d-1198e51e34b2",
                             Country = "България",
                             Email = "ivonpatova@abv.bg",
                             EmailConfirmed = false,
@@ -414,11 +417,11 @@ namespace FoodHome.Infrastructure.Migrations
                             Name = "Ивон Патова",
                             NormalizedEmail = "IVONPATOVA@ABV.BG",
                             NormalizedUserName = "IVON",
-                            PasswordHash = "AQAAAAEAACcQAAAAECytXeIAf/98ubMYuFHIqzRei6DFlhQPWZT3Lc088j1cSPOuUAaervFufIfuRNsVQw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELJYXbLI6IRYLgt4Lx7UvPmsMIywR4Owv2ktAuayW0tO9dDffUGEgtBu1nwAOwoMWg==",
                             PhoneNumber = "0887399847",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg",
-                            SecurityStamp = "5106a126-bd76-475e-a459-774f1fbf66f5",
+                            SecurityStamp = "36eb3722-9c67-452b-affc-939c4d8b7e5e",
                             TwoFactorEnabled = false,
                             UserName = "ivon"
                         },
@@ -428,7 +431,7 @@ namespace FoodHome.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "ул. Ал. Батенберг 15 ет.5 ап.20",
                             City = "Казанлък",
-                            ConcurrencyStamp = "a43499b3-0f3b-44c0-9071-9a5524069397",
+                            ConcurrencyStamp = "5ad4ed36-c6c9-4066-87f4-86fa998aa11f",
                             Country = "България",
                             Email = "tedipatov19@abv.bg",
                             EmailConfirmed = false,
@@ -437,11 +440,11 @@ namespace FoodHome.Infrastructure.Migrations
                             Name = "Теодор Патов",
                             NormalizedEmail = "TEDIPATOV19@ABV.BG",
                             NormalizedUserName = "TEODOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL8OiaDJ7oOfwdx2CfubBLSjOPQ9so0DX6i9HAzP5luRNP47s2gWubNhWKZduZ/gMw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJW/3okZ/t2wJnp011/P66YFRT889/Rd45Y4o9YbZiGFLiT6+SioJVt2v9aKjK9hMw==",
                             PhoneNumber = "0898392743",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg",
-                            SecurityStamp = "3bb52162-ae98-44cc-a14a-72ca9899c446",
+                            SecurityStamp = "fa69f7d5-0ee9-476d-9f54-7b86106f69cb",
                             TwoFactorEnabled = false,
                             UserName = "teodor"
                         },
@@ -451,7 +454,7 @@ namespace FoodHome.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "ул. Цар Освободител 21",
                             City = "Казанлък",
-                            ConcurrencyStamp = "4ee93ef7-27d6-41ac-b7f5-0b5d20d08330",
+                            ConcurrencyStamp = "e9c4db94-d630-4bbd-8c78-a011b9675e82",
                             Country = "България",
                             Email = "vikifoods@abv.bg",
                             EmailConfirmed = false,
@@ -460,11 +463,11 @@ namespace FoodHome.Infrastructure.Migrations
                             Name = "Viki Foods",
                             NormalizedEmail = "VIKIFOODS@ABV.BG",
                             NormalizedUserName = "VIKIFOODS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJzulPLnTgeLlm/ijicqhZjRT3iOtnQL4ard8kCf9Db29R5vFzgeTrMDPHiODz1xdQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM7XF+vAqJHhPEHZjtjFRSJvU6FBNgF2kyEF3FipAAA/1XIwJN+Q7jcdh3jpG/2vBg==",
                             PhoneNumber = "0885732771",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png",
-                            SecurityStamp = "6d42db37-8dbf-494f-aa2a-5473fd63f76a",
+                            SecurityStamp = "922b1bf3-3693-42cd-94dc-38acdfdc224d",
                             TwoFactorEnabled = false,
                             UserName = "VikiFoods"
                         });
@@ -500,21 +503,21 @@ namespace FoodHome.Infrastructure.Migrations
                         new
                         {
                             Id = "a297aac9-aa64-4313-8c50-1d3cf7f379ba",
-                            ConcurrencyStamp = "7d6f0286-5897-4be7-bac1-8266e5baf65d",
+                            ConcurrencyStamp = "4ac35da2-b7e2-498b-9ada-404429a3f269",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "a03f9f62-f106-4b1a-b1f9-eba622db3c92",
-                            ConcurrencyStamp = "e6b6d915-4add-4486-9a2a-509de33aee81",
+                            ConcurrencyStamp = "561be098-8912-4d89-ab4f-b0d7991bd332",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = "c34ebc61-94a5-40c5-a310-798532235d8e",
-                            ConcurrencyStamp = "3fe3ba26-179f-4c1e-8496-46eb30cb1de2",
+                            ConcurrencyStamp = "ca86ac52-efdb-45e2-a7ec-6e34e254c404",
                             Name = "Restaurant",
                             NormalizedName = "RESTAURANT"
                         });
