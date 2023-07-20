@@ -306,7 +306,7 @@ namespace FoodHome.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> AddToCart(int dishId)
+        public async Task<IActionResult> AddToCart(int dishId, int quantity = 1)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
             
@@ -329,7 +329,7 @@ namespace FoodHome.Controllers
 
             string username = User.GetUsername();
 
-            await dishService.AddDishToCart(username, dishId);
+            await dishService.AddDishToCart(username, dishId, quantity);
             
 
             return RedirectToAction("Cart");
@@ -338,6 +338,7 @@ namespace FoodHome.Controllers
         
 
         [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Cart()
         {
             

@@ -237,7 +237,7 @@ namespace FoodHome.Core.Services
             return dishes;
 
         }
-
+       
         public async Task<OrderDishView> GetDishForOrderById(int id)
         {
             var dish = await repo.All<Dish>()
@@ -276,7 +276,7 @@ namespace FoodHome.Core.Services
             return dihes!;
         }
 
-        public async Task AddDishToCart(string username, int dishId)
+        public async Task AddDishToCart(string username, int dishId, int quantity)
         {
            
             if (accessor.HttpContext.Session.GetObjectFromJson<List<OrderDishView>>($"cart{username}") == null)
@@ -293,7 +293,7 @@ namespace FoodHome.Core.Services
                 var orderDish = cart.Where(d => d.Id == dishId).FirstOrDefault();
                 if (orderDish != null)
                 {
-                    cart[cart.IndexOf(orderDish)].Quantity++;
+                    cart[cart.IndexOf(orderDish)].Quantity += quantity;
                 }
                 else
                 {

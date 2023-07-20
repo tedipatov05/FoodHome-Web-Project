@@ -27,10 +27,9 @@ namespace FoodHome.Core.Services
             this.categoryService = _categoryService;
            
         }
-        public async Task<List<string>> GetOrdersIdByUserId(string userId)
+        public async Task<List<string>> GetOrdersIdByUserId(string restaurantId)
         {
-            var restaurantId = await restaurantService.GetRestaurantId(userId);
-
+          
             var orders = await repo.All<Order>()
                 .Where(o => o.RestaurantId == restaurantId)
                 .Select(o => o.Id)
@@ -46,7 +45,7 @@ namespace FoodHome.Core.Services
                 CustomerId = userId,
                 DeliveryAddress = model.Address,
                 OrderTime = DateTime.Now,
-                Price = model.DishesForOrder.Select(d => d.Price).Sum(),
+                Price = (decimal)model.DishesForOrder.Select(d => d.Price).Sum(),
                 RestaurantId = model.RestaurantId,
                 Status = OrderStatusEnum.Waiting.ToString(),
                 
@@ -61,6 +60,7 @@ namespace FoodHome.Core.Services
                 {
                     OrderId = order.Id,
                     DishId = dish.Id,
+                    Quantity = dish.Quantity,
                 };
 
                 orderDishes.Add(orderDish);
@@ -83,7 +83,11 @@ namespace FoodHome.Core.Services
                     DeliveryAddress = o.DeliveryAddress,
                     DeliveryTime = o.DeliveryTime.ToString(),
                     OrderTime = o.OrderTime.ToString(),
-                    DishesNames = o.Dishes.Select(d => d.Dish.Name).ToList(),
+                    Dishes = o.Dishes.Select(d => new OrderedDishInfo()
+                    {
+                        Name = d.Dish.Name, 
+                        Quantity = d.Quantity
+                    }).ToList(),
                     Price = o.Price,
                 })
                 .ToListAsync();

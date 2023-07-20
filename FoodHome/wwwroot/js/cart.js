@@ -20,8 +20,7 @@ $(document).ready(function () {
         removeItem(this);
     });
 
-
- 
+    
     function recalculateCart() {
         var subtotal = 0;
        
@@ -68,10 +67,6 @@ $(document).ready(function () {
             });
     }
     
-       
-
-
-    
     function updateQuantity(quantityInput) {
         
         var productRow = $(quantityInput).parent().parent();
@@ -79,6 +74,23 @@ $(document).ready(function () {
         var quantity = $(quantityInput).val();
         var linePrice = price * quantity;
 
+        var dishId = $("#dishId").val();
+
+        fetch(`/Dish/AddToCart/${dishId}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                if (response.ok) {
+
+                    console.log('updated session quantity');
+                } else {
+
+                    console.error('Error removing object from session.');
+                }
+            })
+            .catch(error => {
+                console.error('Error removing object from session:', error);
+            });
         
         productRow.children('.product-line-price').each(function () {
             $(this).fadeOut(fadeTime, function () {

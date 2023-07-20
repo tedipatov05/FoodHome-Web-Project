@@ -18,7 +18,7 @@
         <button class="remove-product">
             Remove
         </button>
-        <input type="hidden" id="dishId" value="@Model.Id"/>
+        <input asp-for="Id" type="hidden" id="dishId" value="@Model.Id" />
     </div>
     <div class="product-line-price"></div>
 </div>

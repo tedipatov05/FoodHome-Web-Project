@@ -9,7 +9,7 @@ namespace FoodHome.Core.Contracts
 {
     public interface IOrderService
     {
-        Task<List<string>> GetOrdersIdByUserId(string userId);
+        Task<List<string>> GetOrdersIdByUserId(string restaurantId);
 
         Task CreateOrder(OrderFormModel model, string userId);
 

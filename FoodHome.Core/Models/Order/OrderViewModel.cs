@@ -10,7 +10,7 @@ namespace FoodHome.Core.Models.Order
     {
         public OrderViewModel()
         {
-            this.DishesNames = new List<string>();
+            this.Dishes = new List<OrderedDishInfo>();
         }
         public string RestaurantName { get; set; } = null!;
 
@@ -22,6 +22,6 @@ namespace FoodHome.Core.Models.Order
 
         public decimal Price { get; set; }
 
-        public ICollection<string> DishesNames { get; set; }
+        public ICollection<OrderedDishInfo> Dishes { get; set; }
     }
 }

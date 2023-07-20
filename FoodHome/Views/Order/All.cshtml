@@ -1,0 +1,37 @@
+﻿@using FoodHome.Core.Models.Order;
+@model List<OrderViewModel>
+
+
+<h2 class="text-center text-black"> My Orders </h2>
+
+<div class="col-md-4">
+
+    @foreach (var order in Model)
+    {
+        <div class="card dish-card">
+            <div class="card-body">
+                <h5 class="card-title text-black">@order.RestaurantName</h5>
+                <p class="card-text text-black">@order.DeliveryAddress</p>
+                <p class="card-ingredients text-black">@order.OrderTime</p>
+                <ul class="list-group">
+                    @foreach (var dish in order.Dishes)
+                    {
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @dish.Name
+                            <span class="badge bg-primary rounded-pill">@dish.Quantity</span>
+                        </li>
+
+                    }
+                </ul>
+                <p class="card-price text-black"> @order.Price lv.</p>
+
+            </div>
+        </div>
+    }
+    
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/dish.css" asp-append-version="true" />
+}

@@ -75,8 +75,9 @@ namespace FoodHome.Core.Services
 
             if (IsRestaurant)
             {
-                var orders = await orderService.GetOrdersIdByUserId(userId);
+                
                 var restaurantId = await restaurantService.GetRestaurantId(userId);
+                var orders = await orderService.GetOrdersIdByUserId(restaurantId);
                 var restaurant = await restaurantService.GetRestaurantById(restaurantId);
 
                 profile.OrdersCount = orders.Count();

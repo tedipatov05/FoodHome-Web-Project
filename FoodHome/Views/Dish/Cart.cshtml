@@ -1,5 +1,4 @@
 ﻿@using FoodHome.Core.Models.Dish;
-@using FoodHome.Infrastructure.Data.Entities
 @model List<OrderDishView>;
 
 @{
@@ -10,10 +9,10 @@
 <h1 class="text-center text-dark" style="margin-bottom: 50px">Shopping Cart</h1>
 
 <div class="shopping-cart">
-    
-   
+
     @if (Model != null)
     {
+
         <div class="column-labels">
             <label class="product-image">Image</label>
             <label class="product-details">Product</label>
@@ -22,10 +21,12 @@
             <label class="product-removal">Remove</label>
             <label class="product-line-price">Total</label>
         </div>
+
         @foreach (var dish in Model)
         {
-            <partial name="_CartDishPartial" model="@dish"/>
+            <partial name="_CartDishPartial" model="@dish" />
         }
+
         <div class="totals">
             <div class="totals-item">
                 <label>Subtotal</label>
@@ -44,22 +45,22 @@
                 <div class="totals-value" id="cart-total">0.00</div>
             </div>
         </div>
+        
 
         <a asp-action="Order" asp-controller="Order" asp-route-restaurantId="@restaurantId" class="checkout">Checkout</a>
         <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black cont">Continue Shopping</a>
-
     }
     else
     {
         <h2 class="text-center text-black"> Your cart is empty!</h2>
         <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black">Continue Shopping</a>
     }
-        
-   
+
+
 </div>
 
 @section Scripts
-{
+    {
     <script src="~/js/cart.js" asp-append-version="true"></script>
 }
 @section Styles{
