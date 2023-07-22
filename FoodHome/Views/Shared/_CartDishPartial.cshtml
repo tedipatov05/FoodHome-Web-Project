@@ -12,13 +12,18 @@
     </div>
     <div class="product-price">@Model.Price</div>
     <div class="product-quantity">
-        <input asp-for="@Model.Quantity" value="@Model.Quantity" min="1">
+        <button class="btn btn-outline-secondary minus-btn" type="button" ><i class="fa fa-minus"></i></button>
+        <input type="text" asp-for="@Model.Quantity" value="@Model.Quantity" aria-valuemin="1" value="@Model.Quantity" />
+        <button class="btn btn-outline-secondary add-btn" type="button" ><i class="fa fa-plus"></i></button>
+
     </div>
     <div class="product-removal">
         <button class="remove-product">
             Remove
         </button>
-        <input asp-for="Id" type="hidden" id="dishId" value="@Model.Id" />
+
+        <input asp-for="Id" type="hidden" id="dishId" class="ids" value="@Model.Id" />
     </div>
+
     <div class="product-line-price"></div>
 </div>

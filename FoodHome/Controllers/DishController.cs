@@ -37,7 +37,14 @@ namespace FoodHome.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be a restaurant to add a dish";
+
+                return RedirectToAction("Contact", "Home");
+            }
+
             var model = new DishFormModel()
             {
                 Categories = await categoryService.AllCategories()
@@ -299,7 +306,7 @@ namespace FoodHome.Controllers
 
                 return this.RedirectToAction("Menu", new { id = restaurantId });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return this.GeneralError();
             }
@@ -381,6 +388,7 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("All", "Restaurant");
             }
+
 
             List<OrderDishView> dishes =
                 HttpContext.Session.GetObjectFromJson<List<OrderDishView>>($"cart{User.GetUsername()}");

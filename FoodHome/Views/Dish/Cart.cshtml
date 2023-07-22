@@ -1,18 +1,17 @@
 ﻿@using FoodHome.Core.Models.Dish;
 @model List<OrderDishView>;
 
-@{
-    string restaurantId = Model.Select(d => d.RestaurantId).ToList()[0];
-}
 
 
 <h1 class="text-center text-dark" style="margin-bottom: 50px">Shopping Cart</h1>
 
 <div class="shopping-cart">
 
-    @if (Model != null)
+    @if (Model != null && Model.Count > 0)
     {
-
+        
+        string restaurantId = Model.Select(d => d.RestaurantId).ToList()[0];
+        
         <div class="column-labels">
             <label class="product-image">Image</label>
             <label class="product-details">Product</label>
@@ -45,7 +44,7 @@
                 <div class="totals-value" id="cart-total">0.00</div>
             </div>
         </div>
-        
+
 
         <a asp-action="Order" asp-controller="Order" asp-route-restaurantId="@restaurantId" class="checkout">Checkout</a>
         <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black cont">Continue Shopping</a>
