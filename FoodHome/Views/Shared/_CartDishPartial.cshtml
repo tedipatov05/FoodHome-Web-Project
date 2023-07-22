@@ -11,10 +11,24 @@
         <p class="product-description">@Model.Ingredients</p>
     </div>
     <div class="product-price">@Model.Price</div>
-    <div class="product-quantity">
-        <button class="btn btn-outline-secondary minus-btn" type="button" ><i class="fa fa-minus"></i></button>
-        <input type="text" asp-for="@Model.Quantity" value="@Model.Quantity" aria-valuemin="1" value="@Model.Quantity" />
-        <button class="btn btn-outline-secondary add-btn" type="button" ><i class="fa fa-plus"></i></button>
+    <div class="product-quantity" >
+        @if (!@Model.IsEnabled)
+        {
+            <input type="text" disabled="disabled" aria-valuemin="1" value="@Model.Quantity"/>
+        }
+        else
+        {
+            
+            <div class="button-plus">
+                <a asp-action="AddToCart" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-outline-secondary add-btn" type="button"><i class="fa fa-plus"></i></a>
+            </div>
+            <input type="text" asp-for="@Model.Quantity" value="@Model.Quantity" aria-valuemin="1" value="@Model.Quantity" />
+            <div class="button-minus">
+                <a asp-action="DecreaseDishQuantity" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-outline-secondary minus-btn" type="button"><i class="fa fa-minus"></i></a>
+            </div>
+           
+        }
+       
 
     </div>
     <div class="product-removal">
@@ -27,3 +41,4 @@
 
     <div class="product-line-price"></div>
 </div>
+

@@ -22,6 +22,7 @@ namespace FoodHome.Core.Models.Order
 
         public decimal Price { get; set; }
 
+       
         public ICollection<OrderedDishInfo> Dishes { get; set; }
     }
 }

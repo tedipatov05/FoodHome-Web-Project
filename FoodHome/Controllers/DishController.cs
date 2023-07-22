@@ -342,6 +342,7 @@ namespace FoodHome.Controllers
             return RedirectToAction("Cart");
         }
 
+
         
 
         [AllowAnonymous]
@@ -406,11 +407,43 @@ namespace FoodHome.Controllers
 
                 return RedirectToAction("Cart");
             }
+
             TempData[SuccessMessage] = "Successfully removed dish from cart";
 
             return RedirectToAction("Cart");
 
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> DecreaseDishQuantity(int dishId)
+        {
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+
+            if (isRestaurant)
+            {
+                string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+                TempData[ErrorMessage] = "You should be a client to order a dish";
+
+                return RedirectToAction("Menu", new { id = restaurantId });
+
+            }
+            bool isDishExists = await dishService.ExistsById(dishId);
+
+            if (!isDishExists)
+            {
+                TempData[ErrorMessage] = "This dish does not exists!";
+
+                return RedirectToAction("All", "Restaurant");
+            }
+
+            string username = User.GetUsername();
+
+            dishService.DecreaseDishQuantity(username, dishId);
+            
+            return RedirectToAction("Cart");
+        }
+
+
 
         private IActionResult GeneralError()
         {

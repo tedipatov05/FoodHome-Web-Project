@@ -35,6 +35,8 @@ namespace FoodHome.Core.Contracts
 
         Task AddDishToCart(string username, int dishId, int quantity);
 
+        void DecreaseDishQuantity(string username, int dishId);
+        
         List<OrderDishView> GetCartDishes(string username);
 
 

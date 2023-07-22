@@ -4,7 +4,7 @@
 
 <h2 class="text-center text-black"> My Orders </h2>
 
-<div class="col-md-4">
+<div class="col-md-4" style="display: inline-block">
 
     @foreach (var order in Model)
     {
@@ -19,7 +19,7 @@
 
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             @dish.Name
-                            <span class="badge bg-primary rounded-pill">@dish.Quantity</span>
+                            <span class="badge bg-light rounded-pill text-black">@dish.Quantity</span>
                         </li>
 
                     }

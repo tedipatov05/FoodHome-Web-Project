@@ -19,7 +19,9 @@
 
 .product-quantity {
     float: left;
-    width: 10%;
+    width: 20%;
+    display: inline-block;
+    
 }
 
 .product-removal {

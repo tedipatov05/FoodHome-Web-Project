@@ -20,5 +20,7 @@ namespace FoodHome.Core.Models.Dish
         public decimal? Price { get; set; }
 
         public string? RestaurantId { get; set; }
+
+        public bool IsEnabled { get; set; } = true;
     }
 }

@@ -41,6 +41,7 @@ namespace FoodHome.Controllers
             string username = User.GetUsername();
             
             var dishes = dishService.GetCartDishes(username);
+            dishes.ForEach(d => d.IsEnabled = false);
 
             OrderFormModel model = new OrderFormModel()
             {
@@ -89,8 +90,10 @@ namespace FoodHome.Controllers
                 return View(model);
             }
 
+            HttpContext.Session.Clear();
+
             TempData[SuccessMessage] = "Successfully placed order!";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("UserOrders");
         }
 
         public async Task<IActionResult> UserOrders()
@@ -111,10 +114,18 @@ namespace FoodHome.Controllers
                 TempData[ErrorMessage] = "Invalid customer!";
             }
 
-            var orders = await orderService.GetOrdersByCustomerId(customerId);
+            try
+            {
+                var orders = await orderService.GetOrdersByCustomerId(customerId);
+                return View("All", orders);
+            }
+            catch (Exception ex)
+            {
+                TempData[ErrorMessage] = ex.Message;
 
-
-            return View("All", orders);
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
     }
 }

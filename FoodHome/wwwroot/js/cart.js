@@ -1,4 +1,4 @@
-
+﻿
 $(document).ready(function () {
 
 
@@ -16,17 +16,20 @@ $(document).ready(function () {
         updateQuantity(this);
     });
 
-    $('.product-quantity button').click(function () {
-        var dishId = Number($('#dishId').val());
-        updateObjectQuantityToSession(dishId);
-    });
-    //$('#button-minus').click(function () {
-
+    //$('.button-plus button').click(function () {
+    //    var dishId = Number($('#dishId').val());
+    //    updateObjectQuantityToSession(dishId);
     //    quantity += 1;
-    //    $('.product-quantity input').val(quantity);  
-
+    //    $('.product-quantity input').val(quantity);
     //});
 
+    //$('.button-minus button').click(function () {
+    //    var dishId = Number($('#dishId').val());
+    //    decreaseQuantity(dishId);
+    //    quantity -= 1;
+    //    $('.product-quantity input').val(quantity);
+    //});
+   
     $('.product-removal button').click(function () {
         removeItem(this);
     });
@@ -74,23 +77,40 @@ $(document).ready(function () {
         });
     }
 
-    function updateObjectQuantityToSession(dishId) {
-        $.ajax({
-            url: '/Dish/AddToCart',
-            type: 'GET',
-            data: {
-                dishId: dishId,
-                quantity: 1
-            },
-            success: function () {
-                console.log('Object updated successfully');
-            },
-            error: function () {
-                console.error('Error occurred while removing object');
-            }
-        });
-    }
+    //function updateObjectQuantityToSession(dishId) {
+    //    $.ajax({
+    //        url: '/Dish/AddToCart',
+    //        type: 'GET',
+    //        data: {
+    //            dishId: dishId,
+    //            quantity: 1
+    //        },
+    //        success: function () {
+    //            console.log('Object updated successfully');
+    //        },
+    //        error: function () {
+    //            console.error('Error occurred while removing object');
+    //        }
+    //    });
+    //}
 
+    //function decreaseQuantity(dishId) {
+    //    $.ajax({
+    //        url: '/Dish/DecreaseDishQuantity',
+    //        type: 'GET',
+    //        data: {
+    //            dishId: dishId
+    //        },
+
+    //        success: function () {
+    //            console.log('Object quantity decreased successfully');
+    //        },
+
+    //        error: function () {
+    //            console.error('Érror occurred while removing object')
+    //        }
+    //    });
+    //}
     function updateQuantity(quantityInput) {
 
         var productRow = $(quantityInput).parent().parent();

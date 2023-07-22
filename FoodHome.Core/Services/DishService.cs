@@ -306,6 +306,33 @@ namespace FoodHome.Core.Services
 
         }
 
+        public void DecreaseDishQuantity(string username, int dishId)
+        {
+            List<OrderDishView> cart = accessor.HttpContext.Session.GetObjectFromJson<List<OrderDishView>>($"cart{username}");
+            if (cart != null)
+            {
+                var orderDish = cart.FirstOrDefault(d => d.Id == dishId);
+                if (orderDish.Quantity > 1)
+                {
+                    cart[cart.IndexOf(orderDish)].Quantity -= 1;
+                }
+                else
+                {
+                    var dishToRemove = cart.FirstOrDefault(d => d.Id == dishId);
+
+                    if (cart.Remove(dishToRemove))
+                    {
+                        accessor.HttpContext.Session.SetObjectAsJson($"cart{username}", cart);
+                    }
+                }
+
+            }
+
+            accessor.HttpContext.Session.SetObjectAsJson($"cart{username}", cart);
+        }
+
+        
+
         public List<OrderDishView> GetCartDishes(string username)
         {
             return accessor.HttpContext.Session.GetObjectFromJson<List<OrderDishView>>($"cart{username}");

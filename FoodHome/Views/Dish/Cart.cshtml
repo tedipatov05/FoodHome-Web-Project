@@ -7,7 +7,7 @@
 
 <div class="shopping-cart">
 
-    @if (Model != null && Model.Count > 0)
+    @if (Model.Count > 0)
     {
         
         string restaurantId = Model.Select(d => d.RestaurantId).ToList()[0];
