@@ -14,5 +14,17 @@ namespace FoodHome.Core.Contracts
         Task CreateOrder(OrderFormModel model, string userId);
 
         Task<List<OrderViewModel>> GetOrdersByCustomerId(string customerId);
+
+        Task AcceptOrder(string orderId);
+
+        Task<bool> IsOrderExists(string orderId);
+
+        Task<bool> IsOrderInRestaurant(string orderId, string restaurantId);
+
+        Task<List<OrderViewModel>> GetOrdersByRestaurantId(string restaurantId);
+
+        Task<AcceptOrderFormModel> GetOrderById(string orderId);
+
+        Task AddOrderDeliveryTime(AcceptOrderFormModel model);
     }
 }

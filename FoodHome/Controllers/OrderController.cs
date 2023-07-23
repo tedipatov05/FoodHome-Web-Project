@@ -7,11 +7,12 @@ using FoodHome.Core.Services;
 using FoodHome.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
 {
-    [Authorize(Roles = RoleConstants.Customer)]
+   
     public class OrderController : Controller
     {
         private readonly IRestaurantService restaurantService;
@@ -28,6 +29,7 @@ namespace FoodHome.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.Customer)]
         public async Task<IActionResult> Order(string restaurantId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
@@ -53,7 +55,7 @@ namespace FoodHome.Controllers
 
             return View(model);
         }
-
+        [Authorize(Roles = RoleConstants.Customer)]
         [HttpPost]
         public async Task<IActionResult> Order(OrderFormModel model)
         {
@@ -96,6 +98,7 @@ namespace FoodHome.Controllers
             return RedirectToAction("UserOrders");
         }
 
+        [Authorize(Roles = RoleConstants.Customer)]
         public async Task<IActionResult> UserOrders()
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
@@ -108,11 +111,7 @@ namespace FoodHome.Controllers
             }
 
             string customerId = await customerService.GetCustomerId(User.GetId());
-
-            if (customerId == null)
-            {
-                TempData[ErrorMessage] = "Invalid customer!";
-            }
+            
 
             try
             {
@@ -126,6 +125,113 @@ namespace FoodHome.Controllers
                 return RedirectToAction("Index", "Home");
             }
             
+        }
+
+        [Authorize(Roles = RoleConstants.Restaurant)]
+        public async Task<IActionResult> RestaurantOrders()
+        {
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be a restaurant to accept order";
+                return RedirectToAction("UserOrders");
+            }
+
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+
+            try
+            {
+                var orders = await orderService.GetOrdersByRestaurantId(restaurantId);
+                return View("All", orders);
+            }
+            catch (Exception ex)
+            {
+                TempData[ErrorMessage] = ex.Message;
+
+                return RedirectToAction("Index", "Home");
+            }
+
+
+        }
+
+        [Authorize(Roles = RoleConstants.Restaurant)]
+        public async Task<IActionResult> AcceptOrder(string orderId)
+        {
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be a restaurant to accept order";
+                return RedirectToAction("UserOrders");
+            }
+
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+
+            bool isOrderExists = await orderService.IsOrderExists(orderId);
+            if (!isOrderExists)
+            {
+                TempData[ErrorMessage] = "This order does not exists";
+
+                return RedirectToAction("UserOrders");
+            }
+
+            bool isInRestaurant = await orderService.IsOrderInRestaurant(orderId, restaurantId);
+            if (!isInRestaurant)
+            {
+                TempData[ErrorMessage] = "The order should be in your restaurant to accept it";
+
+                return RedirectToAction("UserOrders");
+            }
+
+            await orderService.AcceptOrder(orderId);
+            var order = await orderService.GetOrderById(orderId);
+
+            return View("Accept", order);
+
+            
+        }
+
+        [Authorize(Roles = RoleConstants.Restaurant)]
+        [HttpPost]
+        public async Task<IActionResult> AcceptOrder(AcceptOrderFormModel model)
+        {
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be a restaurant to accept order";
+                return RedirectToAction("UserOrders");
+            }
+
+            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+
+            bool isOrderExists = await orderService.IsOrderExists(model.Id);
+            if (!isOrderExists)
+            {
+                TempData[ErrorMessage] = "This order does not exists";
+
+                return RedirectToAction("UserOrders");
+            }
+
+            bool isInRestaurant = await orderService.IsOrderInRestaurant(model.Id, restaurantId);
+            if (!isInRestaurant)
+            {
+                TempData[ErrorMessage] = "The order should be in your restaurant to accept it";
+
+                return RedirectToAction("UserOrders");
+            }
+
+            if (model.DeliveryTime < DateTime.Parse(model.OrderTime))
+            {
+                ModelState.AddModelError(model.DeliveryTime.ToString(), "Delivery time should be after order time");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("Accept", model);
+            }
+
+            await orderService.AddOrderDeliveryTime(model);
+
+            return RedirectToAction("RestaurantOrders");
         }
     }
 }

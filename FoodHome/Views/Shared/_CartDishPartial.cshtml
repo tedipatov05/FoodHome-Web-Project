@@ -11,7 +11,7 @@
         <p class="product-description">@Model.Ingredients</p>
     </div>
     <div class="product-price">@Model.Price</div>
-    <div class="product-quantity" >
+    <div class="product-quantity">
         @if (!@Model.IsEnabled)
         {
             <input type="text" disabled="disabled" aria-valuemin="1" value="@Model.Quantity"/>
@@ -19,11 +19,11 @@
         else
         {
             
-            <div class="button-plus">
+            <div class="button-plus" style="display: inline-block">
                 <a asp-action="AddToCart" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-outline-secondary add-btn" type="button"><i class="fa fa-plus"></i></a>
             </div>
             <input type="text" asp-for="@Model.Quantity" value="@Model.Quantity" aria-valuemin="1" value="@Model.Quantity" />
-            <div class="button-minus">
+            <div class="button-minus" style="display: inline-block">
                 <a asp-action="DecreaseDishQuantity" asp-controller="Dish" asp-route-dishId="@Model.Id" class="btn btn-outline-secondary minus-btn" type="button"><i class="fa fa-minus"></i></a>
             </div>
            

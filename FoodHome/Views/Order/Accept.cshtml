@@ -1,0 +1,51 @@
+﻿@model AcceptOrderFormModel;
+
+
+
+<form method="post" asp-action="AcceptOrder" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <div class="card dish-card">
+        <div class="card-body">
+
+            <h5 class="card-title text-black">@Model.CustomerName</h5>
+            <input type="hidden" asp-for="CustomerName" value="@Model.CustomerName"/>
+            <p class="card-text text-black">@Model.DeliveryAddress</p>
+            <input type="hidden" asp-for="DeliveryAddress" value="@Model.DeliveryAddress"/>
+            <p class="card-ingredients text-black">@Model.OrderTime</p>
+            <input type="hidden" asp-for="OrderTime" value="@Model.OrderTime"/>
+            <p class="card-text text-yellow">@Model.Status</p>
+            <input type="hidden" asp-for="Status" value="@Model.Status"/>
+            <ul class="list-group">
+                @foreach (var dish in Model.Dishes)
+                {
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @dish.Name
+                        <span class="badge bg-light rounded-pill text-black">@dish.Quantity</span>
+                    </li>
+
+                }
+            </ul>
+            <p class="card-price text-black"> @Model.Price lv.</p>
+            <input type="hidden" asp-for="Price" value="@Model.Price"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DeliveryTime">DeliveryTime: </label>
+        <input asp-for="DeliveryTime" type="time"/>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Accept"/>
+    </div>
+
+</form>
+
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/dish.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/order.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+
+}

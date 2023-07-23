@@ -52,6 +52,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Dish" asp-action="Menu" asp-route-id="@User.GetId()">Menu</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="RestaurantOrders">Orders</a>
+                                </li>
                                 
                             }
                             else if (User.IsInRole(RoleConstants.Customer))

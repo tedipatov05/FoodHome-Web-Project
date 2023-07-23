@@ -1,36 +1,67 @@
 ﻿@using FoodHome.Core.Models.Order;
+@using Microsoft.AspNetCore.Identity.UI
+@using FoodHome.Common
+@using FoodHome.Extensions
+@using FoodHome.Infrastructure.Data.Entities.Enums
 @model List<OrderViewModel>
+
 
 
 <h2 class="text-center text-black"> My Orders </h2>
 
-<div class="col-md-4" style="display: inline-block">
+@if (Model.Count > 0)
+{
+    <div class="row">
 
-    @foreach (var order in Model)
-    {
-        <div class="card dish-card">
-            <div class="card-body">
-                <h5 class="card-title text-black">@order.RestaurantName</h5>
-                <p class="card-text text-black">@order.DeliveryAddress</p>
-                <p class="card-ingredients text-black">@order.OrderTime</p>
-                <ul class="list-group">
-                    @foreach (var dish in order.Dishes)
+        <div class="col-md-4">
+
+            @foreach (var order in Model)
+            {
+                <div class="card dish-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-black">@order.RestaurantName</h5>
+                        <p class="card-text text-black">@order.DeliveryAddress</p>
+                        <p class="card-ingredients text-black">OrderTime: @order.OrderTime</p>
+                        @if (order.DeliveryTime != null)
+                        {
+                            <p class="card-ingredients text-black">DeliveryTime: @order.DeliveryTime</p>
+                        }
+                        <p class="card-text text-yellow">Status: @order.Status</p>
+                        <ul class="list-group">
+                            @foreach (var dish in order.Dishes)
+                            {
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @dish.Name
+                                    <span class="badge badge-info rounded-pill text-black">@dish.Quantity</span>
+                                </li>
+
+                            }
+                        </ul>
+                        <p class="card-price text-black"> @order.Price lv.</p>
+
+                    </div>
+                    @if (User.IsInRole(RoleConstants.Restaurant))
                     {
-
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            @dish.Name
-                            <span class="badge bg-light rounded-pill text-black">@dish.Quantity</span>
-                        </li>
-
+                        if (order.Status == OrderStatusEnum.Waiting.ToString())
+                        {
+                            <a class="btn btn-success" asp-action="AcceptOrder" asp-controller="Order" asp-route-orderId="@order.Id">Accept</a>
+                        }
+                    
                     }
-                </ul>
-                <p class="card-price text-black"> @order.Price lv.</p>
+                </div>
 
-            </div>
+                
+            }
+
         </div>
-    }
-    
-</div>
+    </div>
+}
+else
+{
+    <h2 class="text-black text-center">You don't have any orders yet!</h2>
+}
+
 
 @section Styles{
     <link rel="stylesheet" href="~/css/dish.css" asp-append-version="true" />

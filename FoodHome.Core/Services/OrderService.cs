@@ -45,7 +45,7 @@ namespace FoodHome.Core.Services
                 CustomerId = userId,
                 DeliveryAddress = model.Address,
                 OrderTime = DateTime.Now,
-                Price = (decimal)model.DishesForOrder.Select(d => d.Price).Sum(),
+                Price = (decimal)model.DishesForOrder.Select(d => d.Price * d.Quantity).Sum(),
                 RestaurantId = model.RestaurantId,
                 Status = OrderStatusEnum.Waiting.ToString(),
                 
@@ -79,10 +79,12 @@ namespace FoodHome.Core.Services
                 .Where(o => o.CustomerId == clientId)
                 .Select(o => new OrderViewModel()
                 {
+                    Id = o.Id,
                     RestaurantName = o.Restaurant.User.Name,
                     DeliveryAddress = o.DeliveryAddress,
-                    DeliveryTime = o.DeliveryTime.ToString(),
-                    OrderTime = o.OrderTime.ToString(),
+                    DeliveryTime = o.DeliveryTime.Value.ToShortTimeString(),
+                    OrderTime = o.OrderTime.ToShortTimeString(),
+                    Status = o.Status,
                     Dishes = o.Dishes.Select(d => new OrderedDishInfo()
                     {
                         Name = d.Dish.Name, 
@@ -93,6 +95,88 @@ namespace FoodHome.Core.Services
                 .ToListAsync();
 
             return orders;
+        }
+
+        public async Task AcceptOrder(string orderId)
+        {
+            var order = await repo.All<Order>()
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            order.Status = OrderStatusEnum.Confirmed.ToString();
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsOrderExists(string orderId)
+        {
+            return await repo.All<Order>().AnyAsync(o => o.Id == orderId);
+        }
+
+        public async Task<bool> IsOrderInRestaurant(string orderId, string restaurantId)
+        {
+            var order = await repo.All<Order>()
+                .FirstOrDefaultAsync(o => o.Id == orderId && o.RestaurantId == restaurantId);
+
+            return order != null;
+        }
+
+        public async Task<List<OrderViewModel>> GetOrdersByRestaurantId(string restaurantId)
+        {
+            var orders = await repo.All<Order>()
+                .Where(o => o.RestaurantId == restaurantId)
+                .Select(o => new OrderViewModel()
+                {
+                    Id = o.Id,
+                    RestaurantName = o.Restaurant.User.Name,
+                    DeliveryAddress = o.DeliveryAddress,
+                    DeliveryTime = o.DeliveryTime.Value.ToShortTimeString(),
+                    OrderTime = o.OrderTime.ToShortTimeString(),
+                    Status = o.Status,
+                    Dishes = o.Dishes.Select(d => new OrderedDishInfo()
+                    {
+                        Name = d.Dish.Name,
+                        Quantity = d.Quantity
+                    }).ToList(),
+                    Price = o.Price,
+                })
+                .ToListAsync();
+
+            return orders;
+        }
+
+        public async Task<AcceptOrderFormModel> GetOrderById(string orderId)
+        {
+            var order = await repo.All<Order>()
+                .Where(o => o.Id == orderId)
+                .Select(o => new AcceptOrderFormModel()
+                {
+                    Id = o.Id,
+                    CustomerName = o.Customer.User.Name,
+                    DeliveryAddress = o.DeliveryAddress,
+                    OrderTime = o.OrderTime.ToShortTimeString(),
+                    Status = o.Status,
+                    Dishes = o.Dishes.Select(d => new OrderedDishInfo()
+                    {
+                        Name = d.Dish.Name,
+                        Quantity = d.Quantity
+                    }).ToList(),
+                    Price = o.Price,
+
+                })
+                .FirstOrDefaultAsync();
+
+            return order;
+        }
+
+        public async Task AddOrderDeliveryTime(AcceptOrderFormModel model)
+        {
+            var order = await repo.All<Order>()
+                .Where(o => o.Id == model.Id)
+                .FirstOrDefaultAsync();
+
+            order.DeliveryTime = model.DeliveryTime;
+
+            await repo.SaveChangesAsync();
         }
     }
 }
