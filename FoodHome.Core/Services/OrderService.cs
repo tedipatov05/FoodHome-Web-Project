@@ -76,14 +76,14 @@ namespace FoodHome.Core.Services
         public async Task<List<OrderViewModel>> GetOrdersByCustomerId(string clientId)
         {
             var orders = await repo.All<Order>()
-                .Where(o => o.CustomerId == clientId)
+                .Where(o => o.CustomerId == clientId && o.Status != OrderStatusEnum.Delivered.ToString())
                 .Select(o => new OrderViewModel()
                 {
                     Id = o.Id,
                     RestaurantName = o.Restaurant.User.Name,
                     DeliveryAddress = o.DeliveryAddress,
-                    DeliveryTime = o.DeliveryTime.Value.ToShortTimeString(),
-                    OrderTime = o.OrderTime.ToShortTimeString(),
+                    DeliveryTime = o.DeliveryTime.HasValue ? $"{o.DeliveryTime.Value.ToShortTimeString()} {o.DeliveryTime.Value.ToShortDateString()}" : string.Empty,
+                    OrderTime = $"{o.OrderTime.ToShortTimeString()} {o.OrderTime.ToShortDateString()}",
                     Status = o.Status,
                     Dishes = o.Dishes.Select(d => new OrderedDishInfo()
                     {
@@ -97,15 +97,17 @@ namespace FoodHome.Core.Services
             return orders;
         }
 
-        public async Task AcceptOrder(string orderId)
+        public async Task ChangeStatusOrder(string orderId, string status)
         {
             var order = await repo.All<Order>()
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
-            order.Status = OrderStatusEnum.Confirmed.ToString();
+            order.Status = status;
 
             await repo.SaveChangesAsync();
         }
+
+        
 
         public async Task<bool> IsOrderExists(string orderId)
         {
@@ -123,15 +125,16 @@ namespace FoodHome.Core.Services
         public async Task<List<OrderViewModel>> GetOrdersByRestaurantId(string restaurantId)
         {
             var orders = await repo.All<Order>()
-                .Where(o => o.RestaurantId == restaurantId)
+                .Where(o => o.RestaurantId == restaurantId && o.Status != OrderStatusEnum.Delivered.ToString())
                 .Select(o => new OrderViewModel()
                 {
                     Id = o.Id,
                     RestaurantName = o.Restaurant.User.Name,
                     DeliveryAddress = o.DeliveryAddress,
-                    DeliveryTime = o.DeliveryTime.Value.ToShortTimeString(),
-                    OrderTime = o.OrderTime.ToShortTimeString(),
+                    DeliveryTime = o.DeliveryTime.HasValue ? $"{o.DeliveryTime.Value.ToShortTimeString()} {o.DeliveryTime.Value.ToShortDateString()}" : string.Empty,
+                    OrderTime = $"{o.OrderTime.ToShortTimeString()} {o.OrderTime.ToShortDateString()}",
                     Status = o.Status,
+                    CustomerPhoneNumber = o.Customer.User.PhoneNumber,
                     Dishes = o.Dishes.Select(d => new OrderedDishInfo()
                     {
                         Name = d.Dish.Name,

@@ -15,7 +15,9 @@ namespace FoodHome.Core.Contracts
 
         Task<List<OrderViewModel>> GetOrdersByCustomerId(string customerId);
 
-        Task AcceptOrder(string orderId);
+        Task ChangeStatusOrder(string orderId, string status);
+
+        
 
         Task<bool> IsOrderExists(string orderId);
 

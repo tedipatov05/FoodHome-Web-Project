@@ -2,7 +2,7 @@
 
 
 
-<form method="post" asp-action="AcceptOrder" enctype="multipart/form-data">
+<form class="requires-validation" method="post" asp-action="Accept" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" value="@Model.Id"/>
     <div class="card dish-card">
         <div class="card-body">
@@ -34,6 +34,7 @@
     <div class="form-group">
         <label asp-for="DeliveryTime">DeliveryTime: </label>
         <input asp-for="DeliveryTime" type="time"/>
+        <span asp-validation-for="DeliveryTime" class="text-dark"></span>
     </div>
 
     <div class="form-group">

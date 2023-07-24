@@ -10,10 +10,11 @@ namespace FoodHome.Core.Models.Order
     {
         public OrderViewModel()
         {
-            this.Dishes = new List<OrderedDishInfo>();
+            this.Dishes = new List<OrderedDishInfo>(); 
         }
 
         public string Id { get; set; } = null!;
+
         public string RestaurantName { get; set; } = null!;
 
         public string OrderTime { get; set; } = null!;
@@ -22,6 +23,7 @@ namespace FoodHome.Core.Models.Order
 
         public string DeliveryAddress { get; set; } = null!;
 
+        public string? CustomerPhoneNumber { get; set; }
         public decimal Price { get; set; }
 
         public string Status { get; set; } = null!;

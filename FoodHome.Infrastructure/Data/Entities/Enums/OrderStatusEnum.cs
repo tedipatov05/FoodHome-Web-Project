@@ -11,6 +11,7 @@ namespace FoodHome.Infrastructure.Data.Entities.Enums
         Waiting = 0, 
         Confirmed = 1,
         Send = 2,
+        Delivered = 3,
         
     }
 }

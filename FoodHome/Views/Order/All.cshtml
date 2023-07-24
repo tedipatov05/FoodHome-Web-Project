@@ -22,9 +22,13 @@
                         <h5 class="card-title text-black">@order.RestaurantName</h5>
                         <p class="card-text text-black">@order.DeliveryAddress</p>
                         <p class="card-ingredients text-black">OrderTime: @order.OrderTime</p>
-                        @if (order.DeliveryTime != null)
+                        @if (order.DeliveryTime != "" && order.DeliveryTime != string.Empty)
                         {
                             <p class="card-ingredients text-black">DeliveryTime: @order.DeliveryTime</p>
+                        }
+                        @if (User.IsInRole(RoleConstants.Restaurant))
+                        {
+                            <p class="card-ingredients text-black">Customer Phone number: @order.CustomerPhoneNumber</p>
                         }
                         <p class="card-text text-yellow">Status: @order.Status</p>
                         <ul class="list-group">
@@ -45,7 +49,15 @@
                     {
                         if (order.Status == OrderStatusEnum.Waiting.ToString())
                         {
-                            <a class="btn btn-success" asp-action="AcceptOrder" asp-controller="Order" asp-route-orderId="@order.Id">Accept</a>
+                            <a class="btn btn-success" asp-action="Accept" asp-controller="Order" asp-route-orderId="@order.Id">Accept</a>
+                        }
+                        else if (order.Status == OrderStatusEnum.Confirmed.ToString())
+                        {
+                            <a class="btn btn-info" asp-action="SendOrder" asp-controller="Order" asp-route-orderId="@order.Id">Send</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-light" asp-action="DeliverOrder" asp-controller="Order" asp-route-orderId="@order.Id">Delivered</a>
                         }
                     
                     }

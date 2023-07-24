@@ -19,19 +19,19 @@
 
 .product-quantity {
     float: left;
-    width: 10%;
+    width: 12%;
     display: inline;
     
 }
 
 .product-removal {
     float: left;
-    width: 9%;
+    width: 10%;
 }
 
 .product-line-price {
     float: left;
-    width: 12%;
+    width: 9%;
     text-align: right;
 }
 
@@ -183,6 +183,7 @@ label {
         background-color: #494;
     }
 
+
 /* Make adjustments for tablet */
 @media screen and (max-width: 650px) {
     .shopping-cart {
@@ -256,6 +257,7 @@ label {
         box-shadow: none;
     }
 
+    
 /* Make more adjustments for phone */
 @media screen and (max-width: 350px) {
     .product-removal {
