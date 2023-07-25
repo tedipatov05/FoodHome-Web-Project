@@ -77,13 +77,17 @@ namespace FoodHome.Core.Services
             {
                 
                 var restaurantId = await restaurantService.GetRestaurantId(userId);
-                var orders = await orderService.GetOrdersIdByUserId(restaurantId);
+                var orders = await orderService.GetOrdersIdByRestaurantId(restaurantId);
                 var restaurant = await restaurantService.GetRestaurantById(restaurantId);
 
                 profile.OrdersCount = orders.Count();
                 profile.Description = restaurant.Description;
                 profile.MenuPhotos = await dishService.AllDishesImagesByRestaurantId(restaurantId);
 
+            }
+            else
+            {
+                profile.OrdersCount = await orderService.GetOrdersCountByUserId(userId);
             }
 
             return profile;

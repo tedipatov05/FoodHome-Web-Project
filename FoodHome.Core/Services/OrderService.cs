@@ -27,7 +27,7 @@ namespace FoodHome.Core.Services
             this.categoryService = _categoryService;
            
         }
-        public async Task<List<string>> GetOrdersIdByUserId(string restaurantId)
+        public async Task<List<string>> GetOrdersIdByRestaurantId(string restaurantId)
         {
           
             var orders = await repo.All<Order>()
@@ -38,6 +38,17 @@ namespace FoodHome.Core.Services
             return orders;
         }
 
+        public async Task<int> GetOrdersCountByUserId(string userId)
+        {
+            var orders = await repo.All<Order>()
+                .Where(o => o.Customer.User.Id == userId)
+                .ToListAsync();
+
+            return orders.Count;
+
+        }
+
+
         public async Task CreateOrder(OrderFormModel model, string userId)
         {
             Order order = new Order()
@@ -45,7 +56,8 @@ namespace FoodHome.Core.Services
                 CustomerId = userId,
                 DeliveryAddress = model.Address,
                 OrderTime = DateTime.Now,
-                Price = (decimal)model.DishesForOrder.Select(d => d.Price * d.Quantity).Sum(),
+                Price = (decimal)(model.DishesForOrder.Select(d => d.Price * d.Quantity).Sum() + 
+                0.05m * model.DishesForOrder.Select(d => d.Price * d.Quantity).Sum() + 5),
                 RestaurantId = model.RestaurantId,
                 Status = OrderStatusEnum.Waiting.ToString(),
                 
@@ -77,22 +89,28 @@ namespace FoodHome.Core.Services
         {
             var orders = await repo.All<Order>()
                 .Where(o => o.CustomerId == clientId && o.Status != OrderStatusEnum.Delivered.ToString())
+                .OrderBy(o => o.OrderTime)
                 .Select(o => new OrderViewModel()
                 {
                     Id = o.Id,
                     RestaurantName = o.Restaurant.User.Name,
                     DeliveryAddress = o.DeliveryAddress,
-                    DeliveryTime = o.DeliveryTime.HasValue ? $"{o.DeliveryTime.Value.ToShortTimeString()} {o.DeliveryTime.Value.ToShortDateString()}" : string.Empty,
+                    DeliveryTime = o.DeliveryTime.HasValue
+                        ? $"{o.DeliveryTime.Value.ToShortTimeString()} {o.DeliveryTime.Value.ToShortDateString()}"
+                        : string.Empty,
                     OrderTime = $"{o.OrderTime.ToShortTimeString()} {o.OrderTime.ToShortDateString()}",
                     Status = o.Status,
                     Dishes = o.Dishes.Select(d => new OrderedDishInfo()
                     {
-                        Name = d.Dish.Name, 
+                        Name = d.Dish.Name,
                         Quantity = d.Quantity
                     }).ToList(),
                     Price = o.Price,
                 })
                 .ToListAsync();
+                
+
+
 
             return orders;
         }
@@ -126,6 +144,7 @@ namespace FoodHome.Core.Services
         {
             var orders = await repo.All<Order>()
                 .Where(o => o.RestaurantId == restaurantId && o.Status != OrderStatusEnum.Delivered.ToString())
+                .OrderBy(o => o.OrderTime)
                 .Select(o => new OrderViewModel()
                 {
                     Id = o.Id,

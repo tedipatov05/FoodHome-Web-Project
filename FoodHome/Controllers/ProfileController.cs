@@ -1,5 +1,6 @@
 ﻿using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Account;
+using FoodHome.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
 using static FoodHome.Common.NotificationConstants;
@@ -22,8 +23,8 @@ namespace FoodHome.Controllers
         {
             try
             {
-                bool isRestaurant = await restaurantService.ExistsById(GetUserId());
-                var myProfile = await profileService.MyProfile(GetUserId(), isRestaurant);
+                bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+                var myProfile = await profileService.MyProfile(User.GetId(), isRestaurant);
 
                 myProfile.IsRestaurant = isRestaurant;
 

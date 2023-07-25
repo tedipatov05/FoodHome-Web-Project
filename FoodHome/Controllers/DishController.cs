@@ -155,7 +155,7 @@ namespace FoodHome.Controllers
                 dish.Categories = await categoryService.AllCategories();
                 return View(dish);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return this.GeneralError();
@@ -209,7 +209,7 @@ namespace FoodHome.Controllers
             {
                 await dishService.EditDish(dishId, model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return this.GeneralError();
             }
