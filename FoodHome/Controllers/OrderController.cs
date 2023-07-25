@@ -301,6 +301,7 @@ namespace FoodHome.Controllers
             }
 
             await orderService.AddOrderDeliveryTime(model);
+            await orderService.ChangeStatusOrder(model.Id, OrderStatusEnum.Confirmed.ToString());
 
             return RedirectToAction("RestaurantOrders");
         }
