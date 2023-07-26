@@ -18,6 +18,7 @@ namespace FoodHome.Infrastructure.Data.Entities
             this.Id = Guid.NewGuid().ToString();
             this.IsActive = true;
             this.Orders = new List<Order>();
+            this.Payments = new List<Payment>();
         }
 
         [Comment("Primary key")]
@@ -36,6 +37,8 @@ namespace FoodHome.Infrastructure.Data.Entities
         public bool IsActive { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
 
 
     }

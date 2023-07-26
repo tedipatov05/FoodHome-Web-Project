@@ -33,6 +33,8 @@ namespace FoodHome.Infrastructure.Data
 
         public DbSet<Restaurant> Restaurants { get; set; } = null!;
 
+        public DbSet<Payment> Payments { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -48,6 +50,16 @@ namespace FoodHome.Infrastructure.Data
                 .Property(u => u.Email)
                 .HasMaxLength(60)
                 .IsRequired();
+
+            builder.Entity<Payment>()
+                .Property(p => p.ExpiryDate)
+                .HasColumnType("DATE");
+
+            builder.Entity<Payment>()
+                .HasOne(p => p.Order)
+                .WithOne(o => o.Payment)
+                .HasForeignKey<Payment>(p => p.OrderId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Order>()
                 .HasOne(o => o.Restaurant)

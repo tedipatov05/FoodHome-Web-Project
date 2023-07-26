@@ -62,6 +62,11 @@ namespace FoodHome.Infrastructure.Data.Entities
         [Precision(18, 2)]
         public decimal Price { get; set; }
 
+        [ForeignKey(nameof(Payment))]
+        public string? PaymentId { get; set; }
+
+        public Payment? Payment { get; set; } 
+
         public virtual ICollection<OrderDish> Dishes { get; set; }
     }
 }
