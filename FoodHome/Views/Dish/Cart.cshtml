@@ -2,7 +2,6 @@
 @model List<OrderDishView>;
 
 
-
 <h1 class="text-center text-dark" style="margin-bottom: 50px">Shopping Cart</h1>
 
 <div class="shopping-cart">
@@ -46,7 +45,7 @@
         </div>
 
 
-        <a asp-action="Order" asp-controller="Order" asp-route-restaurantId="@restaurantId" class="checkout">Checkout</a>
+        <a asp-action="Payment" asp-controller="Payment" class="checkout">Checkout</a>
         <a asp-controller="Restaurant" asp-action="All" id="continue" class="btn btn-warning text-black cont">Continue Shopping</a>
     }
     else

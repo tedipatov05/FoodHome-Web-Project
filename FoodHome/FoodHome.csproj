@@ -9,14 +9,17 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\css\geolocation.js" />
+    <Content Remove="wwwroot\js\payment.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\geolocation.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\payment.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\geolocation.js" />
+    <None Include="wwwroot\js\payment.js" />
   </ItemGroup>
 
   <ItemGroup>

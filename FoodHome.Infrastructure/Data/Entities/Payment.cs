@@ -47,6 +47,10 @@ namespace FoodHome.Infrastructure.Data.Entities
         [MaxLength(CardNumberMaxLength)]
         public string CardNumber { get; set; } = null!;
 
+        [Comment("Owner of the card")]
+        [MaxLength(CardHolderMaxLength)]
+        public string CardHolder { get; set; } = null!;
+
         [Comment("Date of expiration")]
         public DateTime ExpiryDate { get; set; }
 

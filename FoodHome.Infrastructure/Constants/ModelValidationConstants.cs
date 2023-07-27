@@ -70,7 +70,10 @@ namespace FoodHome.Infrastructure.Constants
             public const int SecurityCodeMaxLength = 8;
 
             public const int ZipCodeMinLength = 4;
-            public const int ZipCodeMaxLength = 10;  
+            public const int ZipCodeMaxLength = 10;
+
+            public const int CardHolderMaxLength = 20;
+            public const int CardHolderMinLength = 4;
         }
     }
 }

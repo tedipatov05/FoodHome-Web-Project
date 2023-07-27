@@ -1,0 +1,62 @@
+﻿@model PaymentFormModel
+
+<div class="wrapper">
+    <div class="card">  
+        <h2 class="visa">VISA</h2>
+        <h3 id="num" class="num"> 4539  7111  0342  0778</h3>
+
+        <h4 id="nameCard">Foulen</h4>
+        <h4 id="exp">EXP<br>10/21</h4>
+        <h4 id="cvc">CVC<br>014</h4>
+
+    </div>
+    <div class="main">
+        <div class="content">
+            <h2 class="text-black">Payment Details</h2>
+            <form class="requires-validation" method="post" asp-action="Payment" asp-controller="Payment">
+        
+                <!--   <label>Name</label>-->
+                <div class="form-group">
+                    <input class="form-control" asp-for="CardHolder" id="name" type="name" placeholder="Holder">
+                    <span class="text-danger" asp-validation-for="CardHolder"></span>
+                </div>
+                
+                <!-- <label>Card Number</label>-->
+                <div class="form-group">
+                    <input class="form-control" asp-for="CardNumber" id="cardNum" type="text" placeholder="Card number">
+                    <span class="text-danger" asp-validation-for="CardNumber"></span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" asp-for="ExpiryDate" id="expDate" type="month" value="2021-10">
+                    <span class="text-danger" asp-validation-for="ExpiryDate"></span>
+
+                </div>
+                <!--  <label>Expiration Date</label>-->
+               
+                <div class="form-group">
+                    <input class="form-control" asp-for="SecurityCode" id="cvcInp" type="user" value="014">
+                    
+                    <span class="text-danger" asp-validation-for="SecurityCode"></span>
+                </div>
+               
+                
+                <div class="payment">
+                    <h5>Payment Amount : <div class ="amount"> @Model.Amount lv.</div></h5> 
+                    <button>Pay</button>
+                </div>
+        
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
+}
+
+@section Scripts
+{
+    <script src="~/js/payment.js" asp-append-version="true"></script>
+}
