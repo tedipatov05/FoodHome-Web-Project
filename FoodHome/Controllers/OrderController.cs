@@ -32,7 +32,7 @@ namespace FoodHome.Controllers
 
         [HttpGet]
         
-        public async Task<IActionResult> Order(string restaurantId)
+        public async Task<IActionResult> Order(string restaurantId, string paymentId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
             if (isRestaurant)
@@ -51,7 +51,8 @@ namespace FoodHome.Controllers
             {
 
                 DishesForOrder = dishes,
-                RestaurantId = restaurantId
+                RestaurantId = restaurantId, 
+                PaymentId = paymentId,
 
             };
 

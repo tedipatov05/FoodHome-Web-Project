@@ -34,10 +34,10 @@ namespace FoodHome.Infrastructure.Data.Entities
 
         [Comment("Order Id")]
         [ForeignKey(nameof(Order))]
-        public string OrderId { get; set; } = null!;
+        public string? OrderId { get; set; }
 
         [Comment("Order")]
-        public Order Order { get; set; } = null!;
+        public Order? Order { get; set; }
 
         [Comment("Amount of payment")]
         [Precision(18, 2)]

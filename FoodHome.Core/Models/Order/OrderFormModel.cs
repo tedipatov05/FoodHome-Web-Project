@@ -28,5 +28,7 @@ namespace FoodHome.Core.Models.Order
         public ICollection<OrderDishView> DishesForOrder { get; set; }
 
         public string RestaurantId { get; set; }
+
+        public string PaymentId { get; set; }
     }
 }

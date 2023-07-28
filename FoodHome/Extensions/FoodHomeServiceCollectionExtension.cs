@@ -17,6 +17,7 @@ namespace FoodHome.Extensions
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IDishService, DishService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             return services;
         }

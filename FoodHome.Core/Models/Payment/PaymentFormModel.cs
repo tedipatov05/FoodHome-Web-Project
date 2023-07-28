@@ -15,24 +15,26 @@ namespace FoodHome.Core.Models.Payment
     public class PaymentFormModel
     {
 
-        [Comment("Amount of payment")]
-        [Precision(18, 2)]
         public decimal Amount { get; set; }
 
-        [Comment("Number oif the card")]
+        [Required]
         [StringLength(CardNumberMaxLength, MinimumLength = CardNumberMinLength)]
         public string CardNumber { get; set; } = null!;
 
+        [Required]
         [Comment("Owner of the card")]
         [StringLength(CardHolderMaxLength, MinimumLength = CardHolderMinLength)]
         public string CardHolder { get; set; } = null!;
 
-        [Comment("Date of expiration")] public DateTime ExpiryDate { get; set; }
+        [Required]
+        public string ExpiryDate { get; set; } = null!;
 
-        [Comment("Security code of the card")]
+        [Required]
         [StringLength(SecurityCodeMaxLength, MinimumLength = SecurityCodeMinLength)]
         public string SecurityCode { get; set; } = null!;
 
-        
+        public string RestaurantId { get; set; } = null!;
+
+
     }
 }
