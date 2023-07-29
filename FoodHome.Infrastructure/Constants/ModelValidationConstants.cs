@@ -63,10 +63,10 @@ namespace FoodHome.Infrastructure.Constants
 
         public static class PaymentConstants
         {
-            public const int CardNumberMinLength = 13;
-            public const int CardNumberMaxLength = 19;
+            public const int CardNumberMinLength = 17;
+            public const int CardNumberMaxLength = 25;
 
-            public const int SecurityCodeMinLength = 4;
+            public const int SecurityCodeMinLength = 3;
             public const int SecurityCodeMaxLength = 8;
 
             public const int ZipCodeMinLength = 4;

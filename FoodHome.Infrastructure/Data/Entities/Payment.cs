@@ -58,9 +58,5 @@ namespace FoodHome.Infrastructure.Data.Entities
         [MaxLength(SecurityCodeMaxLength)]
         public string SecurityCode { get; set; } = null!;
 
-        [Comment("ZIP code")]
-        [MaxLength(ZipCodeMaxLength)]
-        public string ZipCode { get; set; } = null!;
-
     }
 }

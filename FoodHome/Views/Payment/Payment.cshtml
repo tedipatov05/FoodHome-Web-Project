@@ -15,27 +15,27 @@
                         <div class="col-sm-7 border-line pb-3">
                             <div class="form-group">
                                 <p class="text-muted text-sm mb-0">Name on the card</p>
-                                <input asp-for="@Model.CardHolder" type="text" name="name" placeholder="Name" size="15">
+                                <input asp-for="@Model.CardHolder" class="form-control" aria-required="true" t placeholder="Name" size="15">
                                 <br />
                                 <span asp-validation-for="@Model.CardHolder" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <p class="text-muted text-sm mb-0">Card Number</p>
                                 <div class="row px-3">
-                                    <input asp-for="@Model.CardNumber" type="text" name="card-num" placeholder="0000 0000 0000 0000" size="18" id="cr_no" minlength="19" maxlength="19">
+                                    <input asp-for="@Model.CardNumber" class="form-control" aria-required="true" placeholder="0000 0000 0000 0000" size="18" id="cr_no" minlength="19" maxlength="19">
                                     <br />
                                     <span asp-validation-for="@Model.CardNumber" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <p class="text-muted text-sm mb-0">Expiry date</p>
-                                <input asp-for="@Model.ExpiryDate" type="text" name="exp" placeholder="MM/YY" size="6" id="exp" minlength="5" maxlength="5">
+                                <input asp-for="@Model.ExpiryDate" class="form-control" aria-required="true" placeholder="MM/YY" size="6" id="exp" minlength="5" maxlength="5">
                                 <br />
                                 <span asp-validation-for="@Model.ExpiryDate" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <p class="text-muted text-sm mb-0">CVV/CVC</p>
-                                <input asp-for="@Model.SecurityCode" type="text" name="cvv" placeholder="000" size="1" minlength="3" maxlength="3">
+                                <input asp-for="@Model.SecurityCode" class="form-control" aria-required="true" placeholder="000" size="1" minlength="3" maxlength="3">
                                 <br />
                                 <span asp-validation-for="@Model.SecurityCode" class="text-danger"></span>
                             </div>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodHome.Infrastructure.Migrations
 {
     [DbContext(typeof(FoodHomeDbContext))]
-    [Migration("20230719111634_DeliveryTimeAllowNull")]
-    partial class DeliveryTimeAllowNull
+    [Migration("20230729070619_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -139,7 +139,6 @@ namespace FoodHome.Infrastructure.Migrations
                         .HasComment("Category Id for the dish");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasComment("Description of the dish");
@@ -206,13 +205,16 @@ namespace FoodHome.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasComment("Address fot delivery");
 
-                    b.Property<DateTime>("DeliveryTime")
+                    b.Property<DateTime?>("DeliveryTime")
                         .HasColumnType("datetime2")
                         .HasComment("Time for delivery");
 
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2")
                         .HasComment("Time order made");
+
+                    b.Property<string>("PaymentId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -261,6 +263,65 @@ namespace FoodHome.Infrastructure.Migrations
                     b.ToTable("OrdersDishes");
 
                     b.HasComment("Order Dish");
+                });
+
+            modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Payment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Id of the payment");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Amount of payment");
+
+                    b.Property<string>("CardHolder")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasComment("Owner of the card");
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasComment("Number oif the card");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Id of the customer making payment");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("DATE")
+                        .HasComment("Date of expiration");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Order Id");
+
+                    b.Property<DateTime>("PaymentTime")
+                        .HasColumnType("datetime2")
+                        .HasComment("Time of payment");
+
+                    b.Property<string>("SecurityCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)")
+                        .HasComment("Security code of the card");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique()
+                        .HasFilter("[OrderId] IS NOT NULL");
+
+                    b.ToTable("Payments");
+
+                    b.HasComment("Payment for the order");
                 });
 
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Restaurant", b =>
@@ -408,7 +469,7 @@ namespace FoodHome.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "ул. Ал. Стамболийски 30 ет.3 ап.11",
                             City = "Казанлък",
-                            ConcurrencyStamp = "740c2166-f1c9-4973-b672-c51ebe11dd57",
+                            ConcurrencyStamp = "ab776057-f6ae-44fc-a8d3-72f35a10d447",
                             Country = "България",
                             Email = "ivonpatova@abv.bg",
                             EmailConfirmed = false,
@@ -417,11 +478,11 @@ namespace FoodHome.Infrastructure.Migrations
                             Name = "Ивон Патова",
                             NormalizedEmail = "IVONPATOVA@ABV.BG",
                             NormalizedUserName = "IVON",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIv4PiGKkW3QUsx+/Ss3VptnqHHeBfLLWs6uJ0YYN/wabBuTJ8N+/l0NuN0g68osFA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAsGf1k+ObncIF8SvY3qRecWXez/IAgqXI40vyh7ziq9OfiprMKqIYLCrto4jjPEVw==",
                             PhoneNumber = "0887399847",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg",
-                            SecurityStamp = "c37d7e62-7503-4086-bd7f-93ec7ddea254",
+                            SecurityStamp = "1689d013-a12a-44b5-ab53-fd550b1fb9af",
                             TwoFactorEnabled = false,
                             UserName = "ivon"
                         },
@@ -431,7 +492,7 @@ namespace FoodHome.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "ул. Ал. Батенберг 15 ет.5 ап.20",
                             City = "Казанлък",
-                            ConcurrencyStamp = "d778ff34-caab-4ff5-95fd-d1b7f1cdd2bd",
+                            ConcurrencyStamp = "d717543a-bb45-4452-910f-a6cb5f0e88d4",
                             Country = "България",
                             Email = "tedipatov19@abv.bg",
                             EmailConfirmed = false,
@@ -440,11 +501,11 @@ namespace FoodHome.Infrastructure.Migrations
                             Name = "Теодор Патов",
                             NormalizedEmail = "TEDIPATOV19@ABV.BG",
                             NormalizedUserName = "TEODOR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO8Hfame+ehsmK3lr/9jyF5e2E1/66qmMnz8BE3gKbDbdNQpimdxurI5gwrC8CtZWg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENZgxRshywa6Krr347kMSmAIJp6nRFhn+pS+h1DOQSDNxOsyKZt0ZedELX2+r9ojZg==",
                             PhoneNumber = "0898392743",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg",
-                            SecurityStamp = "a1974486-a174-4e73-8676-d3c66b9c3045",
+                            SecurityStamp = "581b6632-d016-49c2-8dd6-f06f49dcc956",
                             TwoFactorEnabled = false,
                             UserName = "teodor"
                         },
@@ -454,7 +515,7 @@ namespace FoodHome.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "ул. Цар Освободител 21",
                             City = "Казанлък",
-                            ConcurrencyStamp = "c763ce06-829c-48bb-9841-23bf3d8fc9ad",
+                            ConcurrencyStamp = "8ec0b0c4-ac19-48f6-b8ca-c48569d848cf",
                             Country = "България",
                             Email = "vikifoods@abv.bg",
                             EmailConfirmed = false,
@@ -463,11 +524,11 @@ namespace FoodHome.Infrastructure.Migrations
                             Name = "Viki Foods",
                             NormalizedEmail = "VIKIFOODS@ABV.BG",
                             NormalizedUserName = "VIKIFOODS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBfKZIDVZlo+ddkZHrCaX5n2UCeh+DrdgaO3apxdUTW86sTmK9m4Yt/174g9QDGV1Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJruyax3TLY0sL6fejyego1IJVkrltAIw6vuh0EvPryFcdTQWoODW1zWnzEsihyeSQ==",
                             PhoneNumber = "0885732771",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png",
-                            SecurityStamp = "dc5c18c4-e180-4f0c-a428-7405f241dd61",
+                            SecurityStamp = "1ef096fa-90e3-4410-8eb4-7364b5449fd9",
                             TwoFactorEnabled = false,
                             UserName = "VikiFoods"
                         });
@@ -503,21 +564,21 @@ namespace FoodHome.Infrastructure.Migrations
                         new
                         {
                             Id = "a297aac9-aa64-4313-8c50-1d3cf7f379ba",
-                            ConcurrencyStamp = "2b1a8f4c-ad78-48df-a2c2-51d0008855b8",
+                            ConcurrencyStamp = "ac4f871f-7ad4-42e9-bf0a-a22b150df224",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "a03f9f62-f106-4b1a-b1f9-eba622db3c92",
-                            ConcurrencyStamp = "4a232a56-985e-45bd-8929-f5d5091b70c4",
+                            ConcurrencyStamp = "e252b259-8363-4606-948a-0ccc9a9173a4",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = "c34ebc61-94a5-40c5-a310-798532235d8e",
-                            ConcurrencyStamp = "5d3e8bd6-6c51-4f57-b4e2-bf9ebe6baab3",
+                            ConcurrencyStamp = "d336e9b4-3c45-4ece-9e1f-164c1ae4392a",
                             Name = "Restaurant",
                             NormalizedName = "RESTAURANT"
                         });
@@ -718,6 +779,24 @@ namespace FoodHome.Infrastructure.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Payment", b =>
+                {
+                    b.HasOne("FoodHome.Infrastructure.Data.Entities.Customer", "Customer")
+                        .WithMany("Payments")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FoodHome.Infrastructure.Data.Entities.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("FoodHome.Infrastructure.Data.Entities.Payment", "OrderId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Restaurant", b =>
                 {
                     b.HasOne("FoodHome.Infrastructure.Data.Entities.User", "User")
@@ -783,6 +862,8 @@ namespace FoodHome.Infrastructure.Migrations
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Customer", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Dish", b =>
@@ -793,6 +874,8 @@ namespace FoodHome.Infrastructure.Migrations
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Order", b =>
                 {
                     b.Navigation("Dishes");
+
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("FoodHome.Infrastructure.Data.Entities.Restaurant", b =>

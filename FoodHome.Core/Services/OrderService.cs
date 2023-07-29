@@ -60,6 +60,7 @@ namespace FoodHome.Core.Services
                 0.05m * model.DishesForOrder.Select(d => d.Price * d.Quantity).Sum() + 5),
                 RestaurantId = model.RestaurantId,
                 Status = OrderStatusEnum.Waiting.ToString(),
+                PaymentId = model.PaymentId
                 
             };
 

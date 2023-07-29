@@ -19,16 +19,19 @@ namespace FoodHome.Core.Services
         {
             this.repo = _repo;
         }
+
         public async Task<string> CreatePayment(string customerId, PaymentFormModel model)
         {
+            string[] expiryDate = model.ExpiryDate.Split('/');
             var payment = new Payment()
             {
                 Amount = model.Amount,
                 CardHolder = model.CardHolder,
                 CardNumber = model.CardNumber,
                 CustomerId = customerId,
-                ExpiryDate = DateTime.Parse(model.ExpiryDate),
+                ExpiryDate = DateTime.Parse($"01/{expiryDate[0]}/20{expiryDate[1]}"),
                 PaymentTime = DateTime.Now,
+                SecurityCode = model.SecurityCode
                
             };
 

@@ -57,6 +57,14 @@ namespace FoodHome.Controllers
                 TempData[ErrorMessage] = "You should be a client to pay for order!";
 
                 return RedirectToAction("Menu", "Dish", new { id = rId });
+
+            }
+
+            string[] expDate = model.ExpiryDate.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (int.Parse(expDate[0]) < DateTime.Now.Month)
+            {
+                ModelState.AddModelError(nameof(model.ExpiryDate), "Expiry date should be before now.");
             }
             if (!ModelState.IsValid)
             {
@@ -65,12 +73,8 @@ namespace FoodHome.Controllers
                 return View(model);
             }
 
-            string[] expDate = model.ExpiryDate.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            if ( int.Parse(expDate[0]) > DateTime.Now.Month)
-            {
-                ModelState.AddModelError(nameof(model.ExpiryDate), "Expiry date should be before now.");
-            }
+           
 
            
 

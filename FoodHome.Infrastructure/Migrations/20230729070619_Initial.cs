@@ -224,13 +224,13 @@ namespace FoodHome.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false, comment: "Name of the dish"),
                     CategoryId = table.Column<int>(type: "int", nullable: false, comment: "Category Id for the dish"),
-                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false, comment: "Description of the dish"),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true, comment: "Description of the dish"),
                     Ingredients = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false, comment: "Ingredients of the dish"),
                     DishUrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Image Url for the dish"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false, comment: "Price of the dish"),
                     RestaurantId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "RestaurantId"),
                     Quantity = table.Column<int>(type: "int", nullable: false, comment: "Price of the dish"),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, comment: "Is actice dish")
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, comment: "Is active dish")
                 },
                 constraints: table =>
                 {
@@ -257,10 +257,11 @@ namespace FoodHome.Infrastructure.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Order status"),
                     RestaurantId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Restaurant Id"),
                     OrderTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Time order made"),
-                    DeliveryTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Time for delivery"),
+                    DeliveryTime = table.Column<DateTime>(type: "datetime2", nullable: true, comment: "Time for delivery"),
                     DeliveryAddress = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Address fot delivery"),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Customer Id"),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false, comment: "Price of the order")
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false, comment: "Price of the order"),
+                    PaymentId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -305,14 +306,45 @@ namespace FoodHome.Infrastructure.Migrations
                 },
                 comment: "Order Dish");
 
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Id of the payment"),
+                    PaymentTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Time of payment"),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Id of the customer making payment"),
+                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: true, comment: "Order Id"),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false, comment: "Amount of payment"),
+                    CardNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false, comment: "Number oif the card"),
+                    CardHolder = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Owner of the card"),
+                    ExpiryDate = table.Column<DateTime>(type: "DATE", nullable: false, comment: "Date of expiration"),
+                    SecurityCode = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false, comment: "Security code of the card")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Payments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
+                },
+                comment: "Payment for the order");
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a03f9f62-f106-4b1a-b1f9-eba622db3c92", "c2a859f9-3352-449d-8f10-bc1061ea22f5", "Customer", "CUSTOMER" },
-                    { "a297aac9-aa64-4313-8c50-1d3cf7f379ba", "2e6d08c4-220b-451f-a83e-89d689e213ef", "Administrator", "ADMINISTRATOR" },
-                    { "c34ebc61-94a5-40c5-a310-798532235d8e", "e261af62-6924-47b0-a6c3-f1e694462082", "Restaurant", "RESTAURANT" }
+                    { "a03f9f62-f106-4b1a-b1f9-eba622db3c92", "e252b259-8363-4606-948a-0ccc9a9173a4", "Customer", "CUSTOMER" },
+                    { "a297aac9-aa64-4313-8c50-1d3cf7f379ba", "ac4f871f-7ad4-42e9-bf0a-a22b150df224", "Administrator", "ADMINISTRATOR" },
+                    { "c34ebc61-94a5-40c5-a310-798532235d8e", "d336e9b4-3c45-4ece-9e1f-164c1ae4392a", "Restaurant", "RESTAURANT" }
                 });
 
             migrationBuilder.InsertData(
@@ -320,9 +352,9 @@ namespace FoodHome.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "IsActive", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0d9e1416-60a8-4655-af48-614ff829b230", 0, "ул. Ал. Батенберг 15 ет.5 ап.20", "Казанлък", "85c01392-e6a0-41ff-983e-f7c42ef06c4a", "България", "tedipatov19@abv.bg", false, true, false, null, "Теодор Патов", "TEDIPATOV19@ABV.BG", "TEODOR", "AQAAAAEAACcQAAAAEIxL4NwpX/W60vNk4n2Jg4DJhjQ8zITxz3vv1v4BVAgl2G7heZW877wSRg8aCBs7cw==", "0898392743", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg", "dcbc2049-1ce4-49e9-bc9a-5d456b5f943c", false, "teodor" },
-                    { "1d1f8115-ebb2-45e0-a375-cf713385ae9c", 0, "ул. Цар Освободител 21", "Казанлък", "34b308e3-e0d4-4d00-9ead-7e96198e0ad0", "България", "vikifoods@abv.bg", false, true, false, null, "Viki Foods", "VIKIFOODS@ABV.BG", "VIKIFOODS", "AQAAAAEAACcQAAAAEKoCwANN7kcbu2qekNzl8lmgRGg33Fhwsl8X8MzDuX0sy9E/RA2QNYOIP57vVaPnHQ==", "0885732771", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png", "649851a9-968f-4448-9327-2c257d755859", false, "VikiFoods" },
-                    { "d44500a1-526b-49d0-b373-05ac34baab0a", 0, "ул. Ал. Стамболийски 30 ет.3 ап.11", "Казанлък", "59a5dac4-4e24-4473-a6b6-1847722b9a37", "България", "ivonpatova@abv.bg", false, true, false, null, "Ивон Патова", "IVONPATOVA@ABV.BG", "IVON", "AQAAAAEAACcQAAAAEF/qOtGOdORkAPmodsNO2NAcc99oikH61yI+n5S8tvHfCb8RphVNOelZPXrrdNqnVA==", "0887399847", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg", "7232218c-0b09-41ea-b9b9-437c0bb5b7ee", false, "ivon" }
+                    { "0d9e1416-60a8-4655-af48-614ff829b230", 0, "ул. Ал. Батенберг 15 ет.5 ап.20", "Казанлък", "d717543a-bb45-4452-910f-a6cb5f0e88d4", "България", "tedipatov19@abv.bg", false, true, false, null, "Теодор Патов", "TEDIPATOV19@ABV.BG", "TEODOR", "AQAAAAEAACcQAAAAENZgxRshywa6Krr347kMSmAIJp6nRFhn+pS+h1DOQSDNxOsyKZt0ZedELX2+r9ojZg==", "0898392743", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251587/images/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50_puo5bp.jpg", "581b6632-d016-49c2-8dd6-f06f49dcc956", false, "teodor" },
+                    { "1d1f8115-ebb2-45e0-a375-cf713385ae9c", 0, "ул. Цар Освободител 21", "Казанлък", "8ec0b0c4-ac19-48f6-b8ca-c48569d848cf", "България", "vikifoods@abv.bg", false, true, false, null, "Viki Foods", "VIKIFOODS@ABV.BG", "VIKIFOODS", "AQAAAAEAACcQAAAAEJruyax3TLY0sL6fejyego1IJVkrltAIw6vuh0EvPryFcdTQWoODW1zWnzEsihyeSQ==", "0885732771", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687252340/images/logo-no-background_yvrwc2.png", "1ef096fa-90e3-4410-8eb4-7364b5449fd9", false, "VikiFoods" },
+                    { "d44500a1-526b-49d0-b373-05ac34baab0a", 0, "ул. Ал. Стамболийски 30 ет.3 ап.11", "Казанлък", "ab776057-f6ae-44fc-a8d3-72f35a10d447", "България", "ivonpatova@abv.bg", false, true, false, null, "Ивон Патова", "IVONPATOVA@ABV.BG", "IVON", "AQAAAAEAACcQAAAAEAsGf1k+ObncIF8SvY3qRecWXez/IAgqXI40vyh7ziq9OfiprMKqIYLCrto4jjPEVw==", "0887399847", false, "https://res.cloudinary.com/ddriqreo7/image/upload/v1687251175/images/photo-1574701148212-8518049c7b2c_zmlive.jpg", "1689d013-a12a-44b5-ab53-fd550b1fb9af", false, "ivon" }
                 });
 
             migrationBuilder.InsertData(
@@ -359,7 +391,7 @@ namespace FoodHome.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Restaurants",
                 columns: new[] { "Id", "Description", "IsActive", "UserId" },
-                values: new object[] { "5e364b5e-8bc2-4e8d-a3f8-72f5776fbe9d", "Добре дошли в нашия ресторант, където гурме изживяването се превръща в истинска симфония на вкусове. Нашето заведение предлага уютна и изискана обстановка, в която можете да се насладите на неповторимата комбинация от кулинарни изкушения и изискани напитки.", true, "1d1f8115-ebb2-45e0-a375-cf713385ae9c" });
+                values: new object[] { "5e364b5e-8bc2-4e8d-a3f8-72f5776fbe9d", "Welcome to our restaurant, where the gourmet experience becomes a real symphony of flavors. Our establishment offers a cozy and sophisticated environment where you can enjoy the unique combination of culinary delights and refined drinks.", true, "1d1f8115-ebb2-45e0-a375-cf713385ae9c" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -431,6 +463,18 @@ namespace FoodHome.Infrastructure.Migrations
                 column: "DishId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_CustomerId",
+                table: "Payments",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_OrderId",
+                table: "Payments",
+                column: "OrderId",
+                unique: true,
+                filter: "[OrderId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Restaurants_UserId",
                 table: "Restaurants",
                 column: "UserId");
@@ -455,6 +499,9 @@ namespace FoodHome.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrdersDishes");
+
+            migrationBuilder.DropTable(
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
