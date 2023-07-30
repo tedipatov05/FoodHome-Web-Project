@@ -8,6 +8,7 @@ using FoodHome.Core.Contracts;
 using FoodHome.Core.Models.Payment;
 using FoodHome.Infrastructure.Data.Common;
 using FoodHome.Infrastructure.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodHome.Core.Services
 {
@@ -39,6 +40,16 @@ namespace FoodHome.Core.Services
             await repo.SaveChangesAsync();
 
             return payment.Id;
+        }
+
+        public async Task AddPaymentOrderId(string paymentId, string orderId)
+        {
+            var payment = await repo.All<Payment>()
+                .FirstOrDefaultAsync(p => p.Id == paymentId);
+
+            payment.OrderId = orderId;
+
+            await repo.SaveChangesAsync();
         }
     }
 }

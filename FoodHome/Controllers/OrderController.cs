@@ -21,13 +21,15 @@ namespace FoodHome.Controllers
         private readonly IDishService dishService;
         private readonly IOrderService orderService;
         private readonly ICustomerService customerService;
+        private readonly IPaymentService paymentsService;
 
-        public OrderController(IRestaurantService _restaurantService, IDishService _dishService, IOrderService _orderService, ICustomerService _customerService)
+        public OrderController(IRestaurantService _restaurantService, IDishService _dishService, IOrderService _orderService, ICustomerService _customerService, IPaymentService _paymentService)
         {
             this.restaurantService = _restaurantService;
             this.dishService = _dishService;
             this.orderService = _orderService;
             this.customerService = _customerService;
+            this.paymentsService = _paymentService;
         }
 
         [HttpGet]
@@ -87,7 +89,9 @@ namespace FoodHome.Controllers
 
                 string customerId = await customerService.GetCustomerId(User.GetId());
 
-                await orderService.CreateOrder(model, customerId);
+                var orderId = await orderService.CreateOrder(model, customerId);
+
+                await paymentsService.AddPaymentOrderId(model.PaymentId, orderId);
             }
             catch (Exception ex)
             {

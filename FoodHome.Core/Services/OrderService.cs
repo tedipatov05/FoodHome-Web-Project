@@ -49,7 +49,7 @@ namespace FoodHome.Core.Services
         }
 
 
-        public async Task CreateOrder(OrderFormModel model, string userId)
+        public async Task<string> CreateOrder(OrderFormModel model, string userId)
         {
             Order order = new Order()
             {
@@ -84,6 +84,8 @@ namespace FoodHome.Core.Services
             await repo.AddAsync<Order>(order);
 
             await repo.SaveChangesAsync();
+
+            return order.Id;
         }
 
         public async Task<List<OrderViewModel>> GetOrdersByCustomerId(string clientId)

@@ -101,11 +101,11 @@ namespace FoodHome
             app.UseAuthentication();
             app.UseAuthorization();
 
-            
+          
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+               
 
                 endpoints.MapControllerRoute(
                     name: "default",
@@ -117,7 +117,9 @@ namespace FoodHome
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
 
-                
+                endpoints.MapRazorPages();
+
+
             });
 
             
@@ -126,7 +128,7 @@ namespace FoodHome
             app.Run();
         }
 
-        //Cloudinary api
+        
         private static void ConfigureCloudaryService(IServiceCollection services, IConfiguration configuration)
         {
             var cloudName = configuration.GetValue<string>("AccountSettings:CloudName");

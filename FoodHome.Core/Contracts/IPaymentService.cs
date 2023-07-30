@@ -10,5 +10,7 @@ namespace FoodHome.Core.Contracts
     public interface IPaymentService
     {
         Task<string> CreatePayment(string customerId, PaymentFormModel model);
+
+        Task AddPaymentOrderId(string paymentId, string orderId);
     }
 }
