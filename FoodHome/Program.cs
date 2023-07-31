@@ -6,6 +6,7 @@ using FoodHome.Infrastructure.Data.Entities;
 using FoodHome.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodHome
@@ -15,6 +16,8 @@ namespace FoodHome
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -105,18 +108,20 @@ namespace FoodHome
 
             app.UseEndpoints(endpoints =>
             {
-               
-
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                    name: "Areas",
+                    pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
 
+
                 endpoints.MapControllerRoute(
-                    name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    name: "Default",
+                    pattern: "/{controller=Home}/{action=Index}/{id?}",
+                    defaults: new {Controller = "Home", Action="Index"}
                 );
 
+
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
 
 

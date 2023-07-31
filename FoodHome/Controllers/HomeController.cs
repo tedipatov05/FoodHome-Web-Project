@@ -3,6 +3,8 @@ using FoodHome.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using FoodHome.Common;
+using FoodHome.Infrastructure.Migrations;
 
 namespace FoodHome.Controllers
 {
@@ -19,7 +21,10 @@ namespace FoodHome.Controllers
 
         public IActionResult Index()
         {
-
+            if (User.IsInRole(RoleConstants.Administrator))
+            {
+                return RedirectToAction("Index", "Home", new { Area = "Admin" });
+            }
             return View();
             
         }
