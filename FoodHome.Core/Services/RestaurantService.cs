@@ -27,7 +27,17 @@ namespace FoodHome.Core.Services
             return restaurant != null;
         }
 
-       
+        public async Task Create(string userId)
+        {
+            var restaurant = new Restaurant()
+            {
+                UserId = userId,
+            };
+
+            await repo.AddAsync(restaurant);
+            await repo.SaveChangesAsync();
+        }
+
 
         public async Task<RestaurantDetailsViewModel> GetRestaurantById(string id)
         {

@@ -6,22 +6,48 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<section>
-    <div class="head">
-        <h1 class="text-dark"><b>Hello, Admin!</b></h1>
-        <hr class="hr hr-blurry" />
-        <div class="card-body p-4 text-black">
-            <div class="mb-5">
-                <p class="lead fw-normal mb-1">
-                    <b>Your only role is as administrator!</b>
-                    <br>
-                    If you want to use other functionalities you should use other account.
-                    <br>
-                    Being administrator to Arrnow Construct means you can delete accounts and also make clients constructors.
-                </p>
+@using FoodHome.Common;
+@{
+    ViewData["Title"] = "Home Page";
+}
 
+<div class="jumbotron bg-cover text-white">
+    <div class="py-5 text-center">
+        <h1 class="display-4 font-weight-bold">FoodHome</h1>
+        <p class="font-italic mb-0">You are logged in as an Administrator.</p>
+    </div>
+
+</div>
+
+<section class="wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="300ms" style="visibility: visible; animation-duration: 300ms; animation-name: fadeInUp;">
+                <i class="fa fa-pizza-slice medium-icon" style="color: #fd810d;"></i>
+                <span id="anim-number-pizza" class="counter-number"></span>
+                <span class="timer counter alt-font appear" data-to="980" data-speed="7000">2800</span>
+                <p class="counter-title text-dark">Meals Ordered</p>
             </div>
+
+            <div class="col-md-3 col-sm-6 bottom-margin text-center counter-section wow fadeInUp sm-margin-bottom-ten animated" data-wow-duration="600ms" style="visibility: visible; animation-duration: 600ms; animation-name: fadeInUp;">
+                <i class="fa fa-heart medium-icon" style="color: #fd810d;"></i>
+                <span class="timer counter alt-font appear" data-to="980" data-speed="7000">980</span>
+                <span class="counter-title text-dark">Happy Clients</span>
+            </div>
+
+            <div class="col-md-3 col-sm-6 bottom-margin-small text-center counter-section wow fadeInUp xs-margin-bottom-ten animated" data-wow-duration="900ms" style="visibility: visible; animation-duration: 900ms; animation-name: fadeInUp;">
+                <i class="fa fa-truck-moving medium-icon" style="color: #fd810d;"></i>
+                <span class="timer counter alt-font appear" data-to="810" data-speed="7000">810</span>
+                <span class="counter-title text-dark">Orders Completed</span>
+            </div>
+
+            <div class="col-md-3 col-sm-6 text-center counter-section wow fadeInUp animated" data-wow-duration="1200ms" style="visibility: visible; animation-duration: 1200ms; animation-name: fadeInUp;">
+                <i class="fa fa-user medium-icon" style="color: #fd810d;"></i>
+                <span class="timer counter alt-font appear" data-to="600" data-speed="7000">600</span>
+                <span class="counter-title text-dark">Clients Served</span>
+            </div>
+
         </div>
-        <hr class="hr hr-blurry" />
     </div>
 </section>

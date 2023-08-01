@@ -17,6 +17,7 @@ namespace FoodHome.Core.Contracts
 
         Task<bool> ExistsById(string userId);
 
-        
+        Task Create(string userId);
+
     }
 }

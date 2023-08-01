@@ -40,7 +40,6 @@ namespace FoodHome.Infrastructure.Data
         {
             
 
-
             builder.Entity<User>()
                 .Property(u => u.UserName)
                 .HasMaxLength(20)

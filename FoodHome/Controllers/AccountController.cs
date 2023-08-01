@@ -69,11 +69,15 @@ namespace FoodHome.Controllers
             await userManager.AddToRoleAsync(user, "Customer");
             await customerService.Create(user.Id);
 
-            user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
-            await userManager.UpdateAsync(user);
+            if (model.ProfilePicture != null)
+            {
+                user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
+                await userManager.UpdateAsync(user);
+            }
 
             if(result.Succeeded)
             {
+               
                 await signInManager.SignInAsync(user, isPersistent: false);
 
                 return RedirectToAction("Index", "Home");
