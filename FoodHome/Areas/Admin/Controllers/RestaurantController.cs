@@ -51,7 +51,7 @@ namespace FoodHome.Areas.Admin.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
-                UserName = model.Name.Trim(),
+                UserName = model.Email.Split('@')[0],
                 PhoneNumber = model.PhoneNumber,
                 Country = model.Country,
                 City = model.City,
@@ -61,15 +61,20 @@ namespace FoodHome.Areas.Admin.Controllers
 
             var result = await userManager.CreateAsync(user, model.Password);
 
-            await userManager.AddToRoleAsync(user, "Restaurant");
-
-            await restaurantService.Create(user.Id);
-
-            user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
-            await userManager.UpdateAsync(user);
+           
 
             if (result.Succeeded)
             {
+                await userManager.AddToRoleAsync(user, "Restaurant");
+
+                await restaurantService.Create(user.Id);
+                if (model.ProfilePicture != null)
+                {
+                    user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
+                    await userManager.UpdateAsync(user);
+                }
+                
+
                 return RedirectToAction("Index", "Home");
             }
 

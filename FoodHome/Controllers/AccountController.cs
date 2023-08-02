@@ -56,7 +56,7 @@ namespace FoodHome.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
-                UserName = model.Name,
+                UserName = model.Email.Split('@')[0],
                 PhoneNumber = model.PhoneNumber,
                 Country = model.Country,
                 City = model.City,
@@ -66,18 +66,19 @@ namespace FoodHome.Controllers
 
             var result = await userManager.CreateAsync(user, model.Password);
 
-            await userManager.AddToRoleAsync(user, "Customer");
-            await customerService.Create(user.Id);
-
-            if (model.ProfilePicture != null)
-            {
-                user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
-                await userManager.UpdateAsync(user);
-            }
+            
 
             if(result.Succeeded)
             {
-               
+                await userManager.AddToRoleAsync(user, "Customer");
+                await customerService.Create(user.Id);
+
+                if (model.ProfilePicture != null)
+                {
+                    user.ProfilePictureUrl = await imageService.UploadImage(model.ProfilePicture, "images", user);
+                    await userManager.UpdateAsync(user);
+                }
+
                 await signInManager.SignInAsync(user, isPersistent: false);
 
                 return RedirectToAction("Index", "Home");

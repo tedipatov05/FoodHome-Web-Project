@@ -58,6 +58,25 @@ namespace FoodHome.Core.Services
             
         }
 
+        public async Task<List<UserModel>> GetAllUsers()
+        {
+            var users = await repo.All<User>()
+                .Select(u => new UserModel()
+                {
+                    Id = u.Id,
+                    Address = u.Address,
+                    City = u.City,
+                    Country = u.Country,
+                    Email = u.Email,
+                    Name = u.Name,
+                    ProfilePictureUrl = u.ProfilePictureUrl,
+                    IsActive = u.IsActive
+                })
+                .ToListAsync();
+
+            return users;
+        }
+
         public async Task<UserModel> GetUserByIdAsync(string userId)
         {
             var user = await repo.GetByIdAsync<User>(userId);

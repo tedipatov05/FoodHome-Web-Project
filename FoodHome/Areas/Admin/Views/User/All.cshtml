@@ -1,0 +1,46 @@
+﻿@model List<UserModel>
+
+
+
+<h2 class="text-center text-dark">All Users</h2>
+<div class="container profile-page">
+    <div class="row">
+        @foreach (var user in Model)
+        {
+            <div class="col-xl-6 col-lg-7 col-md-12">
+                <div class="card profile-header">
+                    <div class="body">
+                        <div class="row">
+                            
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="profile-image float-md-right">
+                                    <img src="@user.ProfilePictureUrl" alt="">
+                                    <div class="green_icon"></div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-12">
+                                <h4 class="m-t-0 m-b-0">@user.Name</h4>
+                                <span class="job_post">@user.Email</span>
+                                <p>@user.Address @user.City @user.Country</p>
+                                <div>
+                                    <button class="btn btn-primary btn-round">Edit</button>
+                                    <button class="btn btn-danger btn-round btn-simple">Delete</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+       
+
+    </div>
+    
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/allUsers.css" asp-append-version="true"></link>
+}

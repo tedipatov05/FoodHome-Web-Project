@@ -16,5 +16,7 @@ namespace FoodHome.Core.Contracts
         Task<UserModel> GetUserByIdAsync(string userId);
 
         Task<UserModel> GetAdmin();
+
+        Task<List<UserModel>> GetAllUsers();
     }
 }
