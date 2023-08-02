@@ -219,6 +219,63 @@ namespace FoodHome.Core.Services
             };
         }
 
+        public async Task<AllDishesFilteredAndPages>  AllDishesFiltered(DishesQueryModel model)
+        {
+            IQueryable<Dish> dishesQuery = repo.All<Dish>()
+                .Where(d => d.IsActive == true);
+
+            if (!string.IsNullOrEmpty(model.Category))
+            {
+                dishesQuery = dishesQuery
+                    .Where(d => d.Category.Name == model.Category);
+            }
+
+            if (!string.IsNullOrEmpty(model.SearchString))
+            {
+                string wildCard = $"%{model.SearchString.ToLower()}%";
+
+                dishesQuery = dishesQuery
+                    .Where(d => EF.Functions.Like(d.Name, wildCard) ||
+                                EF.Functions.Like(d.Ingredients, wildCard) ||
+                                EF.Functions.Like(d.Description, wildCard));
+
+            }
+
+            dishesQuery = model.DishSorting switch
+            {
+                DishSorting.Name => dishesQuery.OrderBy(d => d.Name),
+                DishSorting.PriceAscending => dishesQuery.OrderBy(d => d.Price),
+                DishSorting.PriceDescending => dishesQuery.OrderByDescending(d => d.Price),
+                DishSorting.IngredientsAscending => dishesQuery.OrderBy(d => d.Ingredients),
+                DishSorting.IngredientsDescending => dishesQuery.OrderByDescending(d => d.Ingredients)
+
+
+            };
+
+            IEnumerable<DishViewModel> dishModel = await dishesQuery
+                .Where(d => d.IsActive)
+                .Skip((model.CurrentPage - 1) * model.DishesPerPage)
+                .Take(model.DishesPerPage)
+                .Select(d => new DishViewModel()
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Ingredients = d.Ingredients,
+                    Description = d.Description,
+                    Price = d.Price,
+                    DishImageUrl = d.DishUrlImage,
+                    RestaurantUserId = d.Restaurant.UserId
+                })
+                .ToListAsync();
+            int totalDishes = dishesQuery.Count();
+
+            return new AllDishesFilteredAndPages()
+            {
+                Dishes = dishModel,
+                TotalDishes = totalDishes
+            };
+        }
+
         public async Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds)
         {
             var dishes = await repo.All<Dish>()

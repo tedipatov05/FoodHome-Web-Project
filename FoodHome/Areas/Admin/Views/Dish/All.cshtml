@@ -1,0 +1,122 @@
+﻿
+@model DishesQueryModel;
+
+
+<form method="get">
+    <div class="row" style="margin-left: 140px;">
+        <div class="form-group col-md-3 d-flex justify-content-between">
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control">
+                    <option value="">All</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category">@category</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DishesPerPage"></label>
+                <select asp-for="DishesPerPage" class="form-control">
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label asp-for="SearchString"></label>
+            <input asp-for="SearchString" class="form-control" placeholder="Search">
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="DishSorting"></label>
+                <select asp-for="DishSorting" class="form-control">
+                    <option value="0">Price (Ascending) </option>
+                    <option value="1">Price (Descending)</option>
+                    <option value="2">Quantity (Ascending)</option>
+                    <option value="3">Quantity (Descending)</option>
+                    <option value="4">Name</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group mt-3 p-2">
+                <button type="submit" class="btn btn-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search text-black" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@{
+    int previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    int maxPage = (int)Math.Ceiling((double)Model.TotalDishes /
+        Model.DishesPerPage);
+}
+
+<div class="row mb-4">
+    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-light btn-rounded @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Dish"
+           asp-action="Menu"
+           asp-route-currentPage="@previousPage"
+           asp-route-category="@Model.Category"
+           asp-route-searchTerm="@Model.SearchString"
+           asp-route-sorting="@((int)Model.DishSorting)"><<</a>
+    </div>
+
+    @{
+        bool shouldNextPageBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.Dishes.Any();
+    }
+
+    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-light btn-rounded
+           @(shouldNextPageBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="Dish"
+           asp-action="Menu"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-category="@Model.Category"
+           asp-route-searchTerm="@Model.SearchString"
+           asp-route-sorting="@((int)Model.DishSorting)">>></a>
+    </div>
+</div>
+
+@if (!Model.Dishes.Any())
+{
+    <h2 class="text-center text-black">No dishes found by the given criteria!</h2>
+}
+else
+{
+    <section class="main-content">
+        <h1 class="text-center text-uppercase text-black">All Dishes</h1>
+        <div class="container">
+            <div class="row" style="margin-left: 140px;">
+                @foreach (var dish in Model.Dishes)
+                {
+                    <partial name="_DishPartial" model="@dish"/>
+                }
+            </div>
+        </div>
+
+    </section>
+}
+
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/dish.css" asp-append-version="true" />
+}

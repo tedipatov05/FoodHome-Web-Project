@@ -28,6 +28,7 @@ namespace FoodHome.Core.Contracts
         Task<PreDeleteDishViewModel> DishForDeleteById(int dishId);
 
         Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id);
+        Task<AllDishesFilteredAndPages> AllDishesFiltered(DishesQueryModel model);
 
         Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds);
 
