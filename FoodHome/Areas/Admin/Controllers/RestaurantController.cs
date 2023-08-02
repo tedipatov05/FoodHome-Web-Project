@@ -22,6 +22,7 @@ namespace FoodHome.Areas.Admin.Controllers
             this.imageService = _imageService;
             this.restaurantService = _restaurantService;
         }
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -85,5 +86,7 @@ namespace FoodHome.Areas.Admin.Controllers
 
             return View(model);
         }
+
+        
     }
 }

@@ -36,6 +36,24 @@ namespace FoodHome.Core.Services
             return user != null;
         }
 
+        public async Task<bool> ExistsById(string userId)
+        {
+            var userExists = await repo.All<User>()
+                .AnyAsync(u => u.Id == userId);
+
+            return userExists;
+        }
+
+        public async Task DeleteUser(string userId)
+        {
+            var user = await repo.All<User>()
+                .FirstOrDefaultAsync(u => u.Id == userId && u.IsActive);
+
+            user.IsActive = false;
+
+            await repo.SaveChangesAsync();
+        }
+
         public async Task<UserModel> GetAdmin()
         {
             var admin = await repo.All<User>()
@@ -61,6 +79,7 @@ namespace FoodHome.Core.Services
         public async Task<List<UserModel>> GetAllUsers()
         {
             var users = await repo.All<User>()
+                .Where(u => u.IsActive)
                 .Select(u => new UserModel()
                 {
                     Id = u.Id,

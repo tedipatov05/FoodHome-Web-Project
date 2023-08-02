@@ -13,6 +13,10 @@ namespace FoodHome.Core.Contracts
 
         Task<bool> ExistsByPhone(string phone);
 
+        Task<bool> ExistsById(string userId);
+
+        Task DeleteUser(string userId);
+
         Task<UserModel> GetUserByIdAsync(string userId);
 
         Task<UserModel> GetAdmin();

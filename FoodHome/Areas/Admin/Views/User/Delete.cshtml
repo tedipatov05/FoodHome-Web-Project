@@ -1,0 +1,52 @@
+﻿@model UserModel;
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+
+<h2 class="text-center">@ViewData["title"]</h2>
+<hr />
+
+<form method="post" asp-controller="User" asp-action="Delete" asp-route-userId="@Model.Id">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.ProfilePictureUrl" alt="Dish Image">
+        </div>
+        <div class="col-md-8">
+            
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="control-label"></label>
+                <input asp-for="@Model.Name" class="form-control" disabled="disabled"/>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Email" class="control-label"></label>
+                <input asp-for="@Model.Email" class="form-control" disabled="disabled" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.PhoneNumber" class="control-label"></label>
+                <input asp-for="@Model.PhoneNumber" class="form-control" disabled="disabled" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Address" class="control-label"></label>
+                <input asp-for="@Model.Address" class="form-control" disabled="disabled"/>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.City" class="control-label"></label>
+                <input asp-for="@Model.City" class="form-control" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Country" class="control-label"></label>
+                <input asp-for="@Model.Country" class="form-control" disabled="disabled"/>
+            </div>
+            
+            <div class="form-group mt-2">
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        </div>
+    </div>
+</form>

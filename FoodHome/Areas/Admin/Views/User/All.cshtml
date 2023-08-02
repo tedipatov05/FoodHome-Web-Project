@@ -1,4 +1,5 @@
-﻿@model List<UserModel>
+﻿@using FoodHome.Middlewares
+@model List<UserModel>
 
 
 
@@ -15,7 +16,11 @@
                             <div class="col-lg-4 col-md-4 col-12">
                                 <div class="profile-image float-md-right">
                                     <img src="@user.ProfilePictureUrl" alt="">
-                                    <div class="green_icon"></div>
+                                    @if (OnlineUserMiddleware.CheckIfUserIsOnline(user.Id))
+                                    {
+                                        <div class="green_icon"></div>
+                                    }
+                                    
                                 </div>
                                 
                             </div>
@@ -24,8 +29,8 @@
                                 <span class="job_post">@user.Email</span>
                                 <p>@user.Address @user.City @user.Country</p>
                                 <div>
-                                    <button class="btn btn-primary btn-round">Edit</button>
-                                    <button class="btn btn-danger btn-round btn-simple">Delete</button>
+                                    <a asp-area="Admin" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id" class="btn btn-primary btn-round">Edit</a>
+                                    <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id" class="btn btn-danger btn-round btn-simple">Delete</a>
                                 </div>
 
                             </div>

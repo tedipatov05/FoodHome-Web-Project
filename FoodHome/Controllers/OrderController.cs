@@ -160,8 +160,6 @@ namespace FoodHome.Controllers
 
 
         }
-
-        
         
         public async Task<IActionResult> SendOrder(string orderId)
         {
@@ -197,7 +195,7 @@ namespace FoodHome.Controllers
 
         }
 
-        [Authorize(Roles = RoleConstants.Restaurant)]
+        
         public async Task<IActionResult> DeliverOrder(string orderId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
@@ -295,6 +293,10 @@ namespace FoodHome.Controllers
                 return RedirectToAction("UserOrders");
             }
 
+            if (model.DeliveryTime.Date < DateTime.Parse(model.OrderTime).Date)
+            {
+                ModelState.AddModelError(nameof(model.DeliveryTime), "Delivery date should be after order date");
+            }
             if (model.DeliveryTime < DateTime.Parse(model.OrderTime))
             {
                 ModelState.AddModelError(nameof(model.DeliveryTime), "Delivery time should be after order time");

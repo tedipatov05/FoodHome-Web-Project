@@ -3,6 +3,7 @@ using CloudinaryDotNet;
 using FoodHome.Extensions;
 using FoodHome.Infrastructure.Data;
 using FoodHome.Infrastructure.Data.Entities;
+using FoodHome.Middlewares;
 using FoodHome.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -105,6 +106,8 @@ namespace FoodHome
             
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<OnlineUserMiddleware>();
 
           
 
