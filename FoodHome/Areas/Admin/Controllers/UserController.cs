@@ -29,6 +29,11 @@ namespace FoodHome.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            if (!await userService.ExistsById(id))
+            {
+                TempData[ErrorMessage] = "This user does not exist";
+                return RedirectToAction("All");
+            }
             try
             {
                 var user = await userService.GetUserByIdAsync(id);
@@ -57,6 +62,11 @@ namespace FoodHome.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditProfileModel model)
         {
+            if (!await userService.ExistsById(id))
+            {
+                TempData[ErrorMessage] = "This user does not exist";
+                return RedirectToAction("All");
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);

@@ -54,7 +54,7 @@ namespace FoodHome.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<UserModel> GetAdmin()
+        public async Task<UserModel?> GetAdmin()
         {
             var admin = await repo.All<User>()
                 .Where(u => u.Id == AdministratorConstants.Id)

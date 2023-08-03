@@ -13,12 +13,23 @@ namespace FoodHome.Infrastructure.Data
 {
     public class FoodHomeDbContext : IdentityDbContext<User>
     {
-        //private bool seedDb;
+        private bool seedDb;
 
-        public FoodHomeDbContext(DbContextOptions<FoodHomeDbContext> options)
+        public FoodHomeDbContext(DbContextOptions<FoodHomeDbContext> options, bool seedDb = true)
             : base(options)
         {
-           
+            if (this.Database.IsRelational())
+            {
+                this.Database.Migrate();
+            }
+            else
+            {
+                this.Database.EnsureCreated();
+            }
+
+
+
+            this.seedDb = seedDb;
         }
 
         public DbSet<Category> Categories { get; set; } = null!;
@@ -93,14 +104,17 @@ namespace FoodHome.Infrastructure.Data
             base.OnModelCreating(builder);
 
 
+            if (seedDb)
+            {
+                builder.ApplyConfiguration(new CategoryConfiguration());
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new RolesConfiguration());
+                builder.ApplyConfiguration(new UsersRolesConfiguration());
+                builder.ApplyConfiguration(new CustomerConfiguration());
+                builder.ApplyConfiguration(new RestaurantConfiguration());
+            }
 
-
-            builder.ApplyConfiguration(new CategoryConfiguration());
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new RolesConfiguration());
-            builder.ApplyConfiguration(new UsersRolesConfiguration());
-            builder.ApplyConfiguration(new CustomerConfiguration());
-            builder.ApplyConfiguration(new RestaurantConfiguration());
+            
             
 
         }

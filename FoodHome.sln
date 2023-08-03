@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodHome.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodHome.Core", "FoodHome.Core\FoodHome.Core.csproj", "{3CE44406-8FA8-450D-9659-0A0B3081EBC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodHome.Common", "FoodHome.Common\FoodHome.Common.csproj", "{A63BCA9F-CE06-4449-A229-E6046A4B97C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodHome.Common", "FoodHome.Common\FoodHome.Common.csproj", "{A63BCA9F-CE06-4449-A229-E6046A4B97C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodHome.Tests", "FoodHome.Tests\FoodHome.Tests.csproj", "{07824D45-583B-4033-9E3C-7FBE7E93C886}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A63BCA9F-CE06-4449-A229-E6046A4B97C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A63BCA9F-CE06-4449-A229-E6046A4B97C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A63BCA9F-CE06-4449-A229-E6046A4B97C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07824D45-583B-4033-9E3C-7FBE7E93C886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07824D45-583B-4033-9E3C-7FBE7E93C886}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07824D45-583B-4033-9E3C-7FBE7E93C886}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07824D45-583B-4033-9E3C-7FBE7E93C886}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
