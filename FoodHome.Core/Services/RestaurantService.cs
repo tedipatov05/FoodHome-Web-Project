@@ -61,17 +61,17 @@ namespace FoodHome.Core.Services
 
         public async Task<string> GetRestaurantId(string id)
         {
-            var restaurant = await repo.AllReadonly<Restaurant>()
+            var restaurantId = await repo.AllReadonly<Restaurant>()
                 .Where(r => (r.UserId == id || r.Id == id) && r.User.IsActive == true)
                 .Select(r => r.Id)
                 .FirstOrDefaultAsync();
 
-            if(restaurant == null)
+            if(restaurantId == null)
             {
-                throw new ArgumentNullException("this restaurant doesn't exists");
+                throw new NullReferenceException( "This restaurant doesn't exists");
             }
 
-            return restaurant;
+            return restaurantId;
         }
 
         public async Task<List<RestaurantViewModel>> GetRestaurantsAsync()

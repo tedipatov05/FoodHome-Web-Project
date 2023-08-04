@@ -17,9 +17,9 @@ namespace FoodHome.Core.Contracts
 
         Task DeleteUser(string userId);
 
-        Task<UserModel?> GetUserByIdAsync(string userId);
+        Task<UserModel> GetUserByIdAsync(string userId);
 
-        Task<UserModel> GetAdmin();
+        Task<UserModel?> GetAdmin();
 
         Task<List<UserModel>> GetAllUsers();
     }

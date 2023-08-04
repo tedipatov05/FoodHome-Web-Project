@@ -101,8 +101,46 @@ namespace FoodHome.Tests.UnitTests
         {
             var restaurant = await restaurantService.GetRestaurantById(id);
             
-
             Assert.IsNull(restaurant);
         }
+
+        [Test]
+        [TestCase("RestaurantTestUser1")]
+        public async Task GetRestaurantIdShouldReturnCorrectResult(string id)
+        {
+            var restaurantId = await restaurantService.GetRestaurantId(id);
+
+            var dbRestaurantId = await repo.GetByIdAsync<Restaurant>(restaurantId);
+            var dbUser = await repo.GetByIdAsync<User>(id);
+
+            Assert.IsNotNull(dbUser);
+            Assert.That(restaurantId, Is.EqualTo(dbRestaurantId.Id));
+
+        }
+
+        [Test]
+        [TestCase("some id")]
+        [TestCase("test id")]
+        public async Task GetRestaurantIdShouldThrowException(string id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await restaurantService.GetRestaurantId(id));
+            Assert.AreEqual(ex.Message, "This restaurant doesn't exists");
+        }
+
+        [Test]
+        public async Task GetAllRestaurantsShouldReturnCorrectResult()
+        {
+            var allRestaurants = await restaurantService.GetRestaurantsAsync();
+
+            var dbRestaurants = await repo.All<Restaurant>()
+                .Where(r => r.IsActive)
+                .ToListAsync();
+
+            Assert.AreEqual(allRestaurants.Count, dbRestaurants.Count);
+            Assert.AreEqual(allRestaurants[0].Id, dbRestaurants[0].Id);
+
+        }
     }
+        
+    
 }
