@@ -116,6 +116,7 @@ namespace FoodHome.Tests.UnitTests
                 .FirstOrDefaultAsync(u => u.Id == AdministratorConstants.Id);
 
             Assert.AreEqual(admin.Id, dbAdmin.Id);
+            Assert.AreEqual(admin.Name, dbAdmin.Name);
         }
 
         [Test]

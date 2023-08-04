@@ -11,7 +11,7 @@ namespace FoodHome.Core.Contracts
     {
         Task<List<RestaurantViewModel>> GetRestaurantsAsync();
 
-        Task<RestaurantDetailsViewModel> GetRestaurantById(string id);
+        Task<RestaurantDetailsViewModel?> GetRestaurantById(string id);
 
         Task<string> GetRestaurantId(string userId);
 

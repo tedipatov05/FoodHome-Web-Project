@@ -39,7 +39,7 @@ namespace FoodHome.Core.Services
         }
 
 
-        public async Task<RestaurantDetailsViewModel> GetRestaurantById(string id)
+        public async Task<RestaurantDetailsViewModel?> GetRestaurantById(string id)
         {
             var restaurant = await repo.All<Restaurant>()
                 .Where(r => r.Id == id && r.IsActive == true)
@@ -53,10 +53,10 @@ namespace FoodHome.Core.Services
                     City = r.User.City, 
                     Address = r.User.Address
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
                 
 
-            return restaurant!;
+            return restaurant;
         }
 
         public async Task<string> GetRestaurantId(string id)
