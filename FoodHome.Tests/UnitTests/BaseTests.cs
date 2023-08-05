@@ -266,6 +266,36 @@ namespace FoodHome.Tests.UnitTests
                 },
             };
 
+            
+
+            orders = new List<Order>()
+            {
+                new Order()
+                {
+                    Id = "order1", 
+                    CustomerId = "db27df32-4380-4098-9671-5df6d43cbc43", 
+                    DeliveryAddress = "delivery address test 1",
+                    DeliveryTime = DateTime.Now,
+                    OrderTime = DateTime.Now,
+                    Price = 30.00m,
+                    Status = OrderStatusEnum.Waiting.ToString(), 
+                    PaymentId = "payment1",
+                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
+                },
+                new Order()
+                {
+                    Id = "order2",
+                    CustomerId = "db27df32-4380-4098-9671-5df6d43cbc43",
+                    DeliveryAddress = "delivery address test 2",
+                    DeliveryTime = DateTime.Now,
+                    OrderTime = DateTime.Now,
+                    Price = 20.00m,
+                    Status = OrderStatusEnum.Confirmed.ToString(),
+                    PaymentId = "payment2",
+                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
+                },
+            };
+
             payments = new List<Payment>()
             {
                 new Payment()
@@ -294,34 +324,6 @@ namespace FoodHome.Tests.UnitTests
 
                 },
 
-            };
-
-            orders = new List<Order>()
-            {
-                new Order()
-                {
-                    Id = "order1", 
-                    CustomerId = "db27df32-4380-4098-9671-5df6d43cbc43", 
-                    DeliveryAddress = "delivery address test 1",
-                    DeliveryTime = DateTime.Now,
-                    OrderTime = DateTime.Now,
-                    Price = 30.00m,
-                    Status = OrderStatusEnum.Waiting.ToString(), 
-                    PaymentId = "payment1",
-                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
-                },
-                new Order()
-                {
-                    Id = "order2",
-                    CustomerId = "db27df32-4380-4098-9671-5df6d43cbc43",
-                    DeliveryAddress = "delivery address test 2",
-                    DeliveryTime = DateTime.Now,
-                    OrderTime = DateTime.Now,
-                    Price = 20.00m,
-                    Status = OrderStatusEnum.Confirmed.ToString(),
-                    PaymentId = "payment2",
-                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
-                },
             };
 
             orderDishes = new List<OrderDish>()

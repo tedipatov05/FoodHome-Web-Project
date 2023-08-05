@@ -36,7 +36,7 @@ namespace FoodHome.Core.Services
 
             if(user == null)
             {
-                throw new NullReferenceException("This user doea not exists");
+                throw new NullReferenceException("This user does not exists");
             }
 
             user.Name = model.Name;
@@ -57,7 +57,7 @@ namespace FoodHome.Core.Services
             var user = await repo.GetByIdAsync<User>(userId);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                throw new NullReferenceException("This user does not exists");
             }
             
 

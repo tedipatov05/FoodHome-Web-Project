@@ -33,10 +33,9 @@ namespace FoodHome.Core.Services
                 ExpiryDate = DateTime.Parse($"01/{expiryDate[0]}/20{expiryDate[1]}"),
                 PaymentTime = DateTime.Now,
                 SecurityCode = model.SecurityCode
-               
             };
 
-            await repo.AddAsync<Payment>(payment);
+            await repo.AddAsync(payment);
             await repo.SaveChangesAsync();
 
             return payment.Id;
