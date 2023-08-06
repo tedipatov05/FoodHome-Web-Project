@@ -15,7 +15,7 @@ namespace FoodHome.Core.Contracts
 
         Task<List<DishViewModel>> GetDishesByRestaurantId(string restaurantId);
 
-        Task<DishFormModel> GetDishById(int id);
+        Task<DishFormModel?> GetDishById(int id);
 
         Task<bool> ExistsById(int dishId);
 

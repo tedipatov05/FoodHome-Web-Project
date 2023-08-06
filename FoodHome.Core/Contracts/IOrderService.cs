@@ -27,7 +27,7 @@ namespace FoodHome.Core.Contracts
 
         Task<List<OrderViewModel>> GetOrdersByRestaurantId(string restaurantId);
 
-        Task<AcceptOrderFormModel> GetOrderById(string orderId);
+        Task<AcceptOrderFormModel?> GetOrderById(string orderId);
 
         Task AddOrderDeliveryTime(AcceptOrderFormModel model);
     }

@@ -156,5 +156,61 @@ namespace FoodHome.Tests.UnitTests
 
             Assert.That(IsInRestaurant, Is.EqualTo(false));
         }
+
+        [Test]
+        [TestCase("44b29798-13fa-487e-819e-710d59613dd2")]
+        public async Task GetOrdersByRestaurantId(string restaurantId)
+        {
+            var ordersByRestaurant = await orderService.GetOrdersByRestaurantId(restaurantId);
+
+            var restaurant = await repo.GetByIdAsync<Restaurant>(restaurantId);
+
+            var dbOrders = restaurant.Orders
+                .Where(o => o.Status != OrderStatusEnum.Delivered.ToString())
+                .ToList();
+
+            Assert.AreEqual(ordersByRestaurant.Count, dbOrders.Count);
+            Assert.That(ordersByRestaurant[0].DeliveryAddress, Is.EqualTo(dbOrders[0].DeliveryAddress));
+            Assert.That(ordersByRestaurant[0].RestaurantName, Is.EqualTo(dbOrders[0].Restaurant.User.Name));
+        }
+
+        [Test]
+        [TestCase("order1")]
+        [TestCase("order2")]
+        public async Task GetOrderByIdShouldReturnCorrectResult(string orderId)
+        {
+            var order = await orderService.GetOrderById(orderId);
+
+            var dbOrder = await repo.GetByIdAsync<Order>(orderId);
+
+            Assert.That(order.Id, Is.EqualTo(dbOrder.Id));
+            Assert.That(order.Price, Is.EqualTo(dbOrder.Price));
+            Assert.That(order.Status, Is.EqualTo(dbOrder.Status));
+        }
+
+        [Test]
+        public async Task AddOrderDeliveryTimeShouldReturnCorrectResult()
+        {
+            AcceptOrderFormModel model = new AcceptOrderFormModel()
+            {
+                CustomerName = "Test Client",
+                DeliveryAddress = "delivery address test 1",
+                DeliveryTime = DateTime.Now,
+                Dishes = new List<OrderedDishInfo>(),
+                Id = "order1",
+                OrderTime = DateTime.Now.ToShortTimeString(),
+                Price = 20.00m,
+                Status = OrderStatusEnum.Confirmed.ToString()
+            };
+
+            await orderService.AddOrderDeliveryTime(model);
+
+            var order = await repo.GetByIdAsync<Order>(model.Id);
+
+            Assert.IsNotNull(order.DeliveryTime);
+            Assert.That(model.DeliveryTime, Is.EqualTo(order.DeliveryTime));
+        }
+
+
     }
 }

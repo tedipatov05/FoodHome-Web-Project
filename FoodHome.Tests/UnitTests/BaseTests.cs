@@ -237,7 +237,8 @@ namespace FoodHome.Tests.UnitTests
                     Ingredients = "some ingredients", 
                     Price = 12.00m, 
                     IsActive = true, 
-                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
+                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2",
+                    Quantity = 10
 
                 },
                 new Dish()
@@ -249,7 +250,8 @@ namespace FoodHome.Tests.UnitTests
                     Ingredients = "some ingredients2",
                     Price = 13.00m,
                     IsActive = true,
-                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
+                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2",
+                    Quantity = 12
 
                 },
                 new Dish()
@@ -261,7 +263,8 @@ namespace FoodHome.Tests.UnitTests
                     Ingredients = "some ingredients3",
                     Price = 15.00m,
                     IsActive = true,
-                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2"
+                    RestaurantId = "44b29798-13fa-487e-819e-710d59613dd2",
+                    Quantity = 17
 
                 },
             };
@@ -275,7 +278,7 @@ namespace FoodHome.Tests.UnitTests
                     Id = "order1", 
                     CustomerId = "db27df32-4380-4098-9671-5df6d43cbc43", 
                     DeliveryAddress = "delivery address test 1",
-                    DeliveryTime = DateTime.Now,
+                    DeliveryTime = null,
                     OrderTime = DateTime.Now,
                     Price = 30.00m,
                     Status = OrderStatusEnum.Waiting.ToString(), 

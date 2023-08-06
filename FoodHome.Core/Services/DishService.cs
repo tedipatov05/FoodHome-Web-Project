@@ -72,7 +72,7 @@ namespace FoodHome.Core.Services
                 
         }
 
-        public async Task<DishFormModel> GetDishById(int id)
+        public async Task<DishFormModel?> GetDishById(int id)
         {
             var dish = await repo.All<Dish>()
                 .Where(rd =>  rd.Id == id && rd.Quantity > 0 && rd.IsActive == true)
@@ -107,7 +107,12 @@ namespace FoodHome.Core.Services
         {
             var dish = await repo.All<Dish>()
                 .Where(d => d.IsActive)
-                .FirstAsync(d => d.Id == dishId);
+                .FirstOrDefaultAsync(d => d.Id == dishId);
+
+            if (dish == null)
+            {
+                return false;
+            }
 
             return dish.RestaurantId == restaurantId;
         }
@@ -136,7 +141,7 @@ namespace FoodHome.Core.Services
             var dish = await repo.All<Dish>()
                 .Where(d => d.IsActive && d.Id == dishId)
                 .FirstOrDefaultAsync();
-
+            
             dish!.IsActive = false;
 
             await repo.SaveChangesAsync();

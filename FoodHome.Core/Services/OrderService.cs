@@ -165,10 +165,9 @@ namespace FoodHome.Core.Services
             return orders;
         }
 
-        public async Task<AcceptOrderFormModel> GetOrderById(string orderId)
+        public async Task<AcceptOrderFormModel?> GetOrderById(string orderId)
         {
             var order = await repo.All<Order>()
-                .Where(o => o.Id == orderId)
                 .Select(o => new AcceptOrderFormModel()
                 {
                     Id = o.Id,
@@ -184,7 +183,7 @@ namespace FoodHome.Core.Services
                     Price = o.Price,
 
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(o => o.Id == orderId);
 
             return order;
         }
