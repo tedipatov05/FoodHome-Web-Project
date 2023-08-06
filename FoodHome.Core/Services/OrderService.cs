@@ -17,16 +17,14 @@ namespace FoodHome.Core.Services
     public class OrderService : IOrderService
     {
         private readonly IRepository repo;
-        private readonly IRestaurantService restaurantService;
-        private readonly ICategoryService categoryService;
         
-        public OrderService(IRepository _repo, IRestaurantService _restaurantService, ICategoryService _categoryService)
+        public OrderService(IRepository _repo)
         {
             this.repo = _repo;
-            this.restaurantService = _restaurantService;
-            this.categoryService = _categoryService;
+            
            
         }
+
         public async Task<List<string>> GetOrdersIdByRestaurantId(string restaurantId)
         {
           
@@ -112,8 +110,6 @@ namespace FoodHome.Core.Services
                 })
                 .ToListAsync();
                 
-
-
 
             return orders;
         }

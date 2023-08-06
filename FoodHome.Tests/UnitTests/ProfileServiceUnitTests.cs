@@ -27,7 +27,7 @@ namespace FoodHome.Tests.UnitTests
         {
             this.repo = new Repository(this.context);
             this.restaurantService = new RestaurantService(repo);
-            this.orderService = new OrderService(repo, restaurantService, null);
+            this.orderService = new OrderService(repo);
             this.dishService = new DishService(repo, null, null);
             this.profileService = new ProfileService(repo, orderService, restaurantService, null, dishService);
         }

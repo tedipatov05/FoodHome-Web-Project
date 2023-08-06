@@ -8,6 +8,7 @@ using FoodHome.Core.Models.Payment;
 using FoodHome.Core.Services;
 using FoodHome.Infrastructure.Data.Common;
 using FoodHome.Infrastructure.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
 namespace FoodHome.Tests.UnitTests
@@ -48,6 +49,21 @@ namespace FoodHome.Tests.UnitTests
             Assert.That(payment.CardNumber, Is.EqualTo(paymentFormModel.CardNumber));
 
         }
+
+        [Test]
+        [TestCase("payment1", "order2")]
+        public async Task AddPaymentOrderIdShouldReturnCorrectValue(string paymentId, string orderId)
+        {
+            await paymentService.AddPaymentOrderId(paymentId, orderId);
+
+            var dbPayment = await repo.All<Payment>()
+                .FirstOrDefaultAsync(p => p.Id == paymentId);
+
+            Assert.IsNotNull(dbPayment);
+            Assert.That(dbPayment.OrderId, Is.EqualTo(orderId));
+        }
+
+
 
 
     }
