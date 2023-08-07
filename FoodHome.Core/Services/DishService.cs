@@ -215,6 +215,7 @@ namespace FoodHome.Core.Services
                     RestaurantUserId = d.Restaurant.UserId
                 })
                 .ToListAsync();
+
             int totalDishes = dishesQuery.Count();
 
             return new AllDishesFilteredAndPages()
@@ -281,26 +282,7 @@ namespace FoodHome.Core.Services
             };
         }
 
-        public async Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds)
-        {
-            var dishes = await repo.All<Dish>()
-                .Where(d => dishesIds.Contains(d.Id) && d.IsActive)
-                .Select(d => new OrderDishView()
-                {
-                    Name = d.Name,
-                    Ingredients = d.Ingredients,
-                    ImageUrl = d.DishUrlImage,
-                    Quantity = d.Quantity,
-                    Price = d.Price
-
-                })
-                .ToListAsync();
-
-            return dishes;
-
-        }
-       
-        public async Task<OrderDishView> GetDishForOrderById(int id)
+        public async Task<OrderDishView?> GetDishForOrderById(int id)
         {
             var dish = await repo.All<Dish>()
                 .Where(d => d.Id == id && d.IsActive)

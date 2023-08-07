@@ -30,9 +30,7 @@ namespace FoodHome.Core.Contracts
         Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id);
         Task<AllDishesFilteredAndPages> AllDishesFiltered(DishesQueryModel model);
 
-        Task<List<OrderDishView>> GetDishesByIds(List<int> dishesIds);
-
-        Task<OrderDishView> GetDishForOrderById(int id);
+        Task<OrderDishView?> GetDishForOrderById(int id);
 
         Task AddDishToCart(string username, int dishId, int quantity);
 
