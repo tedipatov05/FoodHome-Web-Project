@@ -46,6 +46,11 @@ namespace FoodHome.Core.Services
                 .Include(d => d.Category)
                 .FirstOrDefaultAsync(d => d.Id == dishId);
 
+            if(dish == null)
+            {
+                return 0;
+            }
+
             return dish.Category.Id;
         }
     }

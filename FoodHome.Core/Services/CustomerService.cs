@@ -32,7 +32,7 @@ namespace FoodHome.Core.Services
             
         }
 
-        public async Task<string> GetCustomerId(string userId)
+        public async Task<string?> GetCustomerId(string userId)
         {
             return await repo.All<Customer>()
                 .Where(c => (c.Id == userId || c.UserId == userId) && c.IsActive)

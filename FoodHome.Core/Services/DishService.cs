@@ -169,7 +169,7 @@ namespace FoodHome.Core.Services
         public async Task<AllDishesFilteredAndPages> DishesFiltered(DishesQueryModel model, string id)
         {
             IQueryable<Dish> dishesQuery = repo.All<Dish>()
-                .Where(d => d.IsActive == true);
+                .Where(d => d.IsActive == true && d.RestaurantId == id);
 
             if (!string.IsNullOrEmpty(model.Category))
             {
@@ -203,7 +203,6 @@ namespace FoodHome.Core.Services
                 .Where(d => d.IsActive)
                 .Skip((model.CurrentPage - 1) * model.DishesPerPage)
                 .Take(model.DishesPerPage)
-                .Where(d => d.RestaurantId == id)
                 .Select(d => new DishViewModel()
                 {
                     Id = d.Id,
