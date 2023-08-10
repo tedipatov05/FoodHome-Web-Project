@@ -87,7 +87,6 @@ namespace FoodHome.Controllers
                
                 model.DishesForOrder = dishService.GetCartDishes(username);
 
-                model.DishesForOrder = model.DishesForOrder.Where(d => d.RestaurantId == model.RestaurantId).ToList();
 
                 string customerId = await customerService.GetCustomerId(User.GetId());
 
