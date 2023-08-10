@@ -33,7 +33,6 @@ namespace FoodHome.Controllers
         }
 
         [HttpGet]
-        
         public async Task<IActionResult> Order(string restaurantId, string paymentId)
         {
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
@@ -47,6 +46,7 @@ namespace FoodHome.Controllers
             string username = User.GetUsername();
             
             var dishes = dishService.GetCartDishes(username);
+
             dishes.ForEach(d => d.IsEnabled = false);
 
             OrderFormModel model = new OrderFormModel()
@@ -87,6 +87,8 @@ namespace FoodHome.Controllers
                
                 model.DishesForOrder = dishService.GetCartDishes(username);
 
+                model.DishesForOrder = model.DishesForOrder.Where(d => d.RestaurantId == model.RestaurantId).ToList();
+
                 string customerId = await customerService.GetCustomerId(User.GetId());
 
                 var orderId = await orderService.CreateOrder(model, customerId);
@@ -119,7 +121,6 @@ namespace FoodHome.Controllers
 
             string customerId = await customerService.GetCustomerId(User.GetId());
             
-
             try
             {
                 var orders = await orderService.GetOrdersByCustomerId(customerId);
@@ -144,10 +145,11 @@ namespace FoodHome.Controllers
                 return RedirectToAction("UserOrders");
             }
 
-            string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+            
 
             try
             {
+                string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
                 var orders = await orderService.GetOrdersByRestaurantId(restaurantId);
                 return View("All", orders);
             }

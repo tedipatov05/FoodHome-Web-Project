@@ -16,7 +16,7 @@ using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
 {
-    [Authorize(Roles = RoleConstants.Restaurant)]
+    
     public class DishController : BaseController
     {
         private readonly IDishService dishService;
@@ -42,7 +42,7 @@ namespace FoodHome.Controllers
             {
                 TempData[ErrorMessage] = "You should be a restaurant to add a dish";
 
-                return RedirectToAction("Contact", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             var model = new DishFormModel()
@@ -63,7 +63,7 @@ namespace FoodHome.Controllers
             {
                 TempData[ErrorMessage] = "You should be a restaurant to add a dish";
 
-                return RedirectToAction("Contact", "Home");
+                return RedirectToAction("Index", "Home");
             }
             string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
 
@@ -119,7 +119,18 @@ namespace FoodHome.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int dishId)
         {
+
+            bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+
+            if (!isRestaurant)
+            {
+                TempData[ErrorMessage] = "You should be restaurant to edit a dish!";
+
+                return RedirectToAction("Contact", "Home");
+            }
+
             string restaurantId = await restaurantService.GetRestaurantId(User.GetId());
+
             bool isDishExists = await dishService.ExistsById(dishId);
             if (!isDishExists)
             {
@@ -130,14 +141,6 @@ namespace FoodHome.Controllers
 
            
 
-            bool isRestaurant = await restaurantService.ExistsById(restaurantId);
-
-            if (!isRestaurant)
-            {
-                TempData[ErrorMessage] = "You should be restaurant!";
-
-                return RedirectToAction("Contact", "Home");
-            }
             
             bool isOwner = await dishService.IsRestaurantOwnerToDish(dishId, restaurantId);
 
@@ -326,6 +329,7 @@ namespace FoodHome.Controllers
                 return RedirectToAction("Menu", new { id = restaurantId });
 
             }
+
             bool isDishExists = await dishService.ExistsById(dishId);
             
             if (!isDishExists)
@@ -336,11 +340,27 @@ namespace FoodHome.Controllers
             }
 
             string username = User.GetUsername();
+            var cartDishes = dishService.GetCartDishes(username);
+            var dish = await dishService.GetDishForOrderById(dishId);
 
+            if(cartDishes == null)
+            {
+                await dishService.AddDishToCart(username, dishId, quantity);
+                return RedirectToAction("Cart");
+
+            }
+            else if(cartDishes.FirstOrDefault().RestaurantId != dish.RestaurantId)
+            {
+                TempData[ErrorMessage] = "Dish for order should be at the same restaurant as the previous dish";
+                return RedirectToAction("All", "Restaurant");
+            }
+           
             await dishService.AddDishToCart(username, dishId, quantity);
+            return RedirectToAction("Cart");
             
 
-            return RedirectToAction("Cart");
+            
+
         }
 
 

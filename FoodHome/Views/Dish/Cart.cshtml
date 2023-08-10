@@ -10,7 +10,9 @@
     {
         
         string restaurantId = Model.Select(d => d.RestaurantId).ToList()[0];
-        
+        decimal subtotal = Math.Round((decimal)Model.Select(d => d.Price * d.Quantity).Sum(), 2);
+        decimal tax = Math.Round((decimal)(0.05m * subtotal), 2);
+
         <div class="column-labels">
             <label class="product-image">Image</label>
             <label class="product-details">Product</label>
@@ -28,19 +30,19 @@
         <div class="totals">
             <div class="totals-item">
                 <label>Subtotal</label>
-                <div class="totals-value" id="cart-subtotal">00.00</div>
+                <div class="totals-value" id="cart-subtotal">@subtotal</div>
             </div>
             <div class="totals-item">
                 <label>Tax (5%)</label>
-                <div class="totals-value" id="cart-tax">00.00</div>
+                <div class="totals-value" id="cart-tax">@tax</div>
             </div>
             <div class="totals-item">
                 <label>Shipping</label>
-                <div class="totals-value" id="cart-shipping">00.00</div>
+                <div class="totals-value" id="cart-shipping">5</div>
             </div>
             <div class="totals-item totals-item-total">
                 <label>Grand Total</label>
-                <div class="totals-value" id="cart-total">0.00</div>
+                <div class="totals-value" id="cart-total">@(subtotal + tax + 5)</div>
             </div>
         </div>
 

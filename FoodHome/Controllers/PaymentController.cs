@@ -37,10 +37,11 @@ namespace FoodHome.Controllers
 
             var dishes = dishService.GetCartDishes(User.GetUsername());
 
-
+            decimal amount = Math.Round((decimal)(dishes.Sum(d => d.Price * d.Quantity)), 2);
+            
             PaymentFormModel model = new PaymentFormModel()
             {
-                Amount = (decimal)dishes.Sum(d => d.Price * d.Quantity),
+                Amount = Math.Round((amount + amount * 0.05m + 5m), 2),
                 RestaurantId = dishes.FirstOrDefault().RestaurantId
             };
 
@@ -66,17 +67,13 @@ namespace FoodHome.Controllers
             {
                 ModelState.AddModelError(nameof(model.ExpiryDate), "Expiry date should be before now.");
             }
+
             if (!ModelState.IsValid)
             {
                 var dishes = dishService.GetCartDishes(User.GetUsername());
                 model.Amount = (decimal)dishes.Sum(d => d.Price * d.Quantity);
                 return View(model);
             }
-
-
-           
-
-           
 
             try
             {
