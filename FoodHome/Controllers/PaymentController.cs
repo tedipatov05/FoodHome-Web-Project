@@ -63,7 +63,7 @@ namespace FoodHome.Controllers
 
             string[] expDate = model.ExpiryDate.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            if (int.Parse(expDate[0]) < DateTime.Now.Month)
+            if (int.Parse(expDate[0]) < DateTime.Now.Month && int.Parse($"20{expDate[1]}") < DateTime.Now.Year)
             {
                 ModelState.AddModelError(nameof(model.ExpiryDate), "Expiry date should be before now.");
             }

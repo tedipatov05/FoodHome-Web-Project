@@ -53,6 +53,8 @@ namespace FoodHome
                 options.LoginPath = "/User/Login";
                 options.LogoutPath = "/User/Logout";
 
+                options.AccessDeniedPath = "/Home/Error/401";
+
                 options.Cookie.SameSite = SameSiteMode.Strict;
 
             });
@@ -72,12 +74,13 @@ namespace FoodHome
                 });
 
             builder.Services.AddDistributedMemoryCache();
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
             });
-          
 
+            
 
             builder.Services.AddResponseCaching();
 
@@ -86,12 +89,16 @@ namespace FoodHome
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                
+
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error/500");
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+
                 app.UseHsts();
             }
 
@@ -110,7 +117,6 @@ namespace FoodHome
             app.UseMiddleware<OnlineUserMiddleware>();
 
           
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

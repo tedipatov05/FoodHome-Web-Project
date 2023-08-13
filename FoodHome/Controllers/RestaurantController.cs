@@ -9,7 +9,7 @@ using static FoodHome.Common.NotificationConstants;
 
 namespace FoodHome.Controllers
 {
-    //[Authorize(Roles = RoleConstants.Customer)]
+    
     public class RestaurantController : BaseController
     {
         private readonly IRestaurantService restaurantService;
@@ -49,10 +49,6 @@ namespace FoodHome.Controllers
 
             return View(restaurant);
         }
-
-       
-
-
-
+        
     }
 }
