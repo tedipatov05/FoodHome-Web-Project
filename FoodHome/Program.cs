@@ -147,6 +147,7 @@ namespace FoodHome
         
         private static void ConfigureCloudaryService(IServiceCollection services, IConfiguration configuration)
         {
+
             var cloudName = configuration.GetValue<string>("AccountSettings:CloudName");
             var apiKey = configuration.GetValue<string>("AccountSettings:ApiKey");
             var apiSecret = configuration.GetValue<string>("AccountSettings:ApiSecret");

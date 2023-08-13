@@ -55,6 +55,7 @@ namespace FoodHome.Controllers
             if (isRestaurant)
             {
                 string rId = await restaurantService.GetRestaurantId(User.GetId());
+
                 TempData[ErrorMessage] = "You should be a client to pay for order!";
 
                 return RedirectToAction("Menu", "Dish", new { id = rId });
@@ -63,7 +64,7 @@ namespace FoodHome.Controllers
 
             string[] expDate = model.ExpiryDate.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            if (int.Parse(expDate[0]) < DateTime.Now.Month && int.Parse($"20{expDate[1]}") < DateTime.Now.Year)
+            if (int.Parse(expDate[0]) < DateTime.Now.Month || int.Parse($"20{expDate[1]}") < DateTime.Now.Year)
             {
                 ModelState.AddModelError(nameof(model.ExpiryDate), "Expiry date should be before now.");
             }

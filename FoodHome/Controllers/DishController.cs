@@ -343,7 +343,7 @@ namespace FoodHome.Controllers
             var cartDishes = dishService.GetCartDishes(username);
             var dish = await dishService.GetDishForOrderById(dishId);
 
-            if(cartDishes == null)
+            if(cartDishes == null || cartDishes.Count == 0)
             {
                 await dishService.AddDishToCart(username, dishId, quantity);
                 return RedirectToAction("Cart");
@@ -358,13 +358,7 @@ namespace FoodHome.Controllers
             await dishService.AddDishToCart(username, dishId, quantity);
             return RedirectToAction("Cart");
             
-
-            
-
         }
-
-
-        
 
         [AllowAnonymous]
         [HttpGet]

@@ -26,6 +26,7 @@ namespace FoodHome.Controllers
         {
 
             bool isRestaurant = await restaurantService.ExistsById(User.GetId());
+
             if(isRestaurant)
             {
                 TempData[ErrorMessage] = "You should be a customer to see restaurants";
@@ -33,8 +34,10 @@ namespace FoodHome.Controllers
             }
             
             var restaurants = await restaurantService.GetRestaurantsAsync();
+
             return View(restaurants);
         }
+
         public async Task<IActionResult> Details(string id)
         {
 
