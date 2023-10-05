@@ -15,7 +15,7 @@ namespace FoodHome.Controllers
         private readonly IUserService userService;
         private readonly IImageService imageService;
         private readonly ICustomerService customerService;
-        public AccountController(UserManager<User> _userManager,SignInManager<User> _signInManager ,IUserService _userService, IImageService _imageService, ICustomerService _customerService)
+        public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager ,IUserService _userService, IImageService _imageService, ICustomerService _customerService)
         {
             this.userManager = _userManager;
             this.signInManager = _signInManager;
